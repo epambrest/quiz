@@ -24,7 +24,9 @@ jobs:
       working-directory: src
       run: dotnet restore ./Teams.sln
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      working-directory: src
+      run: dotnet build --configuration Release --no-restore ./Teams.sln
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      working-directory: src
+      run: dotnet test --no-restore --verbosity normal ./Teams.sln
     
