@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Teams.Domain.OpenAnswerQuestion>
+@{
+    ViewBag.Title = "List of open-ended questions";
+}
+
+<a asp-action="Create">Add a question</a>
+<table class="table">
+    <tr><td>Questions</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @item.Text</td>
+            <td>
+                <a asp-action="Details" asp-controller="OpenQuestionCreate" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Edit" asp-controller="OpenQuestionCreate" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-controller="OpenQuestionCreate" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
