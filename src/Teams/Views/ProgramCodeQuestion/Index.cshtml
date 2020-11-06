@@ -1,0 +1,33 @@
+﻿@model ProgramCodeQuestionViewModel
+    <head>
+        <script>
+            function check_file() {
+                const max_size = Math.pow(2, 15)
+                const submit = document.getElementById('submit')
+                let file = document.getElementById('select_file').files[0]
+                let extension = file.name.substring(file.name.indexOf('.') + 1)
+                if (extension !== 'cs' && extension !== 'js') {
+                    alert('Wrong extension. Please use either ".cs" or ".js" files')
+                    submit.disabled = true
+                    return
+                }
+                if (file.size > max_size) {
+                    alert('A file is too big. Please upload a file which size is less than 32 kb.')
+                    submit.disabled = true
+                    return
+                }
+                alert('A file is accepted. You can check your answer now or upload other file')
+                submit.disabled = false
+            }
+        </script>
+    </head>
+    <body>
+        <h2>@Model.Text</h2>
+        @using (Html.BeginForm("Index", "ProgramCode", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input id="select_file" name="File" type="file" onchange="check_file()" />
+            <input readonly hidden name="Id" value="@Model.Id" />
+            <input hidden readonly name="Text" value="@Model.Text" />
+            <input type="submit" id="submit" value="Check" disabled />
+        }
+    </body>
