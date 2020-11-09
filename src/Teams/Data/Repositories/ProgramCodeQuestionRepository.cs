@@ -18,10 +18,5 @@ namespace Teams.Data.Repositories
         {
             return _db.ProgramCodeQuestions.Single(q => q.Id == id);
         }
-        public void AddToDb(ProgramCodeQuestion question)
-        {
-            _db.ProgramCodeQuestions.Add(question);
-            _db.SaveChanges();
-        }
     }
 }

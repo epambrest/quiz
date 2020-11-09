@@ -3,31 +3,32 @@
         <script>
             function check_file() {
                 const max_size = Math.pow(2, 15)
-                const submit = document.getElementById('submit')
+                const form = document.getElementById('form')
                 let file = document.getElementById('select_file').files[0]
-                let extension = file.name.substring(file.name.indexOf('.') + 1)
+                let extension_index = file.name.indexOf('.')
+                let extension = (extension_index >= 0) ? file.name.substring(extension_index + 1) : null
                 if (extension !== 'cs' && extension !== 'js') {
                     alert('Wrong extension. Please use either ".cs" or ".js" files')
-                    submit.disabled = true
                     return
                 }
                 if (file.size > max_size) {
                     alert('A file is too big. Please upload a file which size is less than 32 kb.')
-                    submit.disabled = true
                     return
                 }
-                alert('A file is accepted. You can check your answer now or upload other file')
-                submit.disabled = false
+                form.submit()
             }
         </script>
     </head>
     <body>
         <h2>@Model.Text</h2>
-        @using (Html.BeginForm("Index", "ProgramCode", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @if (!(Model.AlertText is null))
         {
-            <input id="select_file" name="File" type="file" onchange="check_file()" />
+            <script>alert('@Model.AlertText')</script>
+        }
+        <form id="form" role="form" method="post" enctype="multipart/form-data">
+            <input id="select_file" name="File" type="file" />
             <input readonly hidden name="Id" value="@Model.Id" />
             <input hidden readonly name="Text" value="@Model.Text" />
-            <input type="submit" id="submit" value="Check" disabled />
-        }
+            <input type="button" id="btnSubmit" value="Check" onclick="check_file()" />
+        </form>
     </body>

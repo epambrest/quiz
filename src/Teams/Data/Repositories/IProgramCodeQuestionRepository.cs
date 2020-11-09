@@ -9,6 +9,5 @@ namespace Teams.Data.Repositories
     public interface IProgramCodeQuestionRepository
     {
         ProgramCodeQuestion PickById(Guid id);
-        void AddToDb(ProgramCodeQuestion question);
     }
 }
