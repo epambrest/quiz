@@ -6,7 +6,7 @@
                 const form = document.getElementById('form')
                 let file = document.getElementById('select_file').files[0]
                 let extension_index = file.name.indexOf('.')
-                let extension = (extension_index >= 0) ? file.name.substring(extension_index + 1) : null
+                let extension = (extension_index >= 0) ? file.name.substring(extension_index + 1).toLowerCase() : null
                 if (extension !== 'cs' && extension !== 'js') {
                     alert('Wrong extension. Please use either ".cs" or ".js" files')
                     return

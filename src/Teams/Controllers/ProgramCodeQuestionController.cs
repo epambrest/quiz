@@ -38,15 +38,15 @@ namespace Teams.Controllers
                 model.AlertText = "Please upload a file before submitting.";
                 return View(model);
             }
-            int max_size = (int)Math.Pow(2, 15);
+            int maxSize = (int)Math.Pow(2, 15);
             var extension_index = model.File.FileName.LastIndexOf('.');
-            var extesion = (extension_index >= 0) ? model.File.FileName.Substring(extension_index + 1) : null;
+            var extesion = (extension_index >= 0) ? model.File.FileName.Substring(extension_index + 1).ToLower() : null;
             if (extesion != "js" && extesion != "cs")
             {
                 model.AlertText = $"Wrong extension .{extesion}! Please upload only .js and .cs files";
                 return View(model);
             }
-            if (model.File.Length > max_size)
+            if (model.File.Length > maxSize)
             {
                 model.AlertText = $"Too big file ({model.File.Length / 1024} kb). Please upload files less than 32 kb.";
                 return View(model);
