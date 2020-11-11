@@ -39,8 +39,8 @@ namespace Teams.Controllers
                 return View(model);
             }
             int maxSize = (int)Math.Pow(2, 15);
-            var extension_index = model.File.FileName.LastIndexOf('.');
-            var extesion = (extension_index >= 0) ? model.File.FileName.Substring(extension_index + 1).ToLower() : null;
+            var extensionIndex = model.File.FileName.LastIndexOf('.');
+            var extesion = (extensionIndex >= 0) ? model.File.FileName.Substring(extensionIndex + 1).ToLower() : null;
             if (extesion != "js" && extesion != "cs")
             {
                 model.AlertText = $"Wrong extension .{extesion}! Please upload only .js and .cs files";
