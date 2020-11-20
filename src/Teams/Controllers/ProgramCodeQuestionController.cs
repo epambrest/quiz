@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using Teams.Data.Repositories;
-using Teams.Domain;
 using Teams.Models;
-using static System.IO.File;
 
 namespace Teams.Controllers
 {
@@ -26,7 +19,7 @@ namespace Teams.Controllers
             var model = new ProgramCodeQuestionViewModel()
             {
                 Id = question.Id,
-                Text = question.Text
+                Text = question.QuestionText
             };
             return View(model);
         }

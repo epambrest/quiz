@@ -231,7 +231,7 @@ namespace Teams.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("QuestionText")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -253,7 +253,7 @@ namespace Teams.Data.Migrations
                     b.Property<Guid?>("SingleSelectionQuestionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("QuestionText")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

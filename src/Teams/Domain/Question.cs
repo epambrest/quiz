@@ -1,12 +1,20 @@
-﻿namespace Teams.Domain
+﻿using System.Collections.Generic;
+
+namespace Teams.Domain
 {
     public class Question : Entity
     {
-        public string Text { get; private set; }
+        public string QuestionText { get; private set; }
+        public Answers CorrectAnswers { get; private set; }
 
-        public Question(string text)
+        public Question(string questionText)
         {
-            Text = text;
+            QuestionText = questionText;
+        }
+
+        public void SetAnswer(ICollection<string> answerText)
+        {
+            CorrectAnswers = new Answers(answerText);
         }
     }
 }

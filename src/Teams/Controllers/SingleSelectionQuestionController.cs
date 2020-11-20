@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Teams.Domain;
-using Teams.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using Teams.Data.SingleSelectionQuestionRepos;
 
 namespace Teams.Controllers

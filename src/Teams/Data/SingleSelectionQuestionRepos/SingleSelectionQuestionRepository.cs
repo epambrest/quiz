@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Teams.Domain;
 
 namespace Teams.Data.SingleSelectionQuestionRepos
 {
-    public class SingleSelectionQuestionRepository: ISingleSelectionQuestionRepository
+    public class SingleSelectionQuestionRepository : ISingleSelectionQuestionRepository
     {
         private IApplicationDbContext _dbContext;
         public SingleSelectionQuestionRepository(IApplicationDbContext dbContext)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Teams.Domain;
-using Microsoft.AspNetCore.Mvc;
-using Teams.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using Teams.Data.OpenAnswerQuestionRepos;
 using Teams.Models;
 
@@ -14,7 +9,7 @@ namespace Teams.Controllers
     {
 
         public IOpenAnswerQuestionRepository context;
-       
+
         public OpenAnswerQuestionController(IOpenAnswerQuestionRepository context)
         {
             this.context = context;
@@ -23,14 +18,14 @@ namespace Teams.Controllers
         public IActionResult Question(Guid id)
         {
 
-            var question = context.Get(id);                                
-            
-            if(question == null) return NotFound();
+            var question = context.Get(id);
+
+            if (question == null) return NotFound();
 
             OpenAnswerQuestionModel ivm = new OpenAnswerQuestionModel
-            { 
+            {
                 Id = id,
-                Question = question.Text
+                Question = question.QuestionText
             };
 
             return View(ivm);
@@ -40,13 +35,13 @@ namespace Teams.Controllers
         public IActionResult Answer(string answer, Guid id)
         {
             var question = context.Get(id);
-           
+
             OpenAnswerQuestionModel ivm = new OpenAnswerQuestionModel
             {
                 Id = id,
-                Question = question.Text,
+                Question = question.QuestionText,
                 Answer = question.Answer,
-                IsAnswer = question.IsCorrectAnswer(answer)                
+                IsAnswer = question.IsCorrectAnswer(answer)
             };
 
             return View(ivm);

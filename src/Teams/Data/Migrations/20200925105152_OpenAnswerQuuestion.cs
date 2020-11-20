@@ -7,7 +7,7 @@ namespace Teams.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Answer",
+                name: "Answers",
                 table: "Questions",
                 nullable: true);
         }
@@ -15,7 +15,7 @@ namespace Teams.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Answer",
+                name: "Answers",
                 table: "Questions");
         }
     }

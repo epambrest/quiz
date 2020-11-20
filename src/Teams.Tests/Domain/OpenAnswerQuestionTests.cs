@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Teams.Domain;
+﻿using Teams.Domain;
 using Xunit;
 
 namespace Teams.Tests.Domain
@@ -21,11 +18,11 @@ namespace Teams.Tests.Domain
 
             //Act
             var answer = openAnswerQuestion.IsCorrectAnswer(textAnswer);
-           
+
 
             //Assert
             Assert.True(answer);
-            
+
         }
         [Fact]
         public void CheckAnswer_Fail_Return()
@@ -35,7 +32,7 @@ namespace Teams.Tests.Domain
 
             //Act
             var answer = openAnswerQuestion.IsCorrectAnswer("Harrow");
-         
+
             //Assert
             Assert.False(answer);
         }

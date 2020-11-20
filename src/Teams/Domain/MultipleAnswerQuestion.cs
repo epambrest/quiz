@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Teams.Data;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Net.Mime;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Teams.Domain
 {
@@ -14,14 +8,14 @@ namespace Teams.Domain
     {
         private List<MultipleAnswerQuestionOption> answers;
         public IReadOnlyCollection<MultipleAnswerQuestionOption> Answers => answers.ToList();
-        public MultipleAnswerQuestion(string text) : base(text)
+        public MultipleAnswerQuestion(string questionText) : base(questionText)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentException("A question must have non-empty title");
+            if (string.IsNullOrEmpty(questionText)) throw new ArgumentException("A question must have non-empty title");
         }
-        public MultipleAnswerQuestion(string text, List<MultipleAnswerQuestionOption> answers) : base(text)
+        public MultipleAnswerQuestion(string questionText, List<MultipleAnswerQuestionOption> answers) : base(questionText)
         {
             if (answers.Count == 0) throw new ArgumentException("A question must have at least one possible answer");
-            if (string.IsNullOrEmpty(text)) throw new ArgumentException("A question must have non-empty title");
+            if (string.IsNullOrEmpty(questionText)) throw new ArgumentException("A question must have non-empty title");
             this.answers = answers;
         }
         public Guid[] GetRightAnswersIds()

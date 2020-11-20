@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using Xunit;
-using Teams.Domain;
-using Teams.Data;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Security.AccessControl;
-using System.Linq;
 using System;
-using Xunit.Extensions;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Teams.Domain;
+using Xunit;
 
 namespace Teams.Tests
 {
@@ -36,15 +32,15 @@ namespace Teams.Tests
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                var question = new MultipleAnswerQuestion(value, new List<MultipleAnswerQuestionOption>() { new MultipleAnswerQuestionOption("option")});
+                var question = new MultipleAnswerQuestion(value, new List<MultipleAnswerQuestionOption>() { new MultipleAnswerQuestionOption("option") });
             });
             Assert.Throws<ArgumentException>(() =>
             {
                 var question = new MultipleAnswerQuestion(value);
             });
             Assert.Throws<ArgumentException>(() =>
-            { 
-                var question = new MultipleAnswerQuestion("Just a question", new List<MultipleAnswerQuestionOption>()); 
+            {
+                var question = new MultipleAnswerQuestion("Just a question", new List<MultipleAnswerQuestionOption>());
             });
         }
     }

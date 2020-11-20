@@ -9,7 +9,7 @@
         border-color: green;
     }
 </style>
-<h2>@(Model.SourceQuestion.Text)</h2>
+<h2>@(Model.SourceQuestion.QuestionText)</h2>
 @using (Html.BeginForm("MultipleAnswerQuestionForm", "MultipleAnswerQuestion", FormMethod.Get))
 {
     <input readonly hidden name="Id" value="@Model.SourceQuestion.Id" />

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Teams.Domain
 {
     public class Entity
     {
-        public Guid Id { get; private set; } 
+        [Key]
+        public Guid Id { get; private set; }
     }
 }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Teams.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using Teams.Data.Repositories;
-using Teams.Domain;
 using Teams.Models;
 
 namespace Teams.Controllers

@@ -231,7 +231,7 @@ namespace Teams.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("QuestionText")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -252,7 +252,7 @@ namespace Teams.Data.Migrations
                 {
                     b.HasBaseType("Teams.Domain.Question");
 
-                    b.Property<string>("Answer")
+                    b.Property<string>("Answers")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("OpenAnswerQuestion");

@@ -16,6 +16,10 @@
     <Compile Remove="Data\Migrations\20200930114954_AddMultipleAnswerQuestionOptions.Designer.cs" />
     <Compile Remove="Data\Migrations\20201102135014_AddProgramCodeQuestion.cs" />
     <Compile Remove="Data\Migrations\20201102135014_AddProgramCodeQuestion.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201120103358_AddedAnswers.cs" />
+    <Compile Remove="Data\Migrations\20201120103358_AddedAnswers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201120103906_AddedAnswers.cs" />
+    <Compile Remove="Data\Migrations\20201120103906_AddedAnswers.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

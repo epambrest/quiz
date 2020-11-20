@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Teams.Domain;
 
 namespace Teams.Data
@@ -12,6 +8,6 @@ namespace Teams.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }
         public DbSet<MultipleAnswerQuestion> MultipleAnswerQuestions { get; set; }
-        public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
+        public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set; }
     }
 }

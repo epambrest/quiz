@@ -8,7 +8,7 @@ namespace Teams.Domain
     {
         private List<SingleSelectionQuestionOption> _options;
         public IReadOnlyCollection<SingleSelectionQuestionOption> Options => _options.ToList();
-        public SingleSelectionQuestion(string text) : base(text)
+        public SingleSelectionQuestion(string questionText) : base(questionText)
         {
             _options = new List<SingleSelectionQuestionOption>();
         }
