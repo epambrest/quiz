@@ -48,9 +48,7 @@ namespace Teams.Controllers
                 Answer = question.Answer,
                 IsAnswer = question.IsCorrectAnswer(answer)                
             };
-
             return View(ivm);
         }
-
     }
 }

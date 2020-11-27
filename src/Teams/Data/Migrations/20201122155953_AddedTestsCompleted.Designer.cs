@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Teams.Data;
 
 namespace Teams.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201122155953_AddedTestsCompleted")]
+    partial class AddedTestsCompleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,9 +269,6 @@ namespace Teams.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AnsweredQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("CorrectAnswersId")
                         .HasColumnType("uniqueidentifier");
 
@@ -281,8 +280,6 @@ namespace Teams.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AnsweredQuestionId");
 
                     b.HasIndex("CorrectAnswersId");
 
@@ -331,8 +328,8 @@ namespace Teams.Data.Migrations
                     b.Property<Guid?>("Question")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TestRunId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Tests Completed")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -340,35 +337,19 @@ namespace Teams.Data.Migrations
 
                     b.HasIndex("Question");
 
-                    b.HasIndex("TestRunId");
+                    b.HasIndex("Tests Completed");
 
                     b.ToTable("TestRuns");
-                });
-
-            modelBuilder.Entity("Teams.Domain.TestSet", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TestRuns")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestSets")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestSets");
-
-                    b.ToTable("TestSets");
                 });
 
             modelBuilder.Entity("Teams.Domain.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("TestSets")
+                    b.Property<double>("AverageScore")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TestsCompleted")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
@@ -465,10 +446,6 @@ namespace Teams.Data.Migrations
 
             modelBuilder.Entity("Teams.Domain.Question", b =>
                 {
-                    b.HasOne("Teams.Domain.TestSet", null)
-                        .WithMany("AnsweredQuestions")
-                        .HasForeignKey("AnsweredQuestionId");
-
                     b.HasOne("Teams.Domain.Answers", "CorrectAnswers")
                         .WithMany()
                         .HasForeignKey("CorrectAnswersId");
@@ -491,16 +468,9 @@ namespace Teams.Data.Migrations
                         .WithMany()
                         .HasForeignKey("Question");
 
-                    b.HasOne("Teams.Domain.TestSet", null)
-                        .WithMany()
-                        .HasForeignKey("TestRunId");
-                });
-
-            modelBuilder.Entity("Teams.Domain.TestSet", b =>
-                {
                     b.HasOne("Teams.Domain.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("TestSets");
+                        .HasForeignKey("Tests Completed");
                 });
 #pragma warning restore 612, 618
         }

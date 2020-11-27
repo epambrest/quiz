@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Teams.Data.Repositories;
 using Teams.Data.SingleSelectionQuestionRepos;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Teams.Domain;
 
 namespace Teams
 {
