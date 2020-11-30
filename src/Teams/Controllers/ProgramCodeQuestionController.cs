@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,8 +40,8 @@ namespace Teams.Controllers
                 return View(model);
             }
             int maxSize = (int)Math.Pow(2, 15);
-            var extensionIndex = model.File.FileName.LastIndexOf('.');
-            var extesion = (extensionIndex >= 0) ? model.File.FileName.Substring(extensionIndex + 1).ToLower() : null;
+            int extensionIndex = model.File.FileName.LastIndexOf('.');
+            var extesion = (extensionIndex >= 0) ? model.File.FileName[(extensionIndex + 1)..].ToLower() : null;
             if (extesion != "js" && extesion != "cs")
             {
                 model.AlertText = $"Wrong extension .{extesion}! Please upload only .js and .cs files";
@@ -51,7 +52,14 @@ namespace Teams.Controllers
                 model.AlertText = $"Too big file ({model.File.Length / 1024} kb). Please upload files less than 32 kb.";
                 return View(model);
             }
-            return Content("The file uploaded successfully!");
+            var question = questionRepository.PickById(model.Id);
+            string programText;
+            using (var sr = new StreamReader(model.File.OpenReadStream()))
+            {
+                programText = sr.ReadToEnd();
+            }
+            questionRepository.SaveProgramText(question, programText);
+            return Content($"The file uploaded successfully!");
         }
     }
 }

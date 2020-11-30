@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Teams.Domain;
+using Teams.Models;
 
 namespace Teams.Data
 {
@@ -14,6 +15,7 @@ namespace Teams.Data
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }
         public DbSet<MultipleAnswerQuestion> MultipleAnswerQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
+        public DbSet<ProgramTextModel> ProgramTexts { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

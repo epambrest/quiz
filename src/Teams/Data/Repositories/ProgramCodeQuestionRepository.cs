@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Teams.Domain;
+using Teams.Models;
 
 namespace Teams.Data.Repositories
 {
@@ -17,6 +19,22 @@ namespace Teams.Data.Repositories
         public ProgramCodeQuestion PickById(Guid id)
         {
             return _db.ProgramCodeQuestions.Single(q => q.Id == id);
+        }
+        public void SaveProgramText(ProgramCodeQuestion question, string text)
+        {
+            var model = new ProgramTextModel()
+            {
+                QuestionId = question.Id,
+                Program = text,
+                Status = 0
+            };
+            _db.ProgramTexts.Add(model);
+            _db.SaveChanges();
+        }
+        public void AddToDb(ProgramCodeQuestion question)
+        {
+            _db.ProgramCodeQuestions.Add(question);
+            _db.SaveChanges();
         }
     }
 }
