@@ -15,11 +15,20 @@ namespace Teams.Data
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }
         public DbSet<MultipleAnswerQuestion> MultipleAnswerQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
-        public DbSet<ProgramTextModel> ProgramTexts { get; set; }
+        public DbSet<QueuedProgram> QueuedPrograms { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<QueuedProgram>().ToTable("QueuedPrograms").HasKey("Id");
+            builder.Entity<QueuedProgram>().Property(b => b.Id).HasColumnName("Id").HasColumnType("bigint");
+            builder.Entity<QueuedProgram>().Property(b => b.QuestionId).HasColumnName("questionId").HasColumnType("uniqueidentifier");
+            builder.Entity<QueuedProgram>().Property(b => b.Program).HasColumnName("program").HasColumnType("nvarchar(max)");
+            builder.Entity<QueuedProgram>().Property(b => b.Status).HasColumnName("status").HasColumnType("int");
         }
     }
 }

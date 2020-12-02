@@ -37,6 +37,7 @@ namespace Teams
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
+            services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();

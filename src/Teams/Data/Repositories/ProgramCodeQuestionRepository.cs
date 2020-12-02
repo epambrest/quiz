@@ -20,18 +20,7 @@ namespace Teams.Data.Repositories
         {
             return _db.ProgramCodeQuestions.Single(q => q.Id == id);
         }
-        public void SaveProgramText(ProgramCodeQuestion question, string text)
-        {
-            var model = new ProgramTextModel()
-            {
-                QuestionId = question.Id,
-                Program = text,
-                Status = 0
-            };
-            _db.ProgramTexts.Add(model);
-            _db.SaveChanges();
-        }
-        public void AddToDb(ProgramCodeQuestion question)
+        public void Add(ProgramCodeQuestion question)
         {
             _db.ProgramCodeQuestions.Add(question);
             _db.SaveChanges();

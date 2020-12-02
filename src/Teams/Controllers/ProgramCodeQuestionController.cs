@@ -7,18 +7,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Teams.Data.Repositories;
-using Teams.Domain;
+using Teams.Data;
 using Teams.Models;
-using static System.IO.File;
+using Teams.Domain;
 
 namespace Teams.Controllers
 {
     public class ProgramCodeQuestionController : Controller
     {
         private IProgramCodeQuestionRepository questionRepository;
-        public ProgramCodeQuestionController(IProgramCodeQuestionRepository questionRepository)
+        private IQueuedProgramRepository programTextRepository;
+        private IApplicationDbContext _db;
+        public ProgramCodeQuestionController(IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository, IApplicationDbContext db)
         {
             this.questionRepository = questionRepository;
+            this.programTextRepository = programTextRepository;
+            _db = db;
         }
         [HttpGet]
         public IActionResult Index(Guid id)
@@ -58,7 +62,8 @@ namespace Teams.Controllers
             {
                 programText = sr.ReadToEnd();
             }
-            questionRepository.SaveProgramText(question, programText);
+            programTextRepository.Add(question, programText);
+            programTextRepository.Save();
             return Content($"The file uploaded successfully!");
         }
     }
