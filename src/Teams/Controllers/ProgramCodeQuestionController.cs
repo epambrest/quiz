@@ -17,12 +17,10 @@ namespace Teams.Controllers
     {
         private IProgramCodeQuestionRepository questionRepository;
         private IQueuedProgramRepository programTextRepository;
-        private IApplicationDbContext _db;
-        public ProgramCodeQuestionController(IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository, IApplicationDbContext db)
+        public ProgramCodeQuestionController(IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository)
         {
             this.questionRepository = questionRepository;
             this.programTextRepository = programTextRepository;
-            _db = db;
         }
         [HttpGet]
         public IActionResult Index(Guid id)
