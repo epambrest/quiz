@@ -23,7 +23,6 @@ namespace Teams.Data.Repositories
         public void Add(ProgramCodeQuestion question)
         {
             _db.ProgramCodeQuestions.Add(question);
-            _db.SaveChanges();
         }
     }
 }

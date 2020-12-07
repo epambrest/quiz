@@ -17,10 +17,12 @@ namespace Teams.Controllers
     {
         private IProgramCodeQuestionRepository questionRepository;
         private IQueuedProgramRepository programTextRepository;
-        public ProgramCodeQuestionController(IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository)
+        private IApplicationDbContext _db;
+        public ProgramCodeQuestionController(IApplicationDbContext db, IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository)
         {
             this.questionRepository = questionRepository;
             this.programTextRepository = programTextRepository;
+            _db = db;
         }
         [HttpGet]
         public IActionResult Index(Guid id)
@@ -60,8 +62,8 @@ namespace Teams.Controllers
             {
                 programText = sr.ReadToEnd();
             }
-            programTextRepository.Add(question, programText);
-            programTextRepository.Save();
+            programTextRepository.Add(question.Id, programText);
+            _db.SaveChanges();
             return Content($"The file uploaded successfully!");
         }
     }

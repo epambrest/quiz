@@ -14,19 +14,10 @@ namespace Teams.Data.Repositories
         {
             _db = db;
         }
-        public void Add(ProgramCodeQuestion question, string text)
+        public void Add(Guid id, string text)
         {
-            var model = new QueuedProgram()
-            {
-                QuestionId = question.Id,
-                Program = text,
-                Status = 0
-            };
+            var model = new QueuedProgram(id, text);
             _db.QueuedPrograms.Add(model);
-        }
-        public void Save()
-        {
-            _db.SaveChanges();
         }
     }
 }
