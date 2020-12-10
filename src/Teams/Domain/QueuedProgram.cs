@@ -14,7 +14,7 @@ namespace Teams.Models
             Program = program;
             Status = status;
         }
-        public long Id { get; set; }
+        public long Id { get; private set; }
         public Guid QuestionId { get; private set; }
         public string Program { get; private set; }
         public int Status { get; private set; }

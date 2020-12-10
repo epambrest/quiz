@@ -38,8 +38,8 @@ namespace Teams
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
             services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
+            services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddControllersWithViews();
             services.AddRazorPages();
