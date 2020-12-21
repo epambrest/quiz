@@ -59,11 +59,13 @@ namespace Teams.Data.CodeTester
                 if (process.Start())
                 {
                     bool exceededTheMaximumTime = false;
+                    bool hasExited=false;
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
-                    token.Register(() => { process.Kill(); exceededTheMaximumTime = true; });
+                    token.Register(() => { if (!hasExited) { process.Kill(); exceededTheMaximumTime = true; } });
                     process.StandardInput.Write(GetIncomingString(test));
                     process.WaitForExit();
+                    hasExited = true;
                     var outputError = process.StandardError.ReadToEnd();
                     var output = process.StandardOutput.ReadToEnd();
                     bool success = CheckIfTheOutputIsCorrect(test, output)
