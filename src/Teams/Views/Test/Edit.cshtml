@@ -22,7 +22,7 @@
                 </td>
             </tr>
             <tbody id="questionListPartial">
-                <partial name="_EditPartial" model="Model">
+            <partial name="_EditPartial" model="Model"/>
             </tbody>
         </table>
     </div>
@@ -103,7 +103,7 @@
         $("#btnAddQuestions").off().on('click', function () {
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("Get", "Question")",
+                url: "@Url.Action("GetAsync", "Question")",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {

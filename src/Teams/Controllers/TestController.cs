@@ -37,7 +37,7 @@ namespace Teams.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public async Task<IActionResult> EditAsync(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             var test = await _testRepository.GetAsync(id);
             if (test == null)

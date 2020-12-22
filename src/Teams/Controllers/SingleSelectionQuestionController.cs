@@ -18,9 +18,9 @@ namespace Teams.Controllers
             _singleRepository = singleRepository;
         }
         [Route("[Controller]/{id?}")]
-        public IActionResult Index(Guid id)
+        public async Task<IActionResult> Index(Guid id)
         {
-            var question = _singleRepository.GetAsync(id);
+            var question = await _singleRepository.GetAsync(id);
             if (question == null) return NotFound();
             return View(question);
         }
