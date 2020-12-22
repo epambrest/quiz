@@ -25,9 +25,9 @@ namespace Teams.Controllers
             _db = db;
         }
         [HttpGet]
-        public IActionResult Index(Guid id)
+        public async Task<IActionResult> Index(Guid id)
         {
-            var question = questionRepository.PickById(id);
+            var question = await questionRepository.PickByIdAsync(id);
             var model = new ProgramCodeQuestionViewModel()
             {
                 Id = question.Id,
@@ -36,7 +36,7 @@ namespace Teams.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult Index(ProgramCodeQuestionViewModel model)
+        public async Task<IActionResult> Index(ProgramCodeQuestionViewModel model)
         {
             if (model.File is null)
             {
@@ -56,13 +56,13 @@ namespace Teams.Controllers
                 model.AlertText = $"Too big file ({model.File.Length / 1024} kb). Please upload files less than 32 kb.";
                 return View(model);
             }
-            var question = questionRepository.PickById(model.Id);
+            var question = await questionRepository.PickByIdAsync(model.Id);
             string programText;
             using (var sr = new StreamReader(model.File.OpenReadStream()))
             {
                 programText = sr.ReadToEnd();
             }
-            programTextRepository.Add(question.Id, programText);
+            programTextRepository.AddAsync(question.Id, programText);
             _db.SaveChanges();
             return Content($"The file uploaded successfully!");
         }

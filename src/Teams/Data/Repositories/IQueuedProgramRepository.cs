@@ -8,6 +8,6 @@ namespace Teams.Data.Repositories
 {
     public interface IQueuedProgramRepository
     {
-        void Add(Guid id, string text);
+        void AddAsync(Guid id, string text);
     }
 }

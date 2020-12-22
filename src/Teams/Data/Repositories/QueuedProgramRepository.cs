@@ -14,10 +14,10 @@ namespace Teams.Data.Repositories
         {
             _db = db;
         }
-        public void Add(Guid id, string text)
+        public async void AddAsync(Guid id, string text)
         {
             var model = new QueuedProgram(id, text);
-            _db.QueuedPrograms.Add(model);
+            await _db.QueuedPrograms.AddAsync(model);
         }
     }
 }

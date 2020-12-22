@@ -20,14 +20,14 @@ namespace Teams.Controllers
         [Route("[Controller]/{id?}")]
         public IActionResult Index(Guid id)
         {
-            var question = _singleRepository.Get(id);
+            var question = _singleRepository.GetAsync(id);
             if (question == null) return NotFound();
             return View(question);
         }
         [HttpGet]
-        public JsonResult FindAnswer(Guid questionId)
+        public async Task<JsonResult> FindAnswerAsync(Guid questionId)
         {
-            var question = _singleRepository.Get(questionId);
+            var question = await _singleRepository.GetAsync(questionId);
             var answer = question.GetRightAnswer();
             return Json(answer);
         }
