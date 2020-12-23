@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Teams.Data;
 
 namespace Teams.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200925105152_OpenAnswerQuuestion")]
+    partial class OpenAnswerQuuestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,28 +221,6 @@ namespace Teams.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Teams.Domain.MultipleAnswerQuestionOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsRight")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("MultipleAnswerQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MultipleAnswerQuestionId");
-
-                    b.ToTable("MultipleAnswerQuestionOption");
-                });
-
             modelBuilder.Entity("Teams.Domain.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -261,86 +241,6 @@ namespace Teams.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Question");
                 });
 
-            modelBuilder.Entity("Teams.Domain.SingleSelectionQuestionOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsAnswer")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("SingleSelectionQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SingleSelectionQuestionId");
-
-                    b.ToTable("SingleSelectionQuestionOption");
-                });
-
-            modelBuilder.Entity("Teams.Models.QueuedProgram", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Id")
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Program")
-                        .HasColumnName("program")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnName("questionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status")
-                        .HasColumnType("int");
-                        
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-                    
-                    b.ToTable("QueuedPrograms");   
-                });       
-                
-            modelBuilder.Entity("Teams.Domain.Test", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tests");
-                });
-
-            modelBuilder.Entity("Teams.Domain.TestQuestion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("TestId");
-
-                    b.ToTable("TestQuestions");
-                });
-
             modelBuilder.Entity("Teams.Domain.MultipleAnswerQuestion", b =>
                 {
                     b.HasBaseType("Teams.Domain.Question");
@@ -356,13 +256,6 @@ namespace Teams.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("OpenAnswerQuestion");
-                });
-
-            modelBuilder.Entity("Teams.Domain.ProgramCodeQuestion", b =>
-                {
-                    b.HasBaseType("Teams.Domain.Question");
-
-                    b.HasDiscriminator().HasValue("ProgramCodeQuestion");
                 });
 
             modelBuilder.Entity("Teams.Domain.SingleSelectionQuestion", b =>
@@ -419,43 +312,6 @@ namespace Teams.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Teams.Domain.MultipleAnswerQuestionOption", b =>
-                {
-                    b.HasOne("Teams.Domain.MultipleAnswerQuestion", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("MultipleAnswerQuestionId");
-                });
-
-            modelBuilder.Entity("Teams.Domain.SingleSelectionQuestionOption", b =>
-                {
-                    b.HasOne("Teams.Domain.SingleSelectionQuestion", null)
-                        .WithMany("Options")
-                        .HasForeignKey("SingleSelectionQuestionId");
-                });
-
-            modelBuilder.Entity("Teams.Models.QueuedProgram", b =>
-                {
-                    b.HasOne("Teams.Domain.ProgramCodeQuestion", null)
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });                        
-            modelBuilder.Entity("Teams.Domain.TestQuestion", b =>
-                {
-                    b.HasOne("Teams.Domain.Question", "Question")
-                        .WithMany("TestQuestions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Teams.Domain.Test", "Test")
-                        .WithMany("TestQuestions")
-                        .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

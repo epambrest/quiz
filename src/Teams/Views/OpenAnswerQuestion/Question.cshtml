@@ -1,0 +1,15 @@
+﻿@model Teams.Models.OpenAnswerQuestionModel
+@using Westwind.AspNetCore.Markdown
+@{ 
+    ViewData["Title"] = "Question";
+}
+<div>
+   
+    <div>@Markdown.ParseHtmlString(Model.Question)</div>
+
+    <form method="get" action="/OpenAnswerQuestion/Answer">
+        <input type="text" name="answer"  />
+        <input type="text" name="id"  value="@Model.Id" hidden/>
+        <input type="submit" value="Проверить" />
+    </form>
+</div>
