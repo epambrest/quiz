@@ -7,10 +7,10 @@ namespace Teams.Domain
 {
     public class TestRun : Entity
     {
-        public string TestedUserId { get; }
-        public Guid TestId { get; }
-        public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
-        private readonly List<Answer> _answers;
+        public string TestedUserId { get; private set; }
+        public Guid TestId { get; private set; }
+        public ReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
+        private readonly List<Answer> _answers = new List<Answer>();
         public bool InProgress { get; private set; }
         
         public TestRun(string testedUserId, Guid testId, List<Answer> answers)
@@ -18,16 +18,29 @@ namespace Teams.Domain
             TestedUserId = testedUserId;
             TestId = testId;
             InProgress = true;
-            _answers = answers;
+            if (answers!= null) _answers = answers;
         }
 
-        public TestRun()
+        private TestRun()
         {
         }
 
         public void Finish()
         {
             InProgress = false;
+        }
+
+        public void Add(Answer answer)
+        {
+            _answers.Add(answer);
+        }
+        public void Add(List<Answer> answers)
+        {
+            if (answers != null) 
+                foreach (var a in answers)
+                {
+                    Add(a);
+                }
         }
     }
 }

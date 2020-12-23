@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Teams.Domain;
 
 namespace Teams.Models
 {
-    public class AnswerDTO
+    public class AnswerDTO : Entity
     {
-        public Guid Id { get; set; }
-        public ICollection<Guid> AnswerOptions { get; set; }
-        public string AnswerText { get; set; }
+        public List<string> Answers { get; set; }
+        public bool IsOption { get; set; }
         public Guid TestRunId { get; set; }
         public Guid TestQuestionId { get; set; }
 
@@ -16,11 +16,11 @@ namespace Teams.Models
             Id = Guid.NewGuid();
         }
 
-        public AnswerDTO(List<string> answers, string answer, Guid id, Guid testRunId, Guid testQuestionId)
+        public AnswerDTO(List<string> answers, bool isOption, Guid id, Guid testRunId, Guid testQuestionId)
         {
-            AnswerText = answer;
+            Answers = answers;
+            IsOption = isOption;
             Id = id;
-            foreach (var a in answers) AnswerOptions.Add(new Guid(a));
             TestRunId = testRunId;
             TestQuestionId = testQuestionId;
         }

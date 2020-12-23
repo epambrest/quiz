@@ -1,0 +1,1 @@
+/home/razrmax/Desktop/repos/EPAM/Quiz/src/obj/Debug/docker-compose.dcproj.CoreCompileInputs.cache

@@ -1,28 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Teams.Domain
 {
-    public class Answer 
+    public class Answer : Entity 
     {
-        public Guid Id { get; }
-        public IReadOnlyCollection<string> AnswerOptions => _answerOptions.AsReadOnly();
-        private readonly List<string> _answerOptions;
-        private readonly string _AnswerText;
-        public string AnswerText => _AnswerText;
+        private readonly List<string> _answerOptions = new List<string>();
+        public ReadOnlyCollection<string> Answers => _answerOptions.AsReadOnly();
+        private string answerText;
+
+        public string AnswerText => answerText;
+
         public Guid TestQuestionId { get; }
         
-        public Answer()
+        private Answer()
         {
         }
 
-        public Answer(string answerText, List<Guid> answerIds, Guid testQuestionId, Guid id)
+        public Answer(string answer, Guid testQuestionId, Guid id)
         {
-            foreach (var i in answerIds) _answerOptions.Add(i.ToString());
+            answerText = answer;
             Id = id;
-            _AnswerText = answerText;
             TestQuestionId = testQuestionId;
+        }
+        public Answer(List<Guid> answers, Guid testQuestionId, Guid id)
+        {
+            if (answers != null)
+            {
+                _answerOptions = new List<string>();
+                foreach (var i in answers) _answerOptions.Add(i.ToString());
+            }
+            Id = id;
+            TestQuestionId = testQuestionId;
+        }
+
+        public void Add(string answer)
+        {
+            answerText = answer;
+        }
+        public void Add(Guid answer)
+        {
+            _answerOptions.Add(answer.ToString());
+        }
+        public void Add(List<Guid> answer)
+        {
+            if (answer != null)
+            {
+                foreach (var id in answer)
+                {
+                    _answerOptions.Add(id.ToString());
+                }
+            }
         }
     }
 }

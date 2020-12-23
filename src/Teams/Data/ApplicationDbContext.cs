@@ -31,25 +31,21 @@ namespace Teams.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<TestRun>(
-                b =>
-                {
-                    b.Property(e => e.TestedUserId);
-                    b.Property(e => e.TestId);
-                    b.HasMany(x => x.Answers).WithOne().IsRequired().HasForeignKey(x => x.Id).OnDelete(DeleteBehavior.Cascade);
-                    b.Metadata.FindNavigation("Answers").SetPropertyAccessMode(PropertyAccessMode.Field);
-                });
-            builder.Entity<Answer>(
-                b =>
-                {
-                    b.Property(e => e.AnswerText);
-                    b.Property(e => e.AnswerOptions).HasConversion(
-                        v => string.Join(',', v),
-                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
-                    //b.Property(e => e.Answers);
-                    //b.HasMany(x => x.Answers).WithOne().IsRequired().HasForeignKey(x => x.Id).OnDelete(DeleteBehavior.Cascade);
-                    //b.Metadata.FindNavigation("Answers").SetPropertyAccessMode(PropertyAccessMode.Field);
-                });
+            // builder.Entity<TestRun>(
+            //     b =>
+            //     {
+            //         b.HasMany(x => x.Answers).WithOne().HasForeignKey(x => x.Id).OnDelete(DeleteBehavior.Cascade);
+            //         b.Metadata.FindNavigation("Answers").SetPropertyAccessMode(PropertyAccessMode.Field);
+            //     });
+            // builder.Entity<Answer>(
+            //     b =>
+            //     {
+            //         b.Property(e => e.AnswerText);
+            //         b.Property(e => e.Answers).HasConversion(
+            //             v => string.Join(',', v),
+            //             v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
+            //         b.Property(e => e.TestQuestionId);
+            //     });
         }
     }
 }

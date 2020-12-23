@@ -19,8 +19,7 @@ namespace Teams.Controllers
         private ApplicationUser _applicationUser;
 
         public TestRunController(ITestRunRepository testRunRepository,
-            ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager,
-            IAnswerRepository answerRepository)
+            ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             _testRunRepository = testRunRepository;
             _applicationDbContext = applicationDbContext;
@@ -45,7 +44,7 @@ namespace Teams.Controllers
                 _applicationDbContext.TestQuestions.Where(q => q.TestId == testRun.TestId).Select(x => x.Id).ToList();
 
             var answers =
-                AnswerDTOConverter(
+                AnswerDTOConvert(
                     _applicationDbContext.Answers.Where(x => testQuestionIds.Contains(x.TestQuestionId)).ToList(),
                     testRun);
             var testRunDto = new TestRunDTO(answers,
@@ -59,10 +58,8 @@ namespace Teams.Controllers
         {
             var updatedTestRun = await _testRunRepository.GetByIdAsync(testRunDto.Id);
             if (updatedTestRun == null) return NotFound();
-            var answers = new List<Answer>();
-            foreach (var answer in testRunDto.Answers)
-                    answers.Add(new Answer(answer.AnswerText, answer.AnswerOptions.ToList(), answer.TestQuestionId, answer.Id));
-            var testRun = new TestRun(_applicationUser.Id, testRunDto.TestId, answers);
+            // foreach (var answer in testRunDto.Answers)
+            //         updatedTestRun.Add(new Answer(answer.Answers, answer.TestQuestionId, answer.Id));
             updatedTestRun.Finish();
             await SaveTestRun(updatedTestRun);
             return View(testRunDto);
@@ -73,9 +70,8 @@ namespace Teams.Controllers
         public async Task<IActionResult> AddAnswer(AnswerDTO answerDto)
         {
             if (answerDto == null) return NotFound();
-            Answer currentAnswer = new Answer(answerDto.AnswerText, answerDto.AnswerOptions.ToList(), answerDto.TestQuestionId, answerDto.Id);
-            _applicationDbContext.Answers.Update(currentAnswer);
-            await _applicationDbContext.SaveChangesAsync();
+            // Answer answer = new Answer(answerDto.Answers, answerDto.TestQuestionId, answerDto.Id);
+            // await SaveAnswer(answer);
             return View();
         }
 
@@ -92,13 +88,28 @@ namespace Teams.Controllers
                 return false;
             }
         }
+        
+        private async Task<bool> SaveAnswer(Answer answer)
+        {
+            try
+            {
+                _applicationDbContext.Answers.Update(answer);
+                await _applicationDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
-        private List<AnswerDTO> AnswerDTOConverter(List<Answer> answers, TestRun testRun)
+        private List<AnswerDTO> AnswerDTOConvert(List<Answer> answers, TestRun testRun)
         {
             var answerDTO = new List<AnswerDTO>();
-            foreach (var answer in answers)
-                answerDTO.Add(
-                    new AnswerDTO(answer.AnswerOptions.ToList(), answer.AnswerText, answer.Id, testRun.Id, answer.TestQuestionId));
+            // foreach (var answer in answers)
+            //     answerDTO.Add
+            //     (
+            //         new AnswerDTO(answer.Answers, answer.Id, testRun.Id, answer.TestQuestionId));
 
             return answerDTO;
         }
