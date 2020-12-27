@@ -4,18 +4,18 @@ using Teams.Domain;
 
 namespace Teams.Models
 {
-    public class TestRunDTO
+    public class TestRunDto
     {
         public Guid Id { get; set; }
-        public List<AnswerDTO> Answers { get; set; }
+        public List<AnswerDto> Answers { get; set; }
         public List<TestQuestion> TestQuestions { get; set; }
         public Guid TestId { get; set; }
 
-        public TestRunDTO(List<AnswerDTO> answers, List<TestQuestion> questions, Guid testId)
+        public TestRunDto(List<AnswerDto> answers, List<TestQuestion> questions, Guid testId)
         {
             Id = Guid.NewGuid();
-            Answers = answers;
-            TestQuestions = questions;
+            Answers = answers ?? new List<AnswerDto>();
+            TestQuestions = questions ?? new List<TestQuestion>();
             TestId = testId;
         }
     }

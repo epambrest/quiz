@@ -23,7 +23,7 @@ namespace Teams.Data.TestRunRepos
         
         public async Task<List<TestRun>> GetAllByUserAsync(string id)
         {
-            List<TestRun> testRuns = await GetAllAsync();
+            var testRuns = await GetAllAsync();
             return testRuns.Where(x => x.TestedUserId == id).ToList();
         }
     }

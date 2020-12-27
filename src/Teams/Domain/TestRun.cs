@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Teams.Domain
 {
@@ -9,16 +7,15 @@ namespace Teams.Domain
     {
         public string TestedUserId { get; private set; }
         public Guid TestId { get; private set; }
-        public ReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
-        private readonly List<Answer> _answers = new List<Answer>();
+        public List<Guid> AnswersIds { get; private set; }
         public bool InProgress { get; private set; }
-        
-        public TestRun(string testedUserId, Guid testId, List<Answer> answers)
+
+        public TestRun(string testedUserId, Guid testId, List<Guid> answersIds)
         {
+            AnswersIds = answersIds ?? new List<Guid>();
             TestedUserId = testedUserId;
             TestId = testId;
             InProgress = true;
-            if (answers!= null) _answers = answers;
         }
 
         private TestRun()
@@ -30,17 +27,14 @@ namespace Teams.Domain
             InProgress = false;
         }
 
-        public void Add(Answer answer)
+        public void Add(Guid answer)
         {
-            _answers.Add(answer);
+            AnswersIds.Add(answer);
         }
-        public void Add(List<Answer> answers)
+
+        public void Add(List<Guid> answers)
         {
-            if (answers != null) 
-                foreach (var a in answers)
-                {
-                    Add(a);
-                }
+            AnswersIds.AddRange(answers);
         }
     }
 }

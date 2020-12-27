@@ -10,8 +10,8 @@ using Teams.Data;
 namespace Teams.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201222145853_AddTestRunTable")]
-    partial class AddTestRunTable
+    [Migration("20201227171719_AddTestRun")]
+    partial class AddTestRun
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,6 +159,7 @@ namespace Teams.Data.Migrations
             modelBuilder.Entity("Teams.Domain.Answer", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AnswerOptions")
@@ -279,6 +280,9 @@ namespace Teams.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AnswersIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("InProgress")
                         .HasColumnType("bit");
@@ -437,15 +441,6 @@ namespace Teams.Data.Migrations
                     b.HasOne("Teams.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Teams.Domain.Answer", b =>
-                {
-                    b.HasOne("Teams.Domain.TestRun", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

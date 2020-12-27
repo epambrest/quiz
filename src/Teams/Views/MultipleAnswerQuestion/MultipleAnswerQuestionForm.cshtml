@@ -17,8 +17,8 @@
         @for (int i = 0; i < Model.SourceQuestion.Answers.Count; i++)
         {
             <div id="div[@i]" name="div">
-                <input type="checkbox" id="answers[@i]" name="answers" value="@i" />
-                <label for="answers[@i]" id="@Answers[i].Id">@Answers[i].Text</label>
+                <input type="checkbox" id="answerOptions[@i]" name="answerOptions" value="@i" />
+                <label for="answerOptions[@i]" id="@Answers[i].Id">@Answers[i].Text</label>
             </div>
         }
     </div>
@@ -31,7 +31,7 @@
 <script>
     function show_right_answers()
     {
-        let answers = document.getElementsByName("answers");
+        let answers = document.getElementsByName("answerOptions");
         answers.forEach(a => a.disabled = true);
         let chosenOptions = @Html.Raw(Json.Serialize(Model.ChosenOptions));
         let rights = @Html.Raw(Json.Serialize(Model.SourceQuestion.GetRightAnswersIds()));

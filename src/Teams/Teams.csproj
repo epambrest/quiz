@@ -6,6 +6,13 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Data\Migrations\TestRunRepos\**" />
+    <Content Remove="Data\Migrations\TestRunRepos\**" />
+    <EmbeddedResource Remove="Data\Migrations\TestRunRepos\**" />
+    <None Remove="Data\Migrations\TestRunRepos\**" />
+    <TypeScriptCompile Remove="Data\Migrations\TestRunRepos\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Data\Migrations\20200925133258_UpdateMultipleAnswerQuestionOption.cs" />
     <Compile Remove="Data\Migrations\20200925133258_UpdateMultipleAnswerQuestionOption.Designer.cs" />
     <Compile Remove="Data\Migrations\20200928131612_MultipleAnswerQuestionOptionList.cs" />
@@ -32,6 +39,30 @@
     <Compile Remove="Data\Migrations\20201220195137_AddTestRun.Designer.cs" />
     <Compile Remove="Data\Migrations\20201220202758_AddTestRunTable.cs" />
     <Compile Remove="Data\Migrations\20201220202758_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225082640_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225082640_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225084826_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225084826_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225084847_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225084847_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090429_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090429_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090605_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090605_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090732_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090732_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225095100_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225095100_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225104524_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225104524_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225110746_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225110746_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225110959_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225110959_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225112002_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225112002_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225112428_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225112428_AddTestRunTable.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\ProgramCodeQuestion\ProgramCodeQuestionCheks.ts" />
@@ -48,9 +79,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Migrations\TestRunRepos\" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Delete\Index.cshtml" />

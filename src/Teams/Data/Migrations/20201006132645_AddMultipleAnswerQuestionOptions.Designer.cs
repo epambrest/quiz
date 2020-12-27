@@ -331,7 +331,7 @@ namespace Teams.Data.Migrations
             modelBuilder.Entity("Teams.Domain.MultipleAnswerQuestionOption", b =>
                 {
                     b.HasOne("Teams.Domain.MultipleAnswerQuestion", null)
-                        .WithMany("Answers")
+                        .WithMany("AnswerOptions")
                         .HasForeignKey("MultipleAnswerQuestionId");
                 });
 #pragma warning restore 612, 618

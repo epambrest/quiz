@@ -6,9 +6,7 @@ using NUnit.Framework;
 using Microsoft.EntityFrameworkCore;
 using Teams.Data;
 using Teams.Data.TestRunRepos;
-using Moq;
 using Teams.Domain;
-using Teams.Models;
 
 namespace Teams.Tests.Repository
 {
@@ -17,133 +15,128 @@ namespace Teams.Tests.Repository
     {
         private ApplicationDbContext _context;
         private ITestRunRepository _testRunRepository;
+        private List<TestRun> _testRuns;
+        private List<Answer> _mixedAnswers;
+        private List<Answer> _answersAsText;
+        private List<Answer> _answersAsOptions;
 
         [SetUp]
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestRunDataBase")
+                .UseInMemoryDatabase("TestRunDataBase")
                 .Options;
             _context = new ApplicationDbContext(options);
-        }
-        
-        private List<Answer> GenerateMockAnswers(int count)
-        {
-            var answers = new List<Answer>();
-            for (int i = 0; i < count; i++)
+            _testRuns = new List<TestRun>();
+            _mixedAnswers = new List<Answer>();
+            _answersAsText = new List<Answer>();
+            _answersAsOptions = new List<Answer>();
+
+            _mixedAnswers.Add(new Answer("1987", Guid.NewGuid(), Guid.NewGuid()));
+            _mixedAnswers.Add(new Answer(new List<Guid> {Guid.NewGuid()}, Guid.NewGuid(), Guid.NewGuid()));
+            for (var i = 0; i < 3; i++)
             {
-                answers.Add(new Answer(i.ToString(),Guid.NewGuid(), 
-                    Guid.NewGuid()));
+                _answersAsText.Add(new Answer(i.ToString(), Guid.NewGuid(), Guid.NewGuid()));
+                _answersAsOptions.Add(new Answer(new List<Guid> {Guid.NewGuid()}, Guid.NewGuid(), Guid.NewGuid()));
             }
 
-            return answers;
+            _context.Answers.AddRange(_mixedAnswers);
+            _context.Answers.AddRange(_answersAsText);
+            _context.Answers.AddRange(_answersAsOptions);
+            _context.TestRuns.AddRange(_testRuns);
+            _context.SaveChanges();
         }
-        
-        private TestRun GenerateMockTestRun(string userId, int numberOfAnswers)
-        {
-            return new TestRun(userId, Guid.NewGuid(), 
-                GenerateMockAnswers(numberOfAnswers));
-        }
-        
+
         #region GetAllAsync
+
         [Test]
         public async Task GetAllAsync_TeamRepository_ReturnsListCount10()
         {
             //Arrange
-            var testRuns = new List<TestRun>();
-            for (int i = 0; i < 10; i++)
-            {
-                testRuns.Add(GenerateMockTestRun("johnie_silverhand", 10));
-            }
-            await SaveTestRunsToContext(testRuns);
+            _testRuns = new List<TestRun>();
+            for (var i = 0; i < 10; i++)
+                _testRuns.Add(new TestRun("johnie_silverhand", Guid.NewGuid(),
+                    _answersAsText.Select(x => x.Id).ToList()));
+            await SaveTestRunsToContext(_testRuns);
+
             _testRunRepository = new TestRunRepository(_context);
             //Act
-            testRuns = await _testRunRepository.GetAllAsync();
+            _testRuns = await _testRunRepository.GetAllAsync();
             //Assert
-            Assert.AreEqual(_context.TestRuns.Count(), testRuns.Count);
+            Assert.AreEqual(_context.TestRuns.Count(), _testRuns.Count);
         }
-        #endregion
-        
+
         [Test]
         public async Task GetAllAsync_TeamRepository_ReturnsEmpty()
         {
             //Arrange
-            var testRuns = new List<TestRun>();
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     testRuns.Add(GenerateMockTestRun("johnie_silverhand", 10));
-            // }
-            await SaveTestRunsToContext(testRuns);
+            _testRuns = new List<TestRun>();
+            await SaveTestRunsToContext(_testRuns);
             _testRunRepository = new TestRunRepository(_context);
             //Act
-            testRuns = await _testRunRepository.GetAllAsync();
+            _testRuns = await _testRunRepository.GetAllAsync();
             //Assert
-            Assert.IsEmpty(testRuns);
+            Assert.IsEmpty(_testRuns);
         }
-        
+
+        #endregion
+
         #region GetByIdAsync
+
         [Test]
         public async Task GetByIdAsync_TeamRepository_ReturnsTestRunId()
         {
             //Arrange
-            var testRuns = new List<TestRun>();
-            for (int i = 0; i < 10; i++)
-            {
-                testRuns.Add(GenerateMockTestRun("johnie_silverhand", 10));
-            }
-            Guid id = new Guid("2d2c4834-3c9e-4d4d-ad2a-4c940940d68f");
-            testRuns.ElementAt(0).Id = id;
-            await SaveTestRunsToContext(testRuns);
+            _testRuns = new List<TestRun>();
+            for (var i = 0; i < 10; i++)
+                _testRuns.Add(new TestRun("johnie_silverhand", Guid.NewGuid(),
+                    _answersAsText.Select(x => x.Id).ToList()));
+            var id = new Guid("2d2c4834-3c9e-4d4d-ad2a-4c940940d68f");
+            _testRuns.ElementAt(0).Id = id;
+            await SaveTestRunsToContext(_testRuns);
             _testRunRepository = new TestRunRepository(_context);
             //Act
-            TestRun currentTestRun = await _testRunRepository.GetByIdAsync(id);
+            var currentTestRun = await _testRunRepository.GetByIdAsync(id);
             //Assert
             Assert.AreEqual(currentTestRun.Id, id);
         }
-        
+
         [Test]
         public async Task GetByIdAsync_TeamRepository_ReturnsNull()
         {
             //Arrange
-            var testRuns = new List<TestRun>();
-            for (int i = 0; i < 10; i++)
-            {
-                testRuns.Add(GenerateMockTestRun("johnie_silverhand", 10));
-            }
-            Guid id = new Guid("2d2c4834-3c9e-4d4d-ad2a-4c940940d78f");
-            await SaveTestRunsToContext(testRuns);
+            _testRuns = new List<TestRun>();
+            for (var i = 0; i < 10; i++)
+                _testRuns.Add(new TestRun("johnie_silverhand", Guid.NewGuid(),
+                    _answersAsText.Select(x => x.Id).ToList()));
+            var id = new Guid("2d2c4834-3c9e-4d4d-ad2a-4c940940d78f");
+            await SaveTestRunsToContext(_testRuns);
             _testRunRepository = new TestRunRepository(_context);
             //Act
-            TestRun currentTestRun = await _testRunRepository.GetByIdAsync(id);
+            var currentTestRun = await _testRunRepository.GetByIdAsync(id);
             //Assert
             Assert.IsNull(currentTestRun);
         }
+
         #endregion
-        
+
         #region GetAllByUserAsync
+
         [Test]
-        public async Task GetAllByUserAsync_TeamRepository_ReturnsListCount10()
+        public async Task GetAllByUserAsync_TeamRepository_ReturnsListCount16()
         {
             //Arrange
-            var testRuns = new List<TestRun>();
-            for (int i = 0; i < 3; i++)
-            {
-                testRuns.Add(GenerateMockTestRun("danny boyle", 10));
-            }
-            
-            for (int i = 0; i < 3; i++)
-            {
-                testRuns.Add(GenerateMockTestRun("cr7", 10));
-            }
-            
-            await SaveTestRunsToContext(testRuns);
+            _testRuns = new List<TestRun>();
+            for (var i = 0; i < 10; i++)
+                _testRuns.Add(new TestRun("james", Guid.NewGuid(), _answersAsText.Select(x => x.Id).ToList()));
+            await SaveTestRunsToContext(_testRuns);
             _testRunRepository = new TestRunRepository(_context);
             //Act
-            testRuns = await _testRunRepository.GetAllByUserAsync("johnie_silverhand");
+            _testRuns = await _testRunRepository.GetAllByUserAsync("james");
             //Assert
-            Assert.AreEqual(testRuns.Count, 10);
+            Assert.AreEqual(_testRuns.Count, 10);
         }
-        
+
         [Test]
         public async Task GetAllByUserAsync_TeamRepository_ReturnsEmptyList()
         {
@@ -154,6 +147,7 @@ namespace Teams.Tests.Repository
             //Assert
             Assert.AreEqual(testRuns.Count, 0);
         }
+
         #endregion
 
         private async Task SaveTestRunsToContext(List<TestRun> testRuns)

@@ -3,24 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Teams.Data.Migrations
 {
-    public partial class AddTestRunTable : Migration
+    public partial class AddTestRun : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "TestRuns",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    TestedUserId = table.Column<string>(nullable: true),
-                    TestId = table.Column<Guid>(nullable: false),
-                    InProgress = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestRuns", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Answers",
                 columns: table => new
@@ -33,13 +19,23 @@ namespace Teams.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_TestRuns_Id",
-                        column: x => x.Id,
-                        principalTable: "TestRuns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TestRuns",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TestedUserId = table.Column<string>(nullable: true),
+                    TestId = table.Column<Guid>(nullable: false),
+                    AnswersIds = table.Column<string>(nullable: true),
+                    InProgress = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestRuns", x => x.Id);
+                });
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

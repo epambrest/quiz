@@ -157,6 +157,7 @@ namespace Teams.Data.Migrations
             modelBuilder.Entity("Teams.Domain.Answer", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AnswerOptions")
@@ -277,6 +278,9 @@ namespace Teams.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AnswersIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("InProgress")
                         .HasColumnType("bit");
@@ -435,15 +439,6 @@ namespace Teams.Data.Migrations
                     b.HasOne("Teams.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Teams.Domain.Answer", b =>
-                {
-                    b.HasOne("Teams.Domain.TestRun", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 using Teams.Domain;
 using Teams.Models;
 
@@ -21,7 +23,7 @@ namespace Teams.Data
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<TestRun> TestRuns { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -30,22 +32,13 @@ namespace Teams.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            // builder.Entity<TestRun>(
-            //     b =>
-            //     {
-            //         b.HasMany(x => x.Answers).WithOne().HasForeignKey(x => x.Id).OnDelete(DeleteBehavior.Cascade);
-            //         b.Metadata.FindNavigation("Answers").SetPropertyAccessMode(PropertyAccessMode.Field);
-            //     });
-            // builder.Entity<Answer>(
-            //     b =>
-            //     {
-            //         b.Property(e => e.AnswerText);
-            //         b.Property(e => e.Answers).HasConversion(
-            //             v => string.Join(',', v),
-            //             v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
-            //         b.Property(e => e.TestQuestionId);
-            //     });
+            builder.Entity<Answer>().Property(e=>e.AnswerOptions)
+                .HasConversion(v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<ReadOnlyCollection<Guid>>(v));
+            builder.Entity<TestRun>().Property(e=>e.AnswersIds)
+                .HasConversion(v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<List<Guid>>(v));
+           base.OnModelCreating(builder);
         }
     }
 }
