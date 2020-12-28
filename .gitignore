@@ -2,3 +2,7 @@ src/Teams/appsettings.Development.json
 src/.idea
 src/Teams/bin/
 src/Teams/obj/
+src/.vs
+src/Teams.Tests/bin
+src/Teams.Tests/obj
+
