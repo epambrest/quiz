@@ -5,4 +5,9 @@ src/Teams/obj/
 src/.vs
 src/Teams.Tests/bin
 src/Teams.Tests/obj
-
+src/Teams/Teams.csproj
+src/Teams/Views/Shared
+src/bin
+src/obj
+src/Teams.Tests/Teams.Tests.csproj
+src/Teams.sln.DotSettings.user
