@@ -25,7 +25,7 @@
         {
             <script>alert('@Model.AlertText')</script>
         }
-        <form id="form" role="form" method="post" enctype="multipart/form-input">
+        <form id="form" role="form" method="post" enctype="multipart/form-data">
             <input id="select_file" name="File" type="file" />
             <input readonly hidden name="Id" value="@Model.Id" />
             <input hidden readonly name="Text" value="@Model.Text" />
