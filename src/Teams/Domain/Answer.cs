@@ -9,42 +9,33 @@ namespace Teams.Domain
     {
         public ReadOnlyCollection<Guid> AnswerOptions
         {
-            get => _answerOptions.Select(Guid.Parse).ToList().AsReadOnly();
-            private set { _answerOptions = value.Select(x => x.ToString()).ToList(); }
+            get => _answerOptions.ToList().AsReadOnly();
+            private set { _answerOptions = value.ToList(); }
         }
 
-        private List<string> _answerOptions = new List<string>();
+        private List<Guid> _answerOptions = new List<Guid>();
 
         public string AnswerText
         {
             get => new string(_answerText);
             private set => _answerText = value;
         }
-
         private string _answerText = "";
         public Guid TestQuestionId { get; private set; }
+        public TestRun TestRun { get; private set; }
+        public Guid TestRunId { get; private set; }
 
         private Answer()
         {
         }
 
-        public Answer(string answer, Guid testQuestionId, Guid id)
+        public Answer(Guid testQuestionId, Guid id)
         {
-            AnswerText = answer;
-            Id = id;
-            TestQuestionId = testQuestionId;
-        }
-
-        public Answer(List<Guid> answers, Guid testQuestionId, Guid id)
-        {
-            if (answers != null)
+            if (_answerOptions.Count == 0)
             {
-                _answerOptions = new List<string>();
-                foreach (var i in answers) _answerOptions.Add(i.ToString());
+                Id = id;
+                TestQuestionId = testQuestionId;
             }
-
-            Id = id;
-            TestQuestionId = testQuestionId;
         }
 
         public void Add(string answer)
@@ -54,14 +45,12 @@ namespace Teams.Domain
 
         public void Add(Guid answer)
         {
-            if (AnswerText == "") _answerOptions.Add(answer.ToString());
+            if (AnswerText == "") _answerOptions.Add(answer);
         }
 
         public void Add(List<Guid> answer)
         {
-            if (answer == null) return;
-            foreach (var id in answer)
-                Add(id);
+            foreach (var id in answer) Add(id);
         }
     }
 }

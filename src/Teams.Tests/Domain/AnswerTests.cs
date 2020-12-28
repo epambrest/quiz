@@ -16,13 +16,15 @@ namespace Teams.Tests.Domain
         public void Setup()
         {
             _predefinedId = new Guid("f4340761-1211-48eb-9bea-b6052c28bac3");
-            _defaultAnswerAsText = new Answer("answer", Guid.NewGuid(), Guid.NewGuid());
-            _defaultAnswerAsOptions = new Answer(GenerateMockAnswersIds(1), Guid.NewGuid(), Guid.NewGuid());
+            _defaultAnswerAsText = new Answer(Guid.NewGuid(), Guid.NewGuid());
+            _defaultAnswerAsText.Add("answer");
+            _defaultAnswerAsOptions = new Answer(Guid.NewGuid(), Guid.NewGuid());
+            _defaultAnswerAsOptions.Add(GenerateFakeAnswersIds(1));
         }
 
-        #region Generate_Answers
+        #region Generate_Answer_Ids
 
-        private List<Guid> GenerateMockAnswersIds(int count)
+        private List<Guid> GenerateFakeAnswersIds(int count)
         {
             var answers = new List<Guid> {_predefinedId};
             for (var i = 1; i < count; i++) answers.Add(Guid.NewGuid());
@@ -51,7 +53,7 @@ namespace Teams.Tests.Domain
         {
             //Arrange
             var answer = _defaultAnswerAsOptions;
-            var newGuids = GenerateMockAnswersIds(4);
+            var newGuids = GenerateFakeAnswersIds(4);
             //Act
             answer.Add(newGuids);
             answer.Add(_predefinedId);

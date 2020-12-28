@@ -25,18 +25,18 @@ namespace Teams.Controllers
             _context = context;
             _userManager = userManager;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             _applicationUser = await _userManager.GetUserAsync(User);
             return View(await _testRunRepository.GetAllAsync());
         }
-        
+
         [HttpPost]
-        public IActionResult Create([FromBody] string userId, Guid testId, List<Guid> answersIds)
+        public IActionResult Create([FromBody] string userId, Guid testId)
         {
-            var newTestRun = new TestRun(userId, testId, answersIds);
+            var newTestRun = new TestRun(userId, testId);
             _context.TestRuns.Add(newTestRun);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -49,10 +49,9 @@ namespace Teams.Controllers
             if (testRun == null) return NotFound();
             var testQuestionIds =
                 _context.TestQuestions.Where(q => q.TestId == testRun.TestId).Select(x => x.Id).ToList();
-            var answers = 
+            var answers =
                 AnswerDtoConvert(
-                    _context.Answers.Where(x => testQuestionIds.Contains(x.TestQuestionId)).ToList(),
-                    testRun);
+                    _context.Answers.Where(x => testQuestionIds.Contains(x.TestQuestionId)).ToList());
             var testRunDto = new TestRunDto(answers,
                 _context.TestQuestions.Where(x => testQuestionIds.Contains(x.Id)).ToList(),
                 testRun.TestId);
@@ -65,23 +64,11 @@ namespace Teams.Controllers
             var updatedTestRun = await _testRunRepository.GetByIdAsync(testRunDto.Id);
             if (updatedTestRun == null) return NotFound();
             if (testRunDto.Answers.Count == 0)
-            {
                 foreach (var answer in testRunDto.Answers)
                     updatedTestRun.AnswersIds.Add(answer.Id);
-            }
             updatedTestRun.Finish();
             await SaveTestRun(updatedTestRun);
             return View(testRunDto);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> AddAnswer(AnswerDto answerDto)
-        {
-            if (answerDto == null) return NotFound();
-            var answer = new Answer(answerDto.AnswerOptions, answerDto.TestQuestionId, answerDto.Id);
-            await SaveAnswer(answer);
-            return View(answer);
         }
 
         private async Task<bool> SaveTestRun(TestRun testRun)
@@ -97,29 +84,11 @@ namespace Teams.Controllers
                 return false;
             }
         }
-        
-        private async Task<bool> SaveAnswer(Answer answer)
-        {
-            try
-            {
-                _context.Answers.Update(answer);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
 
-        public List<AnswerDto> AnswerDtoConvert(List<Answer> answers, TestRun testRun)
+        public List<AnswerDto> AnswerDtoConvert(List<Answer> answers)
         {
-            var answersDto = new List<AnswerDto>();
-            foreach (var answer in answers)
-                answersDto.Add(new AnswerDto(answer.AnswerOptions.ToList(), answer
-                    .AnswerText, answer.Id, answer.TestQuestionId));
-
-            return answersDto;
+            return answers.Select(answer => new AnswerDto(answer.AnswerOptions.ToList(), answer.AnswerText, 
+                answer.Id, answer.TestQuestionId)).ToList();
         }
     }
 }

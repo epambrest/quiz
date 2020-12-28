@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Teams.Domain
 {
@@ -8,11 +9,11 @@ namespace Teams.Domain
         public string TestedUserId { get; private set; }
         public Guid TestId { get; private set; }
         public List<Guid> AnswersIds { get; private set; }
+        public List<Answer> Answers { get; private set; }
         public bool InProgress { get; private set; }
 
-        public TestRun(string testedUserId, Guid testId, List<Guid> answersIds)
+        public TestRun(string testedUserId, Guid testId)
         {
-            AnswersIds = answersIds ?? new List<Guid>();
             TestedUserId = testedUserId;
             TestId = testId;
             InProgress = true;
@@ -27,14 +28,49 @@ namespace Teams.Domain
             InProgress = false;
         }
 
-        public void Add(Guid answer)
+        public void AddAnswer(string answerText, Guid testQuestionId)
         {
-            AnswersIds.Add(answer);
+            var existingAnswer = Answers.FirstOrDefault(a => a.TestQuestionId == testQuestionId);
+            if (existingAnswer == null)
+            {
+                Answer answer = new Answer(testQuestionId, Guid.NewGuid());
+                answer.Add(answerText);
+                AnswersIds.Add(answer.Id);
+            }
+            else
+            {
+                existingAnswer.Add(answerText);
+            }
         }
-
-        public void Add(List<Guid> answers)
+        
+        public void AddAnswer(Guid answerId, Guid testQuestionId)
         {
-            AnswersIds.AddRange(answers);
+            var existingAnswer = Answers.FirstOrDefault(a => a.TestQuestionId == testQuestionId);
+            if (existingAnswer == null)
+            {
+                Answer answer = new Answer(testQuestionId, Guid.NewGuid());
+                answer.Add(answerId);
+                AnswersIds.Add(answer.Id);
+            }
+            else
+            {
+                existingAnswer.Add(answerId);
+            }
+        }
+        
+        public void AddAnswer(List<Guid> answersIds, Guid testQuestionId)
+        {
+            var existingAnswer = Answers.FirstOrDefault(a => a.TestQuestionId == testQuestionId);
+            if (existingAnswer == null)
+            {
+                Answer answer = new Answer(testQuestionId, Guid.NewGuid());
+                answer.Add(answersIds);
+                AnswersIds.Add(answer.Id);
+            }
+            else
+            {
+                existingAnswer.Add(answersIds);
+            }
         }
     }
 }

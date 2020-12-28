@@ -11,3 +11,4 @@ src/bin
 src/obj
 src/Teams.Tests/Teams.Tests.csproj
 src/Teams.sln.DotSettings.user
+src/Teams/Teams.csproj

@@ -22,8 +22,7 @@ namespace Teams.Tests.Domain
 
         private List<Guid> GenerateMockAnswersIds(int count)
         {
-            var answers = new List<Guid>();
-            answers.Add(_predefinedId);
+            var answers = new List<Guid> {_predefinedId};
             for (var i = 1; i < count; i++) answers.Add(Guid.NewGuid());
             return answers;
         }
@@ -36,15 +35,13 @@ namespace Teams.Tests.Domain
         public void TestRun_Add_AnswerIds_ReturnsAsExpected()
         {
             //Arrange
-            var answers = GenerateMockAnswersIds(10);
-            var testRun = new TestRun(_user, Guid.NewGuid(), GenerateMockAnswersIds(10));
-            var testRun2 = testRun;
+            var answers = GenerateMockAnswersIds(3);
+            var testRun = new TestRun(_user, Guid.NewGuid());
+            var testQuestionFakeId = new Guid();
             //Act
-            testRun.Add(answers);
-            testRun2.Add(answers);
+            testRun.AddAnswer(answers, testQuestionFakeId);
             //Assert
-            Assert.AreEqual(testRun.AnswersIds.Count, 30);
-            Assert.AreEqual(testRun.AnswersIds.Count, 30);
+            Assert.AreEqual(testRun.AnswersIds.Count, 3);
         }
 
         #endregion
@@ -55,7 +52,7 @@ namespace Teams.Tests.Domain
         public void TestRun_Returns_AnswerIds()
         {
             //Arrange
-            var testRun = new TestRun(_user, Guid.NewGuid(), GenerateMockAnswersIds(10));
+            var testRun = new TestRun(_user, Guid.NewGuid());
             var answers = testRun.AnswersIds;
             //Act
             var answerText = answers.ElementAt(0);
