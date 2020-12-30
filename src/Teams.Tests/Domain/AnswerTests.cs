@@ -16,10 +16,8 @@ namespace Teams.Tests.Domain
         public void Setup()
         {
             _predefinedId = new Guid("f4340761-1211-48eb-9bea-b6052c28bac3");
-            _defaultAnswerAsText = new Answer(Guid.NewGuid(), Guid.NewGuid());
-            _defaultAnswerAsText.Add("answer");
-            _defaultAnswerAsOptions = new Answer(Guid.NewGuid(), Guid.NewGuid());
-            _defaultAnswerAsOptions.Add(GenerateFakeAnswersIds(1));
+            _defaultAnswerAsText = new Answer(Guid.NewGuid(), "answer");
+            _defaultAnswerAsOptions = new Answer(Guid.NewGuid(), GenerateFakeAnswersIds(1));
         }
 
         #region Generate_Answer_Ids
@@ -33,71 +31,18 @@ namespace Teams.Tests.Domain
 
         #endregion
 
-        #region AddText
-
-        [Test]
-        public void Answer_Add_AnswerAsText_Returns_String()
-        {
-            //Arrange
-            var answer = _defaultAnswerAsText;
-            const string newAnswer = "new answer";
-            //Act
-            answer.Add(newAnswer);
-            //Assert
-            Assert.AreEqual(answer.AnswerText, newAnswer);
-            Assert.IsEmpty(answer.AnswerOptions);
-        }
-
-        [Test]
-        public void Answer_Add_AnswerAsOptions_Returns_Guids()
-        {
-            //Arrange
-            var answer = _defaultAnswerAsOptions;
-            var newGuids = GenerateFakeAnswersIds(4);
-            //Act
-            answer.Add(newGuids);
-            answer.Add(_predefinedId);
-            //Assert
-            Assert.AreEqual(answer.AnswerOptions.Count, 6);
-            Assert.AreEqual(answer.AnswerOptions.ElementAt(5), _predefinedId);
-        }
-
-        [Test]
-        public void Answer_Attempt_AddAnswerAsText_AnswerContainsOptions()
-        {
-            //Arrange
-            var answer = _defaultAnswerAsOptions;
-            //Act
-            answer.Add("text");
-            //Assert
-            Assert.IsEmpty(answer.AnswerText);
-        }
-
-        [Test]
-        public void Answer_Attempt_AddAnswerAsOptions_AnswerContainsText()
-        {
-            //Arrange
-            var answer = _defaultAnswerAsText;
-            //Act
-            answer.Add(Guid.NewGuid());
-            //Assert
-            Assert.IsEmpty(answer.AnswerOptions);
-        }
-
-        #endregion
-
         #region Verify_Immutable_Answer
 
         [Test]
         public void VerifyAnswerEntity_AnswerTextsAreImmutable()
         {
             //Arrange
-            var newAnswer = _defaultAnswerAsText.AnswerText;
-            var oldAnswer = newAnswer;
+            var changedAnswer = _defaultAnswerAsText.AnswerText;
+            var oldAnswer = changedAnswer;
             //Act
-            newAnswer = "new answer";
+            changedAnswer = "new answer";
             //Assert
-            Assert.AreNotEqual(oldAnswer, newAnswer);
+            Assert.AreNotEqual(_defaultAnswerAsText.AnswerText, changedAnswer);
             Assert.AreEqual(_defaultAnswerAsText.AnswerText, oldAnswer);
         }
 

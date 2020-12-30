@@ -47,6 +47,7 @@ namespace Teams
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
             services.AddScoped<ITestRunRepository, TestRunRepository>();
+            services.AddScoped<Answer>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

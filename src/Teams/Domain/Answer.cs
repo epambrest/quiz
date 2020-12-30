@@ -9,48 +9,28 @@ namespace Teams.Domain
     {
         public ReadOnlyCollection<Guid> AnswerOptions
         {
-            get => _answerOptions.ToList().AsReadOnly();
-            private set { _answerOptions = value.ToList(); }
+            get => _answerOptions.AsReadOnly();
+            private set => _answerOptions = new List<Guid>(value);
         }
-
         private List<Guid> _answerOptions = new List<Guid>();
 
-        public string AnswerText
-        {
-            get => new string(_answerText);
-            private set => _answerText = value;
-        }
-        private string _answerText = "";
-        public Guid TestQuestionId { get; private set; }
-        public TestRun TestRun { get; private set; }
-        public Guid TestRunId { get; private set; }
+        public string AnswerText { get; }
+        public Guid TestQuestionId { get;}
 
-        private Answer()
+        public Answer()
         {
         }
 
-        public Answer(Guid testQuestionId, Guid id)
+        public Answer(Guid testQuestionId, string answerText)
         {
-            if (_answerOptions.Count == 0)
-            {
-                Id = id;
-                TestQuestionId = testQuestionId;
-            }
+            TestQuestionId = testQuestionId;
+            AnswerText = answerText;
         }
-
-        public void Add(string answer)
+        
+        public Answer(Guid testQuestionId, IEnumerable<Guid> optionsIds)
         {
-            if (AnswerOptions.Count == 0) AnswerText = answer;
-        }
-
-        public void Add(Guid answer)
-        {
-            if (AnswerText == "") _answerOptions.Add(answer);
-        }
-
-        public void Add(List<Guid> answer)
-        {
-            foreach (var id in answer) Add(id);
+            TestQuestionId = testQuestionId;
+            _answerOptions = optionsIds.ToList();
         }
     }
 }

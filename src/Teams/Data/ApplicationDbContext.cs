@@ -35,13 +35,8 @@ namespace Teams.Data
             builder.Entity<Answer>().Property(e=>e.AnswerOptions)
                 .HasConversion(v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<ReadOnlyCollection<Guid>>(v));
-            builder.Entity<TestRun>().Property(e=>e.AnswersIds)
-                .HasConversion(v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<List<Guid>>(v));
-            builder.Entity<TestRun>().HasMany(e => e.Answers)
-                .WithOne(e => e.TestRun)
-                .HasForeignKey(e => e.TestRunId);
-           base.OnModelCreating(builder);
+            builder.Entity<TestRun>().HasMany(e => e.Answers);
+            base.OnModelCreating(builder);
         }
     }
 }

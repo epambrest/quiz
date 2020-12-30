@@ -10,11 +10,10 @@ namespace Teams.Models
         public string AnswerText { get; set; }
         public Guid TestQuestionId { get; set; }
 
-        public AnswerDto(List<Guid> answerOptions, string answerText, Guid id, Guid testQuestionId)
+        public AnswerDto(List<Guid> answerOptions, string answerText, Guid testQuestionId)
         {
             AnswerOptions = answerOptions;
             AnswerText = answerText;
-            Id = id;
             TestQuestionId = testQuestionId;
         }
     }

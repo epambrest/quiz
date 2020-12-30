@@ -163,13 +163,12 @@ namespace Teams.Data.Migrations
                     b.Property<string>("AnswerOptions")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AnswerText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TestQuestionId")
+                    b.Property<Guid?>("TestRunId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TestRunId");
 
                     b.ToTable("Answers");
                 });
@@ -278,9 +277,6 @@ namespace Teams.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AnswersIds")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("InProgress")
                         .HasColumnType("bit");
@@ -441,6 +437,13 @@ namespace Teams.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Teams.Domain.Answer", b =>
+                {
+                    b.HasOne("Teams.Domain.TestRun", null)
+                        .WithMany("Answers")
+                        .HasForeignKey("TestRunId");
                 });
 
             modelBuilder.Entity("Teams.Domain.MultipleAnswerQuestionOption", b =>

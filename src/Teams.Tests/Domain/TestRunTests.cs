@@ -22,9 +22,9 @@ namespace Teams.Tests.Domain
 
         private List<Guid> GenerateMockAnswersIds(int count)
         {
-            var answers = new List<Guid> {_predefinedId};
-            for (var i = 1; i < count; i++) answers.Add(Guid.NewGuid());
-            return answers;
+            var answersIds = new List<Guid> {_predefinedId};
+            for (var i = 1; i < count; i++) answersIds.Add(Guid.NewGuid());
+            return answersIds;
         }
 
         #endregion
@@ -32,16 +32,32 @@ namespace Teams.Tests.Domain
         #region AddsAnswer
 
         [Test]
-        public void TestRun_Add_AnswerIds_ReturnsAsExpected()
+        public void TestRun_Add_AnswerOptions_ReturnsAsExpected()
         {
             //Arrange
-            var answers = GenerateMockAnswersIds(3);
+            var answersIds = GenerateMockAnswersIds(3);
             var testRun = new TestRun(_user, Guid.NewGuid());
             var testQuestionFakeId = new Guid();
             //Act
-            testRun.AddAnswer(answers, testQuestionFakeId);
+            testRun.AddAnswer(new Answer(testQuestionFakeId, answersIds));
+            testRun.AddAnswer(new Answer(testQuestionFakeId, answersIds));
             //Assert
-            Assert.AreEqual(testRun.AnswersIds.Count, 3);
+            Assert.AreEqual(testRun.Answers.Count, 2);
+            Assert.IsNull(testRun.Answers.ElementAt(0).AnswerText);
+        }
+        
+        public void TestRun_Add_AnswerText_ReturnsAsExpected()
+        {
+            //Arrange
+            var answersIds = GenerateMockAnswersIds(3);
+            var testRun = new TestRun(_user, Guid.NewGuid());
+            var testQuestionFakeId = new Guid();
+            //Act
+            testRun.AddAnswer(new Answer(testQuestionFakeId, "johnie"));
+            testRun.AddAnswer(new Answer(testQuestionFakeId, "mnemonic"));
+            //Assert
+            Assert.AreEqual(testRun.Answers.Count, 2);
+            Assert.IsNull(testRun.Answers.ElementAt(0).AnswerText);
         }
 
         #endregion
@@ -49,20 +65,57 @@ namespace Teams.Tests.Domain
         #region ReturnsAnswer
 
         [Test]
-        public void TestRun_Returns_AnswerIds()
+        public void TestRun_Returns_Actual_Answer_As_Option_Text_As_Null()
         {
             //Arrange
             var testRun = new TestRun(_user, Guid.NewGuid());
-            var answers = testRun.AnswersIds;
+            var sampleAnswer = new Answer(Guid.NewGuid(), new List<Guid>() {_predefinedId});
+            testRun.AddAnswer(sampleAnswer);
             //Act
-            var answerText = answers.ElementAt(0);
-            var answerText2 = answers.ElementAt(1);
-            var answerText9 = answers.ElementAt(9);
+            var answers = testRun.Answers;
+            var actualAnswerOptions = answers.ElementAt(0).AnswerOptions;
+            var actualAnswerText = answers.ElementAt(0).AnswerText;
             //Assert
-            Assert.AreEqual(answerText, _predefinedId);
-            Assert.NotNull(answerText2);
-            Assert.NotNull(answerText9);
-            Assert.Throws<ArgumentOutOfRangeException>(() => answerText = answers.ElementAt(100));
+            Assert.IsNotNull(actualAnswerOptions);
+            Assert.AreEqual(actualAnswerOptions.ElementAt(0), _predefinedId);
+            Assert.IsNull(actualAnswerText);
+        }
+        
+        [Test]
+        public void TestRun_Returns_Actual_Answer_As_Text_Options_As_Null()
+        {
+            //Arrange
+            var testRun = new TestRun(_user, Guid.NewGuid());
+            var sampleAnswer = new Answer(Guid.NewGuid(), "answer");
+            testRun.AddAnswer(sampleAnswer);
+            //Act
+            var answers = testRun.Answers;
+            var actualAnswerOptions = answers.ElementAt(0).AnswerOptions;
+            var actualAnswerText = answers.ElementAt(0).AnswerText;
+            //Assert
+            Assert.IsNotNull(actualAnswerText);
+            Assert.AreEqual(actualAnswerText, "answer");
+            Assert.IsEmpty(actualAnswerOptions);
+        }
+
+        #endregion
+
+        #region TestRun_Answers_Is_Immutable
+
+        [Test]
+        public void TestRun_Answers_Is_Immutable()
+        {
+            //Arrange
+            var testRun = new TestRun(_user, Guid.NewGuid());
+            var sampleAnswer = new Answer(Guid.NewGuid(), new List<Guid>() {_predefinedId});
+            testRun.AddAnswer(sampleAnswer);
+
+            //Act
+            var answers = testRun.Answers.ToList();
+            answers.Add(new Answer(Guid.NewGuid(), "answer"));
+            //Assert
+            Assert.AreNotEqual(answers, testRun.Answers);
+            Assert.AreNotEqual(answers.Count, testRun.Answers.Count);
         }
 
         #endregion

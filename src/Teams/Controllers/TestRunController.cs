@@ -63,9 +63,17 @@ namespace Teams.Controllers
         {
             var updatedTestRun = await _testRunRepository.GetByIdAsync(testRunDto.Id);
             if (updatedTestRun == null) return NotFound();
-            if (testRunDto.Answers.Count == 0)
-                foreach (var answer in testRunDto.Answers)
-                    updatedTestRun.AnswersIds.Add(answer.Id);
+            foreach (var answerDto in testRunDto.Answers)
+            {
+                if (answerDto.AnswerText == "")
+                {
+                    updatedTestRun.AddAnswer(new Answer(answerDto.TestQuestionId, answerDto.AnswerOptions));
+                }
+                else
+                {
+                    updatedTestRun.AddAnswer(new Answer(answerDto.TestQuestionId, answerDto.AnswerText));
+                }
+            }
             updatedTestRun.Finish();
             await SaveTestRun(updatedTestRun);
             return View(testRunDto);
@@ -88,7 +96,7 @@ namespace Teams.Controllers
         public List<AnswerDto> AnswerDtoConvert(List<Answer> answers)
         {
             return answers.Select(answer => new AnswerDto(answer.AnswerOptions.ToList(), answer.AnswerText, 
-                answer.Id, answer.TestQuestionId)).ToList();
+                answer.TestQuestionId)).ToList();
         }
     }
 }

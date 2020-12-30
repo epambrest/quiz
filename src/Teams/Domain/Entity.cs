@@ -8,7 +8,7 @@ namespace Teams.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         public Entity()
         {
         }
