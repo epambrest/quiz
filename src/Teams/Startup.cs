@@ -20,6 +20,7 @@ using Teams.Data.Repositories;
 using Teams.Data.TestRunRepos;
 using Teams.Domain;
 using Teams.Models;
+using Teams.Data.OpenAnswerQuestionRepos;
 
 namespace Teams
 {
@@ -41,12 +42,14 @@ namespace Teams
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
+            services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
             services.AddScoped<ITestRunRepository, TestRunRepository>();
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

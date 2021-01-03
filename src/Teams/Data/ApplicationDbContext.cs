@@ -23,20 +23,22 @@ namespace Teams.Data
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<TestRun> TestRuns { get; set; }
-        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public DbSet<QueuedProgram> QueuedPrograms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.Entity<Answer>().Property(e=>e.AnswerOptions)
                 .HasConversion(v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<ReadOnlyCollection<Guid>>(v));
             builder.Entity<TestRun>().HasMany(e => e.Answers);
-            base.OnModelCreating(builder);
+            builder.Entity<QueuedProgram>().ToTable("QueuedPrograms").HasKey("Id");
+            builder.Entity<QueuedProgram>().Property(b => b.Id).HasColumnName("Id").HasColumnType("bigint")
+                .ValueGeneratedOnAdd();
+            builder.Entity<QueuedProgram>().HasOne<ProgramCodeQuestion>().WithMany().HasForeignKey(k => k.QuestionId);
+            builder.Entity<QueuedProgram>().Property(b => b.QuestionId).HasColumnName("questionId").HasColumnType("uniqueidentifier");
+            builder.Entity<QueuedProgram>().Property(b => b.Program).HasColumnName("program").HasColumnType("nvarchar(max)");
+            builder.Entity<QueuedProgram>().Property(b => b.Status).HasColumnName("status").HasColumnType("int");
         }
     }
 }
