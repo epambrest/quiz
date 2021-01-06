@@ -25,6 +25,11 @@ namespace Teams.Data
         public DbSet<TestRun> TestRuns { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

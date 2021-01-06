@@ -83,7 +83,7 @@ namespace Teams.Controllers
         {
             try
             {
-                aw_context.TestRuns.Upda(testRun);
+                _context.TestRuns.Update(testRun);
                 await _context.SaveChangesAsync();
                 return true;
             }
