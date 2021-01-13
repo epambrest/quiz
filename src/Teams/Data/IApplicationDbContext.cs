@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +15,7 @@ namespace Teams.Data
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }
         public DbSet<MultipleAnswerQuestion> MultipleAnswerQuestions { get; set; }
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
+        int SaveChanges();
+        EntityEntry Entry(Object entity);
     }
 }
