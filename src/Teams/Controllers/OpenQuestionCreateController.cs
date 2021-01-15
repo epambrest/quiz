@@ -27,7 +27,7 @@ namespace Teams.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(OpenAnswerQuestionModel modelForView)
-        {
+        {          
             OpenAnswerQuestion question = new OpenAnswerQuestion(modelForView.Question, modelForView.Answer);
             _db.OpenAnswerQuestions.Add(question);
             await _db.SaveChangesAsync();
