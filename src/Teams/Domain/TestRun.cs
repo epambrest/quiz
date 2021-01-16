@@ -23,6 +23,13 @@ namespace Teams.Domain
             TestId = testId;
             InProgress = true;
         }
+        
+        public TestRun(string testedUserId, Guid testId, Guid id) : base(id)
+        {
+            TestedUserId = testedUserId;
+            TestId = testId;
+            InProgress = true;
+        }
 
         private TestRun()
         {

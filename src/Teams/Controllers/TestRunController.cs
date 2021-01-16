@@ -15,21 +15,21 @@ namespace Teams.Controllers
     {
         private readonly ITestRunRepository _testRunRepository;
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        // private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationUser _applicationUser;
 
         public TestRunController(ITestRunRepository testRunRepository,
-            ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+            ApplicationDbContext context)
         {
             _testRunRepository = testRunRepository;
             _context = context;
-            _userManager = userManager;
+            // _userManager = userManager;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _applicationUser = await _userManager.GetUserAsync(User);
+            // _applicationUser = await _userManager.GetUserAsync(User);
             return View(await _testRunRepository.GetAllAsync());
         }
 
@@ -53,8 +53,7 @@ namespace Teams.Controllers
                 AnswerDtoConvert(
                     _context.Answers.Where(x => testQuestionIds.Contains(x.TestQuestionId)).ToList());
             var testRunDto = new TestRunDto(answers,
-                _context.TestQuestions.Where(x => testQuestionIds.Contains(x.Id)).ToList(),
-                testRun.TestId);
+                _context.TestQuestions.Where(x => testQuestionIds.Contains(x.Id)).ToList());
             return View(testRunDto);
         }
 
@@ -77,6 +76,15 @@ namespace Teams.Controllers
             updatedTestRun.Finish();
             await SaveTestRun(updatedTestRun);
             return View(testRunDto);
+        }
+
+        /// <summary>
+        /// This method is temporary, to be deleted after testing. It reads the context, gets the TestRun by id and returns back to caller.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<TestRun> PostRunTestMethod(Guid testRunId)
+        {
+            return await _testRunRepository.GetByIdAsync(testRunId);
         }
 
         private async Task<bool> SaveTestRun(TestRun testRun)
