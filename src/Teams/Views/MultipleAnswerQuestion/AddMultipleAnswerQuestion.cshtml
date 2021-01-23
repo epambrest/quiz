@@ -1,16 +1,8 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-*@
-@{
-
-}
-
 <h3>Введите текст вопроса:</h3>
 <br />
 <div id="qText">
-    <input type="text" name="questionText"><br /><br />
+    <input type="text" name="questionText" class="input-group mb-3" placeholder="Question text"><br /><br />
     <h5 id="hidenText" hidden>Добавьте текст ответа и отметьте правильный ли он</h5>
 </div>
 <input type="button" id="buttonForAdd" value="Добавить вариант ответа" class="btn btn-primary" onclick="addAnswer()" />
@@ -39,36 +31,27 @@
     function addAnswer() {
         let element = document.getElementById('qText');
         let hidenText = document.getElementById('hidenText');
-        let inpt = document.createElement('input');
-        let checkbox = document.createElement('input');
-        let br = document.createElement('br');
         let buttonForAdd = document.getElementById('buttonForAdd');
-        let buttonForRemove = document.createElement('input');
         let div = document.createElement('div');
-
-        inpt.setAttribute('type', 'text');
-        inpt.setAttribute('class', 'answersText');
-        checkbox.setAttribute('type', 'checkbox');
-        checkbox.setAttribute('class', 'itTrue');
-        buttonForRemove.setAttribute('type', 'button');
-        buttonForRemove.setAttribute('value', 'X');
-        buttonForRemove.setAttribute('class', 'buttonForRemove btn btn-danger btn-sm');
-        buttonForRemove.setAttribute('onclick', 'RemoveAnswer(this)');
-        buttonForRemove.setAttribute('id', idCount);
         div.setAttribute('id', 'div' + idCount);
-
         element.appendChild(div);
-        div.appendChild(checkbox);
-        div.appendChild(inpt);
-        div.appendChild(buttonForRemove);
-        div.appendChild(br);
-        div.appendChild(br);
 
+        $('<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<div class="input-group-text">' +
+            '<input type="checkbox" class="itTrue">' +
+            '</div>' +
+            '</div>' +
+            '<input type="text" class="form-control answersText">' +
+            '<div class="input-group-append">' +
+            '<input type="button" value="X" class="buttonForRemove btn btn-danger btn-sm " onclick = "RemoveAnswer(this)" id ="' + idCount +'">' +
+            '</div>' +
+            '</div>').appendTo(div);
 
         hidenText.hidden = false;
         answersCount++;
         idCount++;
-        if (answersCount == MaxAnswersNumber ){
+        if (answersCount == MaxAnswersNumber) {
             buttonForAdd.hidden = true;
         }
 
@@ -87,18 +70,18 @@
         let questionText = someText[0].value;
         let answersTextList = document.getElementsByClassName('answersText');
         let answersCheckboxList = document.getElementsByClassName('itTrue');
-        var TextMassive = new Array();
-        var CheckboxValueMassive = new Array();
+        var textArray = new Array();
+        var checkboxValueArray = new Array();
         let isChecked = 0;
 
         for (let i = 0; i < answersTextList.length; i++) {
-            TextMassive[i] = answersTextList[i].value;
+            textArray[i] = answersTextList[i].value;
             if (answersCheckboxList[i].checked) {
-                CheckboxValueMassive[i] = true;
+                checkboxValueArray[i] = true;
                 isChecked = 1;
             }
             else {
-                CheckboxValueMassive[i] = false;
+                checkboxValueArray[i] = false;
             }
         }
 
@@ -108,7 +91,7 @@
         else if (answersCount < MinimalAnswersNumber) {
             alert("Вопрос должен иметь как минимум 2 варианта ответа");
         }
-        else if (TextMassive.includes('')) {
+        else if (textArray.includes('')) {
             alert("Варианты ответа не должны быть пустыми");
         }
         else if (isChecked == 0) {
@@ -116,9 +99,9 @@
         }
         else {
              var model = {
-                questionText: questionText,
-                TextMassive: TextMassive,
-                CheckboxValueMassive: CheckboxValueMassive
+                QuestionText: questionText,
+                TextArray: textArray,
+                CheckboxValueArray: checkboxValueArray
             }
             $.ajax({
             type: "POST",

@@ -33,7 +33,7 @@ namespace Teams.Domain
             return Answers.Where(a => a.IsRight).ToArray();
         }
 
-        public void UpdateQuestion(string questionText, List<MultipleAnswerQuestionOption> Answers)
+        public void EditQuestion(string questionText, List<MultipleAnswerQuestionOption> Answers)
         {
             Text = questionText;
             answers = Answers;

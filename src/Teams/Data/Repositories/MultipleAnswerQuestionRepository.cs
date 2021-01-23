@@ -24,5 +24,16 @@ namespace Teams.Data.Repositories
             _db.MultipleAnswerQuestions.Add(question);
         }
 
+        public void DeleteQuestionOptionsIn_DB(MultipleAnswerQuestion question)
+        {
+            question.Answers.ToList().ForEach(o => _db.Entry(o).State = EntityState.Deleted);
+        }
+
+        public void UpdateQuestion(MultipleAnswerQuestion question)
+        {
+            _db.MultipleAnswerQuestions.Update(question);
+            _db.SaveChanges();
+        }
+
     }
 }

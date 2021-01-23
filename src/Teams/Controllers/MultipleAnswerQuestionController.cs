@@ -14,7 +14,7 @@ namespace Teams.Controllers
 {
     public class MultipleAnswerQuestionController : Controller
     {
-        IApplicationDbContext _db;
+        private IApplicationDbContext _db;
         public MultipleAnswerQuestionController(IMultipleAnswerQuestionRepository questionRepository, IApplicationDbContext db)
         {
             this.questionRepository = questionRepository;
@@ -55,13 +55,11 @@ namespace Teams.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleAnswerQuestionDTOModel fromAjax)
+        public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel fromAjax)
         {
             List<MultipleAnswerQuestionOption> allAnswers = new List<MultipleAnswerQuestionOption>();
-            for (int i = 0; i < fromAjax.TextMassive.Length; i++)
-            {
-                allAnswers.Add(new MultipleAnswerQuestionOption(fromAjax.TextMassive[i], fromAjax.CheckboxValueMassive[i]));
-            }
+            allAnswers = fromAjax.TextArray.Select((value, index) => new MultipleAnswerQuestionOption(value, fromAjax.CheckboxValueArray[index])).ToList();
+
             questionRepository.AddQuestion(new MultipleAnswerQuestion(fromAjax.QuestionText, allAnswers));
             _db.SaveChanges();
 
@@ -72,16 +70,16 @@ namespace Teams.Controllers
         public IActionResult EditMultipleAnswerQuestion([FromBody] MultipleQuestionEditModel fromAjax)
         {
             List<MultipleAnswerQuestionOption> allAnswers = new List<MultipleAnswerQuestionOption>();
-            for (int i = 0; i < fromAjax.TextMassive.Length; i++)
-            {
-                allAnswers.Add(new MultipleAnswerQuestionOption(fromAjax.TextMassive[i], fromAjax.CheckboxValueMassive[i]));
-            }
+            allAnswers = fromAjax.TextArray.Select((value, index) => new MultipleAnswerQuestionOption(value, fromAjax.CheckboxValueArray[index])).ToList();
+
             MultipleAnswerQuestion question = questionRepository.PickById(fromAjax.id);
-            question.UpdateQuestion(fromAjax.QuestionText, allAnswers);
+
+            questionRepository.DeleteQuestionOptionsIn_DB(question);
+            question.EditQuestion(fromAjax.QuestionText, allAnswers);
+            questionRepository.UpdateQuestion(question);
             _db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
-
     }
 }

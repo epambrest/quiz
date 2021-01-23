@@ -10,7 +10,7 @@
 <input hidden name="Id" value="@Model.SourceQuestion.Id" />
 <br>
 
-<input type="text" name="questionText" value="@(Model.SourceQuestion.Text)" />
+<input type="text" name="questionText" class="input-group mb-3" value="@(Model.SourceQuestion.Text)" />
 
 <body onload="addFromBd()">
     <div id="options_container">
@@ -42,38 +42,25 @@
     function addFromBd() {
 
         var model = @Json.Serialize(answersText);
-
         let element = document.getElementById('options_container');
-
-
 
         for (let i = 0; i < model.length; i++) {
 
-            let inpt = document.createElement('input');
-            let checkbox = document.createElement('input');
-            let br = document.createElement('br');
-            let buttonForRemove = document.createElement('input');
             let div = document.createElement('div');
-
-
-            inpt.setAttribute('type', 'text');
-            inpt.setAttribute('class', 'answersText');
-            inpt.setAttribute('value', model[i]);
-            checkbox.setAttribute('type', 'checkbox');
-            checkbox.setAttribute('class', 'itTrue');
-            buttonForRemove.setAttribute('type', 'button');
-            buttonForRemove.setAttribute('value', 'X');
-            buttonForRemove.setAttribute('class', 'buttonForRemove btn btn-danger btn-sm');
-            buttonForRemove.setAttribute('onclick', 'RemoveAnswer(this)');
-            buttonForRemove.setAttribute('id', idCount);
             div.setAttribute('id', 'div' + idCount);
-
             element.appendChild(div);
-            div.appendChild(checkbox);
-            div.appendChild(inpt);
-            div.appendChild(buttonForRemove);
-            div.appendChild(br);
-            div.appendChild(br);
+
+            $('<div class="input-group mb-3">' +
+                '<div class="input-group-prepend">' +
+                '<div class="input-group-text">' +
+                '<input type="checkbox" class="itTrue">' +
+                '</div>' +
+                '</div>' +
+                '<input type="text" class="form-control answersText" value="'+model[i]+'">' +
+                '<div class="input-group-append">' +
+                '<input type="button" value="X" class="buttonForRemove btn btn-danger btn-sm " onclick = "RemoveAnswer(this)" id ="' + idCount + '">' +
+                '</div>' +
+                '</div>').appendTo(div);
 
             answersCount++;
             idCount++;
@@ -89,30 +76,22 @@
 
     function addAnswer() {
         let element = document.getElementById('options_container');
-        let inpt = document.createElement('input');
-        let checkbox = document.createElement('input');
-        let br = document.createElement('br');
         let buttonForAdd = document.getElementById('buttonForAdd');
-        let buttonForRemove = document.createElement('input');
         let div = document.createElement('div');
-
-        inpt.setAttribute('type', 'text');
-        inpt.setAttribute('class', 'answersText');
-        checkbox.setAttribute('type', 'checkbox');
-        checkbox.setAttribute('class', 'itTrue');
-        buttonForRemove.setAttribute('type', 'button');
-        buttonForRemove.setAttribute('value', 'X');
-        buttonForRemove.setAttribute('class', 'buttonForRemove btn btn-danger btn-sm');
-        buttonForRemove.setAttribute('onclick', 'RemoveAnswer(this)');
-        buttonForRemove.setAttribute('id', idCount);
         div.setAttribute('id', 'div' + idCount);
-
         element.appendChild(div);
-        div.appendChild(checkbox);
-        div.appendChild(inpt);
-        div.appendChild(buttonForRemove);
-        div.appendChild(br);
-        div.appendChild(br);
+
+        $('<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<div class="input-group-text">' +
+            '<input type="checkbox" class="itTrue">' +
+            '</div>' +
+            '</div>' +
+            '<input type="text" class="form-control answersText">' +
+            '<div class="input-group-append">' +
+            '<input type="button" value="X" class="buttonForRemove btn btn-danger btn-sm " onclick = "RemoveAnswer(this)" id ="' + idCount + '">' +
+            '</div>' +
+            '</div>').appendTo(div);
 
 
         answersCount++;
@@ -136,18 +115,18 @@
         let questionText = someText[0].value;
         let answersTextList = document.getElementsByClassName('answersText');
         let answersCheckboxList = document.getElementsByClassName('itTrue');
-        var textMassive = new Array();
-        var checkboxValueMassive = new Array();
+        var textArray = new Array();
+        var checkboxValueArray = new Array();
         let isChecked = 0;
 
         for (let i = 0; i < answersTextList.length; i++) {
-            textMassive[i] = answersTextList[i].value;
+            textArray[i] = answersTextList[i].value;
             if (answersCheckboxList[i].checked) {
-                checkboxValueMassive[i] = true;
+                checkboxValueArray[i] = true;
                 isChecked = 1;
             }
             else {
-                checkboxValueMassive[i] = false;
+                checkboxValueArray[i] = false;
             }
         }
         var id = @Json.Serialize(Model.SourceQuestion.Id);
@@ -159,7 +138,7 @@
         else if (answersCount < MinimalAnswersNumber) {
             alert("Вопрос должен иметь как минимум 2 варианта ответа");
         }
-        else if (textMassive.includes('')) {
+        else if (textArray.includes('')) {
             alert("Варианты ответа не должны быть пустыми");
         }
         else if (isChecked == 0) {
@@ -168,9 +147,9 @@
         else {
 
              var model = {
-                questionText: questionText,
-                textMassive: textMassive,
-                checkboxValueMassive: checkboxValueMassive,
+                QuestionText: questionText,
+                TextMassive: textArray,
+                CheckboxValueMassive: checkboxValueArray,
                 id: id
             }
 

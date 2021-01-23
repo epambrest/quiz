@@ -8,8 +8,8 @@ namespace Teams.Models
     public class MultipleQuestionEditModel
     {
         public string QuestionText { get; set; }
-        public string[] TextMassive { get; set; }
-        public bool[] CheckboxValueMassive { get; set; }
+        public string[] TextArray { get; set; }
+        public bool[] CheckboxValueArray { get; set; }
         public Guid id { get; set; }
     }
 }
