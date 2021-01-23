@@ -17,6 +17,7 @@ using Teams.Data.TestRepos;
 using Teams.Data.QuestionRepos;
 using Teams.Data.Repositories;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Teams.Data.ProgramTestRepos;
 
 namespace Teams
 {
@@ -31,7 +32,7 @@ namespace Teams
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {           
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -46,7 +47,13 @@ namespace Teams
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IProgramTestRepository, ProgramTestRepository>();
             services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                    .AddJsonOptions(o => {
+                        o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                        o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    });
             services.AddRazorPages();
         }
 

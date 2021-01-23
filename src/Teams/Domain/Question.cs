@@ -10,6 +10,7 @@ namespace Teams.Domain
         public string Text { get; protected set; }
         private List<TestQuestion> _testQuestions;
         public IReadOnlyCollection<TestQuestion> TestQuestions => _testQuestions.ToList();
+        public ICollection<ProgramTest> ProgramTests { get; set; }
 
         public Question(string text)
         {

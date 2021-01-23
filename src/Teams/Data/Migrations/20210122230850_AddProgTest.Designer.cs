@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Teams.Data;
 
 namespace Teams.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210122230850_AddProgTest")]
+    partial class AddProgTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,7 +256,7 @@ namespace Teams.Data.Migrations
                     b.Property<string>("OutputTest")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("QuestionId")
+                    b.Property<Guid?>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -459,11 +461,9 @@ namespace Teams.Data.Migrations
 
             modelBuilder.Entity("Teams.Domain.ProgramTest", b =>
                 {
-                    b.HasOne("Teams.Domain.Question", "Question")
+                    b.HasOne("Teams.Domain.Question", null)
                         .WithMany("ProgramTests")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("Teams.Domain.SingleSelectionQuestionOption", b =>

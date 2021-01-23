@@ -18,6 +18,7 @@ namespace Teams.Data
         public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
+        public DbSet<ProgramTest> ProgramTests { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

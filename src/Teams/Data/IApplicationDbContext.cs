@@ -20,5 +20,6 @@ namespace Teams.Data
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
+        public DbSet<ProgramTest> ProgramTests { get; set; }
     }
 }
