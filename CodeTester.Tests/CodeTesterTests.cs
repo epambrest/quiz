@@ -15,7 +15,7 @@ namespace CodeTesterTests
     public class Tests
     {
         [Fact]
-        public async void ÑompileUsingStandartReferencesAsync_Sum3And2Code_5()
+        public async void CompileUsingStandartReferencesAsync_Sum3And2Code_5()
         {
             string code = @"
                 using System;
@@ -38,7 +38,7 @@ namespace CodeTesterTests
             var firstOperand = 3;
             var expectedAdditionResult = 5;
             var compiler = new Compiler();
-            using (var compileResult = await compiler.ÑompileUsingStandartReferencesAsync(code))
+            using (var compileResult = await compiler.CompileUsingStandartReferencesAsync(code))
             {
                 var type = Assembly.Load(File.ReadAllBytes(compileResult.Path)).GetType("Test.Test");
                 var compileInstace = Activator.CreateInstance(type);

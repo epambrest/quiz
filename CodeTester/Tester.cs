@@ -16,7 +16,7 @@ namespace CodeTester
         public async Task<Dictionary<Test, TestResult>> RunTestsAsync(IEnumerable<Test> tests, string code)
         {
             CheckIfTestsAreCorrect(tests);
-            using (compileResult = await Compiler.СompileUsingStandartReferencesAsync(code))
+            using (compileResult = await Compiler.CompileUsingStandartReferencesAsync(code))
             {
                 if (compileResult.Success)
                 {

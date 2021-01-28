@@ -31,7 +31,7 @@ namespace CodeTester
             this.codeToCompile = codeToCompile;
             return Task.Run(() => СompilationCsharp(references));
         }
-        public Task<CompileResult> СompileUsingStandartReferencesAsync(string codeToCompile)
+        public Task<CompileResult> CompileUsingStandartReferencesAsync(string codeToCompile)
         {
             this.codeToCompile = codeToCompile;
             return Task.Run(() => СompilationCsharp(allTrustedPlatformAssemblies));
