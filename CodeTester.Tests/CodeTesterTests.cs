@@ -122,7 +122,8 @@ namespace CodeTesterTests
 
 
         [Fact]
-        public async void RunTestsAsync_calculationOfFactorialInDifferentThreads_TheSameResults
+        public async void RunTestsAsync_calculationOfFactorialInDifferentThreads_TheSameResultAsInMultithreading
+
 ()
         {
             var code = @"using System;
@@ -154,8 +155,8 @@ namespace CodeTesterTests
             var codeTester = new Tester();
             var res = await codeTester.RunTestsAsync(tests, code);
             var actual = res.Any(t => t.Value.Output != Factorial(int.Parse(t.Key.IncomingData))
-            .ToString() + Environment.NewLine);
-            Assert.True(actual, "different execution result in one or multiple threads");
+            .ToString());
+            Assert.False(actual, "different execution result in one or multiple threads");
         }
 
 
