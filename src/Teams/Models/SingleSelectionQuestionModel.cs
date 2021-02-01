@@ -8,7 +8,7 @@ namespace Teams.Models
     public class SingleSelectionQuestionModel
     {
         public string Question { get; set; }
-        public List<string> Answers { get; set; }
+        public ICollection<string> Answers { get; set; }
         public int IndexOfTrueAnswer { get; set; }
         public Guid Id { get; set; }
     }

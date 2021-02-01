@@ -3,7 +3,7 @@
     ViewBag.Title = "Question editing";
 }
 
-<form asp-action="edit" asp-controller="SingleSelectionQuestionCreate" asp-route-id="@Model.Id" class="form-verification">
+<form asp-action="EditQuestionById" asp-controller="SingleSelectionQuestionCreate" asp-route-id="@Model.Id" class="form-verification">
     <div class="form-group">
         <label asp-for="Question" class="control-label">Question text</label>
         <textarea type="text" asp-for="Question" class="form-control data-verification"></textarea>

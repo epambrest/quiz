@@ -8,9 +8,9 @@ namespace Teams.Data.SingleSelectionQuestionRepos
 {
     public interface ISingleSelectionQuestionRepository
     {
-        SingleSelectionQuestion Get(Guid id);
+        Task<SingleSelectionQuestion> GetAsync(Guid id);
         void AddQuestion(SingleSelectionQuestion question);
-        void DeleteQuestionOptionsIn_DB(SingleSelectionQuestion question);
+        void DeleteQuestionOptionsInDB(SingleSelectionQuestion question);
         void UpdateQuestion(SingleSelectionQuestion question);
     }
 }

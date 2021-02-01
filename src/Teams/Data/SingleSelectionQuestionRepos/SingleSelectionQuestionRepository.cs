@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;    
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Teams.Domain;
 
 namespace Teams.Data.SingleSelectionQuestionRepos
@@ -13,10 +14,11 @@ namespace Teams.Data.SingleSelectionQuestionRepos
             _dbContext = dbContext;
         }
 
-        public SingleSelectionQuestion Get(Guid id)
+        public async Task<SingleSelectionQuestion> GetAsync(Guid id)
         {
-            return _dbContext.SingleSelectionQuestions.Include(q => q.Options)
-               .FirstOrDefault(i => i.Id == id);
+            return await _dbContext.SingleSelectionQuestions
+               .Include(q => q.Options)
+               .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public void AddQuestion(SingleSelectionQuestion question)
@@ -25,9 +27,15 @@ namespace Teams.Data.SingleSelectionQuestionRepos
             _dbContext.SaveChanges();
         }
 
-        public void DeleteQuestionOptionsIn_DB(SingleSelectionQuestion question)
+        public void DeleteQuestionOptionsInDB(SingleSelectionQuestion question)
         {
-            question.Options.ToList().ForEach(o => _dbContext.Entry(o).State = EntityState.Deleted);
+            var options = question.Options
+                .ToList();
+            foreach(var o in options)
+            {
+                _dbContext.Entry(o).State = EntityState.Deleted;
+            }
+             _dbContext.SaveChanges();
         }
 
         public void UpdateQuestion(SingleSelectionQuestion question)

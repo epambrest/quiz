@@ -14,35 +14,28 @@ namespace Teams.Domain
             _options = new List<SingleSelectionQuestionOption>();
         }
 
-        public SingleSelectionQuestion(string text, List<string> options, string numberOfRadioButton) : base(text)
+        public SingleSelectionQuestion(string text, IList<string> options, string radioButtonValue) : base(text)
         {
-            int radioNumber = Convert.ToInt32(numberOfRadioButton);
-            if(options != null && radioNumber <= options.Count())
-            {
-                _options = new List<SingleSelectionQuestionOption>(options.Count());
-                foreach (var o in options)
+            var newOptions = options
+                .Where(x => options.Contains(x))
+                .Select((x, i) =>
                 {
-                    if (o == options[radioNumber])
+                    if (!int.TryParse(radioButtonValue, out var optionInt))
                     {
-                        SingleSelectionQuestionOption option = new SingleSelectionQuestionOption(o, true);
-                        _options.Add(option);
+                        return null;
                     }
-                    else if (o != options[radioNumber])
-                    {
-                        SingleSelectionQuestionOption option = new SingleSelectionQuestionOption(o, false);
-                        _options.Add(option);
-                    }
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException("List of options");
-            }
+
+                    return new SingleSelectionQuestionOption(x, i == optionInt);
+                })
+                .Where(x => x != null)
+                .ToList();
+            _options = new List<SingleSelectionQuestionOption>();
+            _options.AddRange(newOptions);
         }
 
         public SingleSelectionQuestionOption GetRightAnswer()
         {
-            var answer = this.Options.FirstOrDefault(i => i.IsAnswer == true);
+            var answer = Options.FirstOrDefault(i => i.IsAnswer == true);
             return answer;
         }
 
