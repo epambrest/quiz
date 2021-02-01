@@ -9,7 +9,6 @@ using Teams.Models;
 
 namespace Teams.Controllers
 {
-    //[Controller]
     public class SingleSelectionQuestionCreateController : Controller
     {
         readonly private ISingleSelectionQuestionRepository _singleRepository;
