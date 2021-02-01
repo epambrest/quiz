@@ -12,8 +12,10 @@ using Teams.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Teams.Data.Repositories;
 using Teams.Data.SingleSelectionQuestionRepos;
+using Teams.Data.TestRepos;
+using Teams.Data.QuestionRepos;
+using Teams.Data.Repositories;
 using Teams.Data.OpenAnswerQuestionRepos;
 
 namespace Teams
@@ -37,9 +39,13 @@ namespace Teams
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
+            services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
