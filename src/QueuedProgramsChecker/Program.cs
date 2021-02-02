@@ -18,7 +18,7 @@ namespace QueuedProgramsChecker
             try
             {
                 var directories = Directory.GetDirectories(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent
-                    (Directory.GetCurrentDirectory()).FullName).FullName).FullName).FullName);
+                    (Directory.GetCurrentDirectory()).FullName).FullName).FullName).FullName); // bad
                 var directory = (from dir in directories
                                  where dir.Contains("Teams")
                                  where !dir.Contains(".")
