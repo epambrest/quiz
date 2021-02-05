@@ -17,6 +17,7 @@ namespace Teams.Data
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
         int SaveChanges();
+        Task<int> SaveChangesAsync();
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }

@@ -18,5 +18,8 @@ namespace Teams.Models
         public Guid QuestionId { get; private set; }
         public string Program { get; private set; }
         public int Status { get; private set; }
+        public void StartChecking() => Status = 1;
+        public void ApproveAnswer() => Status = 2;
+        public void RejectAnswer() => Status = -1;
     }
 }

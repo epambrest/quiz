@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Teams.Domain;
@@ -18,6 +19,7 @@ namespace Teams.Data
         public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
+        public Task<int> SaveChangesAsync() => base.SaveChangesAsync();
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

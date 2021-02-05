@@ -11,5 +11,11 @@ namespace Teams.Domain
         {
 
         }
+        public ProgramCodeQuestion(string text, IEnumerable<CodeTester.Test> tests) : base(text)
+        {
+            this.tests = new List<CodeTester.Test>(tests);
+        }
+        private List<CodeTester.Test> tests;
+        public IEnumerable<CodeTester.Test> GetTests => tests;
     }
 }
