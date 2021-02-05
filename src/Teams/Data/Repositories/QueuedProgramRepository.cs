@@ -19,5 +19,6 @@ namespace Teams.Data.Repositories
             var model = new QueuedProgram(id, text);
             _db.QueuedPrograms.Add(model);
         }
+        public void Update(QueuedProgram program) => _db.Update(program);
     }
 }
