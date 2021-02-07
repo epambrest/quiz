@@ -10,41 +10,41 @@ namespace Teams.Data.ProgramTestRepos
     public class ProgramTestRepository : IProgramTestRepository
     {
         private readonly ApplicationDbContext _context;
+
         public ProgramTestRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-        public string Delete(int programCodeTestId)
+        public async Task Delete(int programCodeTestId)
         {
-            var progTest = _context.ProgramTests.FirstOrDefault(x => x.Id == programCodeTestId);
+            var progTest = await _context.ProgramTests.FirstOrDefaultAsync(x => x.Id == programCodeTestId);
             if (progTest != null)
             {
                 _context.ProgramTests.Remove(progTest);
-                _context.SaveChanges();
+                 await _context.SaveChangesAsync();
             }
-            return "Deleted";
         }
 
-        public ProgramTest GetByIdTest(int id)
+        public async Task<ProgramTest> GetByIdTest(int id)
         {
-            return _context.ProgramTests.FirstOrDefault(x => x.Id == id);
+            return await _context.ProgramTests.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public List<ProgramTest> GetProgramCodeTests(Guid id)
+        public async Task<IList<ProgramTest>> GetProgramCodeTests(Guid id)
         {
-            return _context.ProgramTests.Where(x => x.QuestionId == id).ToList();
+            return await _context.ProgramTests.Where(x => x.QuestionId == id).ToListAsync();
         }
 
-        public void Save(ProgramTest programTest)
+        public async Task Save(ProgramTest programTest)
         {
-            _context.ProgramTests.Add(programTest);
-            _context.SaveChanges();
+            await _context.ProgramTests.AddAsync(programTest);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(ProgramTest programTest)
+        public async Task Update(ProgramTest programTest)
         {
             _context.ProgramTests.Update(programTest);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

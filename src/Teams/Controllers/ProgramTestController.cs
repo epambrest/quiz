@@ -13,37 +13,35 @@ namespace Teams.Controllers
 {
     public class ProgramTestController : Controller
     {
-        IProgramCodeQuestionRepository serviceQuestion;
-        IProgramTestRepository serviceTest;
-        ApplicationDbContext db;
+        private  IProgramCodeQuestionRepository _questionRepository;
+        private IProgramTestRepository _testRepository;
+        private ApplicationDbContext _context;
 
-        public ProgramTestController(IProgramCodeQuestionRepository _serviceQuestion, IProgramTestRepository _serviceTest, ApplicationDbContext _db)
+        public ProgramTestController(IProgramCodeQuestionRepository questionRepository, IProgramTestRepository testRepository, ApplicationDbContext context)
         {
-            db = _db;
-            serviceQuestion = _serviceQuestion;
-            serviceTest = _serviceTest;
-        }
+            _context = context;
+            _testRepository = testRepository;
+            _questionRepository = questionRepository;
+        }        
 
-        [HttpGet]
         public IActionResult CreateProgramQuestion() => View();
 
         [HttpPost]
-        public IActionResult CreateProgramQuestion(ProgramCodeQuestionViewModel programCodeQuestionView)
+        public async Task<IActionResult> CreateProgramQuestion(ProgramCodeQuestionViewModel programCodeQuestionView)
         {
-            ProgramCodeQuestion programCodeQuestion = new ProgramCodeQuestion(programCodeQuestionView.Text);
-            serviceQuestion.Add(programCodeQuestion);
-            db.SaveChanges();
+            var programCodeQuestion = new ProgramCodeQuestion(programCodeQuestionView.Text);
+            _questionRepository.Add(programCodeQuestion);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
         public IActionResult AddTests(Guid id)
         {
-            var question = serviceQuestion.PickById(id);   
+            var question = _questionRepository.PickById(id);
 
-            if (question == null) return NotFound();
+            if(question == null) return NotFound();
 
-            ProgramCodeQuestionViewModel programCodeQuestion = new ProgramCodeQuestionViewModel
+            var programCodeQuestion = new ProgramCodeQuestionViewModel
             {
                 Text = question.Text,
                 Id = question.Id
@@ -54,31 +52,34 @@ namespace Teams.Controllers
 
 
         [HttpPost]
-        public void SaveOrUpdate(ProgramTest progTest)
-        {
-            if (progTest.Id == 0) serviceTest.Save(progTest);
-            else serviceTest.Update(progTest);
+        public async Task SaveTest(ProgramTest progTest)
+        {            
+            await _testRepository.Save(progTest);
         }
 
-        public string Delete(int id)
+        [HttpDelete]       
+        public async Task<IActionResult> DeleteTest(int id)
         {
-            return serviceTest.Delete(id);
+            await _testRepository.Delete(id);
+            return Ok();
         }
 
         [HttpGet]
-        public IEnumerable<ProgramTest> GetAllElements(Guid idQuestion)
+        public async Task<IActionResult> GetAllElements(Guid idQuestion)
         {
-            return serviceTest.GetProgramCodeTests(idQuestion);
+            var result = await _testRepository.GetProgramCodeTests(idQuestion);
+            return Ok(result);
         }
 
-        [HttpPost]
-        public IActionResult SaveOrUpdteQuestion(ProgramCodeQuestionViewModel question)
-        {
-            ProgramCodeQuestion programQuestion = serviceQuestion.PickById(question.Id);
-            programQuestion.InitialQuestion(question.Text);
-            serviceQuestion.UpdateQuestion(programQuestion);
 
-            ProgramCodeQuestionViewModel programCodeQuestion = new ProgramCodeQuestionViewModel
+        [HttpPost]
+        public IActionResult UpdateQuestion(ProgramCodeQuestionViewModel question)
+        {
+            var programQuestion = _questionRepository.PickById(question.Id);
+            programQuestion.InitialQuestion(question.Text);
+            _questionRepository.UpdateQuestion(programQuestion);
+
+            var programCodeQuestion = new ProgramCodeQuestionViewModel
             {
                 Text = programQuestion.Text,
                 Id = programQuestion.Id
@@ -87,9 +88,24 @@ namespace Teams.Controllers
             return View("AddTests", programCodeQuestion);
         }
 
+        [HttpPost]
         public IActionResult CheckingTests(ProgramCodeQuestionViewModel question)
         {
             return View(question);
         }
+
+        public async Task<IActionResult> EditTest(int id)
+        {
+            var result = await _testRepository.GetByIdTest(id);
+            return PartialView(result);
+        }
+
+        [HttpPost]
+        public async  Task<IActionResult> EditTest(ProgramTest programTest)
+        {
+            await _testRepository.Update(programTest);
+            var quest = _questionRepository.PickById(programTest.QuestionId);
+            return RedirectToAction("AddTests", new { id = quest.Id });
+        } 
     }
 }

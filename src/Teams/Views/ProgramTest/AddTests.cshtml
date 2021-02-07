@@ -4,7 +4,6 @@
     textarea {
         resize: none;
     }
-   
 </style>
 
 
@@ -31,7 +30,7 @@
 
 
     <div class="col">
-        <form asp-action="SaveOrUpdteQuestion" asp-controller="ProgramTest">
+        <form asp-action="UpdateQuestion" asp-controller="ProgramTest" method="post">
 
             <div class="form-group">
                 <textarea placeholder="Question" type="text" asp-for="Text" class="form-control"></textarea>
@@ -48,8 +47,9 @@
 
 </div>
 
-
-
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 
 <table id="tblResult" class="table table table-striped table-bordered">
     <thead>
@@ -80,79 +80,100 @@
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
 
 @section scripts{
+     
 
+        <script type="text/javascript">
+
+            $(function () {
+                $.ajaxSetup({ cache: false });
+                $(".compItem").click(function (e) {
+                    e.preventDefault();
+                    $.get(this.href, function (data) {
+                        $('#dialogContent').html(data);
+                        $('#modDialog').modal('show');
+                    });
+                });
+            })
+        </script>
+    
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
 
-    $(document).ready(function () {
-        $('#tblResult').DataTable({
-        "ajax": {
-        "url": '/ProgramTest/GetAllElements',
-        "data": { idQuestion: $("#idQuestion").val() },
-        "dataSrc": ''
-        },
-        columns: [
-            { data: 'Id' },
-            { data: 'InputTest' },
-            { data: 'OutputTest' },
-            {
-                    data: "id", render: function (data, type, row, meta) {
-                        return "<button class= 'btn btn-primary' style='margin-right:5px;' onClick='Edit(" + JSON.stringify(row) + ")'>Edit</button>" +
-                        "<button class= 'btn btn-danger' onClick='Delete(" + JSON.stringify(row) + ")'>Delete</button>";
+        $(document).ready(function () {
+            $('#tblResult').DataTable({
+                "ajax": {
+                    "url": '/ProgramTest/GetAllElements',
+                    "data": { idQuestion: $("#idQuestion").val() },
+                    "dataSrc": ''
+                },
+                columns: [
+                    { data: 'Id' },
+                    { data: 'InputTest' },
+                    { data: 'OutputTest' },
+                    {
+                        data: "id", render: function (data, type, row, meta) {
+                            return "<button class= 'btn btn-primary' style='margin-right:5px;' onClick='Edit(" + JSON.stringify(row) + ")'>Edit</button>" +
+                                "<button class= 'btn btn-danger' onClick='Delete(" + JSON.stringify(row) + ")'>Delete</button>";
 
-                    }
-            },
+                        }
+                    },
 
-        ]
+                ]
+            });
+
+
+            $("#btnSave").click(function () {
+
+                var progtest = {
+                    Id: $.trim($("#TestId").val()) == "" ? 0 : $("#TestId").val(),
+                    InputTest: $("#InputText").val(),
+                    OutputTest: $("#OutputText").val(),
+                    QuestionId: $("#idQuestion").val()
+                }
+
+                $.post("/ProgramTest/SaveTest", { progtest: progtest })
+                    .done(function (data) {
+                         Reset();
+                         ReloadGrid();
+                    });
+            });
         });
 
-
-        $("#btnSave").click(function () {
-
-            var progtest = {
-                Id: $.trim($("#TestId").val()) == "" ? 0 : $("#TestId").val(),
-                InputTest: $("#InputText").val(),
-                OutputTest: $("#OutputText").val(),
-                QuestionId: $("#idQuestion").val()
-            }
-
-            $.post("/ProgramTest/SaveOrUpdate", { progtest: progtest })
-                .done(function (data) {
+        function Delete(oStudent) {
+            $.ajax({
+                url: "/ProgramTest/DeleteTest/" + oStudent.Id,
+                type: 'DELETE',
+                success: function (result) {
+                    alert("Deleted");
                     Reset();
                     ReloadGrid();
-                });
+                }
+            });
+        }
 
-        });
-    });
+        function Edit(ProgramCodeitem) {
 
-    function Delete(oStudent) {
             $.ajax({
-            url: "/ProgramTest/Delete/" + oStudent.Id,
-            type: 'DELETE',
-            success: function (result) {
-                alert("Deleted");
-                Reset();
-                ReloadGrid();
-            }
-        });
-    }
+                url: "/ProgramTest/EditTest/" + ProgramCodeitem.Id,
+                success:
+                    function (result) {
+                        $('#dialogContent').html(result);
+                        $('#modDialog').modal('show');
+                        ReloadGrid();
+                    }                                   
+            });          
+        }
 
-    function Edit(ProgramCodeitem) {
-        $("#TestId").val(ProgramCodeitem.Id);
-        $("#InputText").val(ProgramCodeitem.InputTest);
-        $("#OutputText").val(ProgramCodeitem.OutputTest);
-    }
+        function Reset() {
+            $("#TestId").val(0);
+            $("#InputText").val("");
+            $("#OutputText").val("");
+        }
 
-    function Reset() {
-        $("#TestId").val(0);
-        $("#InputText").val("");
-        $("#OutputText").val("");
-    }
-
-    function ReloadGrid() {
-        $("#tblResult").DataTable().clear();
-        $("#tblResult").DataTable().ajax.reload();
-     }
+        function ReloadGrid() {
+            $("#tblResult").DataTable().clear();
+            $("#tblResult").DataTable().ajax.reload();
+        }
     </script>
 }

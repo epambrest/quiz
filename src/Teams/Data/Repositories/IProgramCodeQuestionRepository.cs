@@ -10,6 +10,6 @@ namespace Teams.Data.Repositories
     {
         ProgramCodeQuestion PickById(Guid id);
         void Add(ProgramCodeQuestion question);
-        void UpdateQuestion(ProgramCodeQuestion question);
+        Task UpdateQuestion(ProgramCodeQuestion question);
     }
 }

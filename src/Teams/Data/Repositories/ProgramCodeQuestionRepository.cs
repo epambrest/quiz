@@ -25,10 +25,10 @@ namespace Teams.Data.Repositories
             _db.ProgramCodeQuestions.Add(question);
         }
 
-        public void UpdateQuestion(ProgramCodeQuestion question)
+        public async Task UpdateQuestion(ProgramCodeQuestion question)
         {
             _db.Questions.Update(question);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }

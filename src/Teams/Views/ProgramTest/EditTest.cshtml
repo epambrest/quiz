@@ -1,0 +1,32 @@
+﻿@model Teams.Domain.ProgramTest
+
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <form asp-action="EditTest" asp-controller="ProgramTest">
+        <div class="modal-body">
+            <div class="row">
+
+                <div class="col">
+                    
+                    <input type="hidden" asp-for="QuestionId" />
+
+                    <label asp-for="InputTest" class="control-label">InputTest</label>
+                    <textarea type="text" asp-for="InputTest" class="form-control">@Model.InputTest</textarea>
+                </div>
+
+                <div class="col">
+                    <label asp-for="OutputTest" class="control-label">OutputTest</label>
+                    <textarea type="text" asp-for="OutputTest" class="form-control">@Model.OutputTest</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Save" class="btn btn-success" />
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </form>
+</div>
