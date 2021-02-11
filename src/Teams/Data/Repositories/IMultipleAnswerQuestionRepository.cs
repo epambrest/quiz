@@ -12,7 +12,7 @@ namespace Teams.Data.Repositories
 
         void AddQuestion(MultipleAnswerQuestion question);
         void UpdateQuestion(MultipleAnswerQuestion question);
-        void DeleteQuestionOptionsIn_DB(MultipleAnswerQuestion question);
+        void DeleteQuestionOptionsInDB(MultipleAnswerQuestion question);
 
     }
 
