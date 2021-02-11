@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Teams.Domain;
+using Teams.Models;
 
 namespace Teams.Data
 {
@@ -19,5 +20,7 @@ namespace Teams.Data
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
         int SaveChanges();
         EntityEntry Entry(Object entity);
+        public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
+        public DbSet<QueuedProgram> QueuedPrograms { get; set; }
     }
 }
