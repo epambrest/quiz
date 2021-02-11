@@ -8,8 +8,9 @@ namespace Teams.Models
     public class MultipleQuestionAddModel  
     {
         public string QuestionText { get; set; }
-        public string[] TextArray { get; set; }
-        public bool[] CheckboxValueArray { get; set; }
+        public string[] AnswersText { get; set; }
+        public bool[] IsRightAnswer { get; set; }
+
 
     }
 }

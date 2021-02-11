@@ -14,19 +14,20 @@ namespace Teams.Controllers
 {
     public class MultipleAnswerQuestionController : Controller
     {
-        private IApplicationDbContext _db;
+        private readonly IApplicationDbContext _dB;
+        private readonly IMultipleAnswerQuestionRepository _questionRepository;
+
         public MultipleAnswerQuestionController(IMultipleAnswerQuestionRepository questionRepository, IApplicationDbContext db)
         {
-            this.questionRepository = questionRepository;
-            _db = db;
+            this._questionRepository = questionRepository;
+            _dB = db;
         }
-        private readonly IMultipleAnswerQuestionRepository questionRepository;
         [HttpGet]
         public IActionResult Index(Guid id)
         {
             var question = new MultipleAnswerQuestionViewModel()
             {
-                SourceQuestion = questionRepository.PickById(id)
+                SourceQuestion = _questionRepository.PickById(id)
             };
             return View("MultipleAnswerQuestionForm", question);
         }
@@ -34,7 +35,7 @@ namespace Teams.Controllers
         {
             var question = new MultipleAnswerQuestionViewModel()
             {
-                SourceQuestion = questionRepository.PickById(new Guid(id)),
+                SourceQuestion = _questionRepository.PickById(new Guid(id)),
                 ChosenOptions = answers
             };
             return View(question);
@@ -44,40 +45,45 @@ namespace Teams.Controllers
         {
             var question = new MultipleAnswerQuestionViewModel()
             {
-                SourceQuestion = questionRepository.PickById(id),
+                SourceQuestion = _questionRepository.PickById(id),
             };
             return View(question);
         }
-
-        public IActionResult AddMultipleAnswerQuestion()
+        [HttpGet]
+        public IActionResult ShowMultipleAnswerQuestionForm()
         {
-            return View();
+            return View("AddMultipleAnswerQuestion");
         }
 
         [HttpPost]
-        public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel fromAjax)
+        public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel multipleAnswersQuestionDTO)
         {
-            List<MultipleAnswerQuestionOption> allAnswers = new List<MultipleAnswerQuestionOption>();
-            allAnswers = fromAjax.TextArray.Select((value, index) => new MultipleAnswerQuestionOption(value, fromAjax.CheckboxValueArray[index])).ToList();
+            var allAnswers = new List<MultipleAnswerQuestionOption>();
+            allAnswers = multipleAnswersQuestionDTO
+                .AnswersText
+                .Select((value, index) => new MultipleAnswerQuestionOption(value, multipleAnswersQuestionDTO.IsRightAnswer[index]))
+                .ToList();
 
-            questionRepository.AddQuestion(new MultipleAnswerQuestion(fromAjax.QuestionText, allAnswers));
-            _db.SaveChanges();
+            _questionRepository.AddQuestion(new MultipleAnswerQuestion(multipleAnswersQuestionDTO.QuestionText, allAnswers));
+            _dB.SaveChanges();
 
             return RedirectToAction("Index", "Home");
 
         }
-        [HttpPost]
-        public IActionResult EditMultipleAnswerQuestion([FromBody] MultipleQuestionEditModel fromAjax)
+        [HttpPut]
+        public IActionResult EditMultipleAnswerQuestion([FromBody] MultipleQuestionEditModel multipleAnswersQuestionDTO)
         {
-            List<MultipleAnswerQuestionOption> allAnswers = new List<MultipleAnswerQuestionOption>();
-            allAnswers = fromAjax.TextArray.Select((value, index) => new MultipleAnswerQuestionOption(value, fromAjax.CheckboxValueArray[index])).ToList();
+            var allAnswers = new List<MultipleAnswerQuestionOption>();
+            allAnswers = multipleAnswersQuestionDTO
+                .AnswersText
+                .Select((value, index) => new MultipleAnswerQuestionOption(value, multipleAnswersQuestionDTO.IsRightAnswer[index]))
+                .ToList();
 
-            MultipleAnswerQuestion question = questionRepository.PickById(fromAjax.id);
+            MultipleAnswerQuestion question = _questionRepository.PickById(multipleAnswersQuestionDTO.Id);
 
-            questionRepository.DeleteQuestionOptionsIn_DB(question);
-            question.EditQuestion(fromAjax.QuestionText, allAnswers);
-            questionRepository.UpdateQuestion(question);
-            _db.SaveChanges();
+            _questionRepository.DeleteQuestionOptionsInDB(question);
+            question.EditQuestion(multipleAnswersQuestionDTO.QuestionText, allAnswers);
+            _questionRepository.UpdateQuestion(question);
 
             return RedirectToAction("Index", "Home");
         }
