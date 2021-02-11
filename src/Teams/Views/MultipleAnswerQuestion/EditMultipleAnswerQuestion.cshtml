@@ -115,18 +115,18 @@
         let questionText = someText[0].value;
         let answersTextList = document.getElementsByClassName('answersText');
         let answersCheckboxList = document.getElementsByClassName('itTrue');
-        var answersText = new Array();
-        var isRightAnswer = new Array();
+        var textArray = new Array();
+        var checkboxValueArray = new Array();
         let isChecked = 0;
 
         for (let i = 0; i < answersTextList.length; i++) {
-            answersText[i] = answersTextList[i].value;
+            textArray[i] = answersTextList[i].value;
             if (answersCheckboxList[i].checked) {
-                isRightAnswer[i] = true;
+                checkboxValueArray[i] = true;
                 isChecked = 1;
             }
             else {
-                isRightAnswer[i] = false;
+                checkboxValueArray[i] = false;
             }
         }
         var id = @Json.Serialize(Model.SourceQuestion.Id);
@@ -138,7 +138,7 @@
         else if (answersCount < MinimalAnswersNumber) {
             alert("Вопрос должен иметь как минимум 2 варианта ответа");
         }
-        else if (answersText.includes('')) {
+        else if (textArray.includes('')) {
             alert("Варианты ответа не должны быть пустыми");
         }
         else if (isChecked == 0) {
@@ -147,15 +147,15 @@
         else {
 
              var model = {
-                 QuestionText: questionText,
-                 AnswersText: answersText,
-                 IsRightAnswer: isRightAnswer,
-                 Id: id
+                QuestionText: questionText,
+                TextArray: textArray,
+                CheckboxValueArray: checkboxValueArray,
+                id: id
             }
 
 
             $.ajax({
-            type: "PUT",
+            type: "POST",
             url: "@Url.Action("EditMultipleAnswerQuestion", "MultipleAnswerQuestion")",
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
