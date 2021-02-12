@@ -24,7 +24,7 @@ namespace Teams.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
+        public IActionResult Create(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
         {
             if (modelForView == null)
             return BadRequest("Model for view is empty.");
@@ -61,7 +61,7 @@ namespace Teams.Controllers
             return View(modelForView);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("[Controller]/Edit")]
         public async Task<IActionResult> EditQuestionById(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
         {
@@ -80,9 +80,9 @@ namespace Teams.Controllers
                 var option = new SingleSelectionQuestionOption(textOfAnswers[i], isAnswer);
                 newOptions.Add(option);
             }
-            await Task.Run(() =>_singleRepository.DeleteQuestionOptionsInDB(question));
+            _singleRepository.DeleteQuestionOptionsInDB(question);
             question.Update(modelForView.Question, newOptions);
-            await Task.Run(() => _singleRepository.UpdateQuestion(question));
+            _singleRepository.UpdateQuestion(question);
             
             return RedirectToAction("Index", "Home");
         }
