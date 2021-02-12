@@ -1,80 +1,47 @@
-
-using CodeTester;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using Xunit;
-
-namespace CodeTesterTests
+﻿namespace CodeTester.Tests
 {
-    public class Tests
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
+    public class QaCodeTester
     {
         [Fact]
-        public async void CompileUsingStandartReferencesAsync_Sum3And2Code_5()
+        public async Task RunTestsAsync_InsufficientTimeFrameForImplementation_RunningOutOfTime()
         {
-            string code = @"
-                using System;
-
-                namespace Test
-                {
-                    public class Test
-                    {
-                        public static void Main(string[] args)
-                        {                           
-                        }
-                   
-                        public int Calc(int firstOperand )
-                        {
-                            return firstOperand+2;
-                        }
-                    }
-                }";
-
-            var firstOperand = 3;
-            var expectedAdditionResult = 5;
-            var compiler = new Compiler();
-            using (var compileResult = await compiler.CompileUsingStandartReferencesAsync(code))
-            {
-                var type = Assembly.Load(File.ReadAllBytes(compileResult.Path)).GetType("Test.Test");
-                var compileInstace = Activator.CreateInstance(type);
-                var actual = type.GetMethod("Calc").Invoke(compileInstace, new[] { (object)firstOperand });
-                Assert.Equal(expectedAdditionResult, actual);
-            }
-        }
-
-        [Fact]
-        public async void RunTestsAsync_InsufficientTimeFrameForImplementation_RunningOutOfTime
-()
-        {
+            // Arrange
             var tester = new Tester();
-            var code = @"using System;
+            var outputString = "This text should not appear";
+            var code = $@"using System;
                 using System.Threading;
-
                 namespace Testedcode
-                {
+                {{
                     class Program
-                    {
+                    {{
                         static void Main(string[] args)
-                        {
+                        {{
                             Thread.Sleep(50);
-                        }
-                    }
-                }";
+                            Console.WriteLine(""{outputString}"");
+                        }}
+                    }}
+                }}";
             var test = new Test("", "", new TimeSpan(0, 0, 0, 0, 25));
+           
+            // Act
             var res = await tester.RunTestsAsync(new List<Test> { test }, code);
-            Assert.True(res.Values.First().ExceededTheMaximumTime, "the code must be timed out ");
+            
+            // Assert
+            Assert.False(res.Values.First().Output == outputString,"the code exited successfully when the timer was interrupted");
+            Assert.True(res.Values.First().ExceededTheMaximumTime, "must be interrupted by timer");
         }
-        [Fact]
-        public async void RunTestsAsync_SomeImputStrings_TheSameStringsInTheOutput()
-        {
-            string code = @"
-                using System;
 
+        [Fact]
+        public async Task RunTestsAsync_SomeImputStrings_TheSameStringsInTheOutput()
+        {
+            // Arrange
+            string code = @" using System;
                 namespace Test
                 {
                     public class Writer
@@ -86,20 +53,22 @@ namespace CodeTesterTests
                         }
                     }
                 }";
+            var tester = new Tester();
             var tests = new List<Test> { new Test("hello", "hello", new TimeSpan(0, 0, 0, 10, 0)),
                 new Test("hellU", "hello", new TimeSpan(0, 0, 0, 10, 0)) };
-
-            var tester = new Tester();
+            
+            // Act
             var actual = await tester.RunTestsAsync(tests, code);
+            
+            // Assert
             Assert.Equal(new List<bool> { true, false }, actual.Select(t => t.Value.Success));
         }
 
         [Fact]
-        public async void RunTestsAsync_CodeWithException_TheSameExceptionInStdErr()
+        public async Task RunTestsAsync_CodeWithException_TheSameExceptionInStdErr()
         {
-            string Errorcode = @"
-                                   using System;
-
+            // Arrange
+            string Errorcode = @"using System;
                     namespace testedcode
                     {
                         class Program
@@ -109,26 +78,24 @@ namespace CodeTesterTests
                                 throw new Exception(""Test exception"");
                             }
                         }
-                    }
-                    ";
+                    }";
             var tests = new List<Test> { new Test("", "", new TimeSpan(0, 0, 0, 10, 0)) };
             var tester = new Tester();
+            
+            // Act
             var res = await tester.RunTestsAsync(tests, Errorcode);
             var actual = res.First().Value;
+            
+            // Assert
             Assert.False(actual.Success);
             Assert.Contains("Test exception", actual.RuntimeErrors);
         }
 
-
-
         [Fact]
-        public async void RunTestsAsync_calculationOfFactorialInDifferentThreads_TheSameResultAsInMultithreading
-
-()
+        public async Task RunTestsAsync_calculationOfFactorialInDifferentThreads_TheSameResultAsInMultithreading()
         {
+            // Arrange
             var code = @"using System;
-                        using System.Threading;
-
                         namespace testedcode
                         {
                             class Program
@@ -153,16 +120,19 @@ namespace CodeTesterTests
                 tests.Add(new Test(p.ToString(), Factorial(p).ToString(), new TimeSpan(0, 0, 10)));
             }
             var codeTester = new Tester();
+            
+            // Act
             var res = await codeTester.RunTestsAsync(tests, code);
             var actual = res.Any(t => t.Value.Output != Factorial(int.Parse(t.Key.IncomingData))
             .ToString());
+            
+            // Assert
             Assert.False(actual, "different execution result in one or multiple threads");
         }
 
-
-        private int Factorial(int x)
+        private long Factorial(int x)
         {
-            int result = 1;
+            long result = 1;
 
             for (int i = 1; i <= x; i++)
             {
@@ -170,7 +140,6 @@ namespace CodeTesterTests
             }
             return result;
         }
-
-
     }
 }
+

@@ -66,11 +66,11 @@ namespace CodeTester
                     process.StandardInput.Write(GetIncomingString(test));
                     process.WaitForExit();
                     hasExited = true;
-                    var outputError = process.StandardError.ReadToEnd();
-                    var output = process.StandardOutput.ReadToEnd();
+                    var outputError = process.StandardError.ReadToEnd().Trim();
+                    var output = process.StandardOutput.ReadToEnd().Trim();
                     bool success = CheckIfTheOutputIsCorrect(test, output)
                         && string.IsNullOrEmpty(outputError) && !exceededTheMaximumTime;
-                    return new TestResult(success, test.ExpectedOutgoingData,
+                    return new TestResult(success, output,
                     stopwatch.Elapsed, exceededTheMaximumTime, compileResult.Diagnostics, outputError);
                 }
                 else throw new InvalidOperationException("process startup error");
@@ -86,7 +86,7 @@ namespace CodeTester
         }
         private bool CheckIfTheOutputIsCorrect(Test test, string output)
         {
-            return output.Trim() == test.ExpectedOutgoingData.Trim();
+            return output == test.ExpectedOutgoingData;
         }
         private Process GetInitedProcess()
         {
