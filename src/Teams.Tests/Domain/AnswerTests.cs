@@ -20,18 +20,12 @@ namespace Teams.Tests.Domain
             _defaultAnswerAsOptions = new Answer(Guid.NewGuid(), GenerateFakeAnswersIds(1));
         }
 
-        #region Generate_Answer_Ids
-
         private List<Guid> GenerateFakeAnswersIds(int count)
         {
             var answers = new List<Guid> {_predefinedId};
             for (var i = 1; i < count; i++) answers.Add(Guid.NewGuid());
             return answers;
         }
-
-        #endregion
-
-        #region Verify_Immutable_Answer
 
         [Test]
         public void VerifyAnswerEntity_AnswerTextsAreImmutable()
@@ -57,7 +51,5 @@ namespace Teams.Tests.Domain
             //Assert
             Assert.AreNotEqual(_defaultAnswerAsOptions.AnswerOptions.Count, newAnswerOption.Count);
         }
-
-        #endregion
     }
 }

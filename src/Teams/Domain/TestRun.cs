@@ -5,9 +5,10 @@ using System.Linq;
 
 namespace Teams.Domain
 {
-    public class TestRun : Entity
+    public class TestRun
     {
         public string TestedUserId { get; private set; }
+        public int Id { get; private set; }
         public Guid TestId { get; private set; }
         public ReadOnlyCollection<Answer> Answers
         {
@@ -22,13 +23,15 @@ namespace Teams.Domain
             TestedUserId = testedUserId;
             TestId = testId;
             InProgress = true;
+            Id = new Random().Next(1, 1000);
         }
         
-        public TestRun(string testedUserId, Guid testId, Guid id) : base(id)
+        public TestRun(string testedUserId, Guid testId, int id)
         {
             TestedUserId = testedUserId;
             TestId = testId;
             InProgress = true;
+            Id = id;
         }
 
         private TestRun()

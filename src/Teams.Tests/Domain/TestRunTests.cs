@@ -18,18 +18,12 @@ namespace Teams.Tests.Domain
             _user = "johnie";
         }
 
-        #region Generate_Answers
-
         private List<Guid> GenerateMockAnswersIds(int count)
         {
             var answersIds = new List<Guid> {_predefinedId};
             for (var i = 1; i < count; i++) answersIds.Add(Guid.NewGuid());
             return answersIds;
         }
-
-        #endregion
-
-        #region AddsAnswer
 
         [Test]
         public void TestRun_Add_AnswerOptions_ReturnsAsExpected()
@@ -59,10 +53,6 @@ namespace Teams.Tests.Domain
             Assert.AreEqual(testRun.Answers.Count, 2);
             Assert.IsNull(testRun.Answers.ElementAt(0).AnswerText);
         }
-
-        #endregion
-
-        #region ReturnsAnswer
 
         [Test]
         public void TestRun_Returns_Actual_Answer_As_Option_Text_As_Null()
@@ -98,10 +88,6 @@ namespace Teams.Tests.Domain
             Assert.IsEmpty(actualAnswerOptions);
         }
 
-        #endregion
-
-        #region TestRun_Answers_Is_Immutable
-
         [Test]
         public void TestRun_Answers_Is_Immutable()
         {
@@ -117,7 +103,5 @@ namespace Teams.Tests.Domain
             Assert.AreNotEqual(answers, testRun.Answers);
             Assert.AreNotEqual(answers.Count, testRun.Answers.Count);
         }
-
-        #endregion
     }
 }

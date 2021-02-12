@@ -36,8 +36,6 @@ namespace Teams.Tests.Repository
             _context.SaveChanges();
         }
 
-        #region GetAllAsync
-
         [Test]
         public async Task GetAllAsync_TestRunRepository_ReturnsListCount10()
         {
@@ -47,10 +45,7 @@ namespace Teams.Tests.Repository
             //Assert
             Assert.AreEqual(_context.TestRuns.Count(), testRuns.Count);
         }
-        #endregion
-
-        #region GetByIdAsync
-
+        
         [Test]
         public async Task GetByIdAsync_TestRunRepository_ReturnsTestRunId()
         {
@@ -64,7 +59,6 @@ namespace Teams.Tests.Repository
             Assert.AreEqual(currentTestRun.Id, id);
         }
         
-        [Test]
         public async Task GetByIdAsync_TestRunRepository_Returns_Legit_Answer_Entity()
         {
             //Arrange
@@ -80,20 +74,15 @@ namespace Teams.Tests.Repository
             Assert.IsEmpty(answer.AnswerOptions);
         }
 
-        [Test]
         public async Task GetByIdAsync_TestRunRepository_ReturnsNull()
         {
             //Arrange
-            var id = new Guid("2d2c4834-3c9e-4d4d-ad2a-4c940940d78f");
+            var id = 100;
             //Act
             var currentTestRun = await _testRunRepository.GetByIdAsync(id);
             //Assert
             Assert.IsNull(currentTestRun);
         }
-
-        #endregion
-
-        #region GetAllByUserAsync
 
         [Test]
         public async Task GetAllByUserAsync_TestRunRepository_ReturnsListCount16()
@@ -116,8 +105,6 @@ namespace Teams.Tests.Repository
             //Assert
             Assert.AreEqual(testRuns.Count, 0);
         }
-
-        #endregion
 
         private async Task SaveTestRunsToContext(TestRun testRun)
         {

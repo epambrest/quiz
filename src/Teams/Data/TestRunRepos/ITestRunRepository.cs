@@ -10,7 +10,9 @@ namespace Teams.Data.TestRunRepos
     public interface ITestRunRepository
     {
         public Task<List<TestRun>> GetAllAsync();
-        public Task<TestRun> GetByIdAsync(Guid id);
+        public Task<TestRun> GetByIdAsync(int id);
+        public Task<bool> AddAsync(TestRun testRun);
+        public bool SaveChanges();
         public Task<List<TestRun>> GetAllByUserAsync(string id);
     }
 }

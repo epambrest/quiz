@@ -14,46 +14,37 @@ namespace Teams.Controllers
     public class TestRunController : Controller
     {
         private readonly ITestRunRepository _testRunRepository;
-        private readonly ApplicationDbContext _context;
-        // private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationUser _applicationUser;
 
         public TestRunController(ITestRunRepository testRunRepository,
             ApplicationDbContext context)
         {
             _testRunRepository = testRunRepository;
-            _context = context;
-            // _userManager = userManager;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            // _applicationUser = await _userManager.GetUserAsync(User);
             return View(await _testRunRepository.GetAllAsync());
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] string userId, Guid testId)
+        public async Task<IActionResult> Create([FromBody] string userId, Guid testId)
         {
             var newTestRun = new TestRun(userId, testId);
-            _context.TestRuns.Add(newTestRun);
-            _context.SaveChanges();
+            await _testRunRepository.AddAsync(newTestRun);
+            _testRunRepository.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Run(Guid testRunId)
+        public async Task<IActionResult> Run(int testRunId)
         {
             var testRun = await _testRunRepository.GetByIdAsync(testRunId);
             if (testRun == null) return NotFound();
-            var testQuestionIds =
-                _context.TestQuestions.Where(q => q.TestId == testRun.TestId).Select(x => x.Id).ToList();
-            var answers =
-                AnswerDtoConvert(
-                    _context.Answers.Where(x => testQuestionIds.Contains(x.TestQuestionId)).ToList());
-            var testRunDto = new TestRunDto(answers,
-                _context.TestQuestions.Where(x => testQuestionIds.Contains(x.Id)).ToList());
+            var answers = testRun.Answers.Select(answer => new AnswerDto(answer.AnswerOptions.ToList(), answer.AnswerText,
+                answer.TestQuestionId)).ToList();
+            var testRunDto = new TestRunDto(answers, testRun.TestId);
             return View(testRunDto);
         }
 
@@ -74,7 +65,7 @@ namespace Teams.Controllers
                 }
             }
             updatedTestRun.Finish();
-            await SaveTestRun(updatedTestRun);
+            await _testRunRepository.AddAsync(updatedTestRun);
             return View(testRunDto);
         }
 
@@ -82,29 +73,9 @@ namespace Teams.Controllers
         /// This method is temporary, to be deleted after testing. It reads the context, gets the TestRun by id and returns back to caller.
         /// </summary>
         /// <returns></returns>
-        public async Task<TestRun> PostRunTestMethod(Guid testRunId)
+        public async Task<TestRun> PostRunTestMethod(int testRunId)
         {
             return await _testRunRepository.GetByIdAsync(testRunId);
         }
-
-        private async Task<bool> SaveTestRun(TestRun testRun)
-        {
-            try
-            {
-                _context.TestRuns.Update(testRun);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
-        public List<AnswerDto> AnswerDtoConvert(List<Answer> answers)
-        {
-            return answers.Select(answer => new AnswerDto(answer.AnswerOptions.ToList(), answer.AnswerText, 
-                answer.TestQuestionId)).ToList();
-        }
-    }
+    }   
 }

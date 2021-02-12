@@ -19,8 +19,27 @@ namespace Teams.Data.TestRunRepos
 
         public async Task<List<TestRun>> GetAllAsync() => await _dbContext.TestRuns.ToListAsync();
 
-        public async Task<TestRun> GetByIdAsync(Guid id) =>  await _dbContext.TestRuns.FirstOrDefaultAsync(x=>x.Id == id);
-        
+        public async Task<TestRun> GetByIdAsync(int id) =>  await _dbContext.TestRuns.FirstOrDefaultAsync(x=>x.Id == id);
+
+        public async Task<bool> AddAsync(TestRun testRun)
+        {
+            await _dbContext.TestRuns.AddAsync(testRun);
+            return SaveChanges();
+        }
+
+        public bool SaveChanges()
+        {
+            try
+            {
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public async Task<List<TestRun>> GetAllByUserAsync(string id)
         {
             var testRuns = await GetAllAsync();
