@@ -22,12 +22,12 @@
                     {{
                         static void Main(string[] args)
                         {{
-                            Thread.Sleep(50);
+                            Thread.Sleep(3000);
                             Console.WriteLine(""{outputString}"");
                         }}
                     }}
                 }}";
-            var test = new Test("", "", new TimeSpan(0, 0, 0, 0, 25));
+            var test = new Test("", "", new TimeSpan(0, 0, 0, 1, 0));
            
             // Act
             var res = await tester.RunTestsAsync(new List<Test> { test }, code);
