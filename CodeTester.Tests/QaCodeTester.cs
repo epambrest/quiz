@@ -22,12 +22,12 @@ namespace CodeTester.Tests
                     {{
                         static void Main(string[] args)
                         {{
-                            Thread.Sleep(200);
+                            Thread.Sleep(1000);
                             Console.WriteLine(""{outputString}"");
                         }}
                     }}
                 }}";
-            var test = new Test("", "", new TimeSpan(0, 0, 0, 0, 100));
+            var test = new Test("", "", new TimeSpan(0, 0, 0, 0, 500));
            
             // Act
             var res = await tester.RunTestsAsync(new List<Test> { test }, code);

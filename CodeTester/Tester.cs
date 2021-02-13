@@ -53,7 +53,7 @@ namespace CodeTester
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
                     var token = GetInitedToken(test);
-                    token.Register(() => { if (!hasExited) { process.Kill(); exceededTheMaximumTime = true; } });
+                    token.Register(() => {if(!hasExited) {process.Kill(); exceededTheMaximumTime = true;} });
                     process.StandardInput.Write(GetIncomingString(test));
                     process.WaitForExit();
                     hasExited = true;
