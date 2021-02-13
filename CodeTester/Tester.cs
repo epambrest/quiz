@@ -44,16 +44,6 @@ namespace CodeTester
         }
         private TestResult StartWithTimeLimit(Test test)
         {
-            var maximumExecutionTime = DefaultMaximumExecutionTime;
-            if (test.MaximumExecutionTime < maximumExecutionTime)
-            {
-                maximumExecutionTime = test.MaximumExecutionTime;
-            }
-            var token = new CancellationTokenSource(maximumExecutionTime).Token;
-            return StartWithToken(token, test);
-        }
-        private TestResult StartWithToken(CancellationToken token, Test test)
-        {
             using (var process = GetInitedProcess())
             {
                 if (process.Start())
@@ -62,6 +52,7 @@ namespace CodeTester
                     bool hasExited = false;
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
+                    var token = GetInitedToken(test);
                     token.Register(() => { if (!hasExited) { process.Kill(); exceededTheMaximumTime = true; } });
                     process.StandardInput.Write(GetIncomingString(test));
                     process.WaitForExit();
@@ -75,6 +66,15 @@ namespace CodeTester
                 }
                 else throw new InvalidOperationException("process startup error");
             }
+        }
+        private CancellationToken GetInitedToken(Test test)
+        {
+            var maximumExecutionTime = DefaultMaximumExecutionTime;
+            if (test.MaximumExecutionTime < maximumExecutionTime)
+            {
+                maximumExecutionTime = test.MaximumExecutionTime;
+            }
+            return new CancellationTokenSource(maximumExecutionTime).Token;
         }
         private string GetIncomingString(Test test)
         {
@@ -100,5 +100,4 @@ namespace CodeTester
             return process;
         }
     }
-
 }

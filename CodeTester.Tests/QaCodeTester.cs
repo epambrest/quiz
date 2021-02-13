@@ -1,11 +1,11 @@
-﻿namespace CodeTester.Tests
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
+namespace CodeTester.Tests
+{   
     public class QaCodeTester
     {
         [Fact]
@@ -22,12 +22,12 @@
                     {{
                         static void Main(string[] args)
                         {{
-                            Thread.Sleep(3000);
+                            Thread.Sleep(200);
                             Console.WriteLine(""{outputString}"");
                         }}
                     }}
                 }}";
-            var test = new Test("", "", new TimeSpan(0, 0, 0, 1, 0));
+            var test = new Test("", "", new TimeSpan(0, 0, 0, 0, 100));
            
             // Act
             var res = await tester.RunTestsAsync(new List<Test> { test }, code);
@@ -36,7 +36,6 @@
             Assert.False(res.Values.First().Output == outputString,"the code exited successfully when the timer was interrupted");
             Assert.True(res.Values.First().ExceededTheMaximumTime, "must be interrupted by timer");
         }
-
         [Fact]
         public async Task RunTestsAsync_SomeImputStrings_TheSameStringsInTheOutput()
         {
@@ -63,7 +62,6 @@
             // Assert
             Assert.Equal(new List<bool> { true, false }, actual.Select(t => t.Value.Success));
         }
-
         [Fact]
         public async Task RunTestsAsync_CodeWithException_TheSameExceptionInStdErr()
         {
@@ -90,7 +88,6 @@
             Assert.False(actual.Success);
             Assert.Contains("Test exception", actual.RuntimeErrors);
         }
-
         [Fact]
         public async Task RunTestsAsync_calculationOfFactorialInDifferentThreads_TheSameResultAsInMultithreading()
         {
@@ -129,7 +126,6 @@
             // Assert
             Assert.False(actual, "different execution result in one or multiple threads");
         }
-
         private long Factorial(int x)
         {
             long result = 1;
