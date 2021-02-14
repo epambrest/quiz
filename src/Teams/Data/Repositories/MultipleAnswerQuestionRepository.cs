@@ -26,7 +26,13 @@ namespace Teams.Data.Repositories
 
         public void DeleteQuestionOptionsInDB(MultipleAnswerQuestion question)
         {
-            question.Answers.ToList().ForEach(o => _db.Entry(o).State = EntityState.Deleted);
+            var answers = question.Answers.ToList();
+
+            foreach (var a in answers)
+            {
+                _db.Entry(a).State = EntityState.Deleted;
+            }
+            _db.SaveChanges();
         }
 
         public void UpdateQuestion(MultipleAnswerQuestion question)
