@@ -1,0 +1,157 @@
+﻿@model Teams.Models.SingleSelectionQuestionModel
+@{
+    ViewBag.Title = "Question editing";
+}
+
+<form asp-action="EditQuestionById" asp-controller="SingleSelectionQuestionCreate" asp-route-id="@Model.Id" class="form-verification">
+    <div class="form-group">
+        <label asp-for="Question" class="control-label">Question text</label>
+        <textarea type="text" asp-for="Question" class="form-control data-verification"></textarea>
+    </div>
+
+    <div class="labels">
+        <label class="control-label">Answers</label>
+
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-secondary" onclick="AddOption()">Add Input</button>
+        <input type="submit" value="Submit" id="submit" class="btn btn-light" onclick="UpdateCheckedOption()" />
+        <div class="btn">
+            <div class="attentionLabel"></div>
+        </div>
+    </div>
+    <div class="form-group">
+    </div>
+    <ul class="options">
+    </ul>
+</form>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<style>
+    .attentionColor {
+        border-color: #f45a57;
+    }
+</style>
+<script>
+        $(function () {
+        var answersArr = JSON.parse('@Json.Serialize(@Model.Answers)');
+        var rightAnsw = @Model.IndexOfTrueAnswer;
+        var i = 0;
+        if (answersArr.length <= 5) {
+            for (var answer of answersArr) {
+                if (i == rightAnsw) {
+                    $('<li>' +
+                        '<div class="input-group mb-2">' +
+                        '<div class="input-group-prepend">' +
+                        ' <div class="input-group-text">' +
+                        ' <input type="radio" aria-label="Radio button for following text input" name="radioButtonValue" value="" checked>' +
+                        ' </div>' +
+                        '</div>' +
+                        ' <input type="text" class="form-control data-verification" aria-label="Text input with radio button" name="textOfAnswers" value="' + answer + '">' +
+                        '<button type="button" id="deleteButton" class="btn btn-secondary input-group-append" onclick="DeleteOption()">Delete</button>' +
+                        ' </div>' +
+                        ' </li>').appendTo('.options');
+                } else {
+                    $('<li>' +
+                        '<div class="input-group mb-2">' +
+                        '<div class="input-group-prepend">' +
+                        ' <div class="input-group-text">' +
+                        ' <input type="radio" aria-label="Radio button for following text input" name="radioButtonValue" value="">' +
+                        ' </div>' +
+                        '</div>' +
+                        ' <input type="text" class="form-control data-verification" aria-label="Text input with radio button" name="textOfAnswers" value="' + answer + '">' +
+                        '<button type="button" id="deleteButton" class="btn btn-secondary input-group-append" onclick="DeleteOption()">Delete</button>' +
+                        ' </div>' +
+                        ' </li>').appendTo('.options');
+                }
+                i++;
+            }
+        }
+    });
+
+    function AddOption() {
+        var rbs = document.querySelectorAll('input[name="radioButtonValue"]');
+        if (rbs.length < 5) {
+            $('<li>' +
+                '<div class="input-group mb-2">' +
+                '<div class="input-group-prepend">' +
+                ' <div class="input-group-text">' +
+                ' <input type="radio" aria-label="Radio button for following text input" name="radioButtonValue" value="">' +
+                ' </div>' +
+                '</div>' +
+                ' <input type="text" class="form-control data-verification" aria-label="Text input with radio button" name="textOfAnswers">' +
+                '<button type="button" id="deleteButton" class="btn btn-secondary input-group-append" onclick="DeleteOption()">Delete</button>' +
+                ' </div>' +
+                ' </li>').appendTo('.options');
+        } else {
+            var attention = document.querySelectorAll("label[id='over-range-attention']");
+            if (attention.length == 0) {
+                $(' <label id="over-range-attention" class="ml-5 mb-0">Can not be more than 5 answer options</label>').css({ 'color': 'red' }).appendTo('.attentionLabel');
+                setTimeout(() => document.getElementById("over-range-attention").remove(), 2100);
+            }
+        }
+    };
+
+    function DeleteOption() {
+        const rbs = document.querySelectorAll('input[name="radioButtonValue"]');
+        if (rbs.length > 2) {
+            document.querySelector("#deleteButton:focus").parentNode.parentNode.remove();
+        }
+        else {
+            var attention = document.querySelectorAll("label[id='attention']");
+            if (attention.length == 0) {
+                $(' <label id="attention" class="ml-5 mb-0">There must be at least 2 answer options</label>').css({ 'color': 'red' }).appendTo('.attentionLabel');
+                setTimeout(() => document.getElementById("attention").remove(), 2100);
+            }
+        }
+    }
+
+    function UpdateCheckedOption() {
+        var rbs = document.querySelectorAll('input[name="radioButtonValue"]');
+        let count = 0;
+        for (var rb of rbs) {
+            if (rb.checked) {
+                rb.value = count;
+                break;
+            }
+            count++;
+        }
+    }
+
+    $('.form-verification').submit(function () {
+        var form = $(this);
+        var field = [];
+        var rbs = document.querySelectorAll('input[name="radioButtonValue"]');
+        var checkFlag = false;
+
+        form.find('.data-verification').each(function () {
+            field.push('.data-verification');
+            var value = $(this).val();
+            for (var i = 0; i < field.length; i++) {
+                if (value.trim() == "") {
+                    $(this).addClass('attentionColor');
+                    setTimeout(function () {
+                        $(this).removeClass('attentionColor')
+                    }.bind(this), 1000);
+                    event.preventDefault();
+                }
+            }
+        });
+
+        for (var rb of rbs) {
+            if (rb.checked) {
+                checkFlag = true;
+                break;
+            }
+        }
+
+        if (checkFlag == false) {
+            var attention = document.querySelectorAll("label[id='radioButton-attention']");
+            if (attention.length == 0) {
+                $(' <label id="radioButton-attention" class="ml-5 mb-0">You must choose answer option</label>').css({ 'color': 'red' }).appendTo('.attentionLabel');
+                setTimeout(() => document.getElementById("radioButton-attention").remove(), 1500);
+            }
+            event.preventDefault();
+        }
+    });
+</script>
