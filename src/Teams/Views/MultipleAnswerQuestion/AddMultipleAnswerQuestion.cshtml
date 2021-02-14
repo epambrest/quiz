@@ -72,6 +72,7 @@
         let answersCheckboxList = document.getElementsByClassName('itTrue');
         var answersText = new Array();
         var isRightAnswer = new Array();
+        var questionAnswers = new Array();
         let isChecked = 0;
 
         for (let i = 0; i < answersTextList.length; i++) {
@@ -98,10 +99,15 @@
             alert("Хотя бы один вариант ответа должен быть верным");
         }
         else {
+
+            for (let i = 0; i < answersCount; i++) {
+                questionAnswers[i] = {
+                    AnswersText: answersText[i],
+                    IsRightAnswer: isRightAnswer[i] };
+            }
              var model = {
                  QuestionText: questionText,
-                 AnswersText: answersText,
-                 IsRightAnswer: isRightAnswer
+                 QuestionAnswers: questionAnswers
             }
             $.ajax({
             type: "POST",

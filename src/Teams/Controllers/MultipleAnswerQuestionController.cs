@@ -58,10 +58,8 @@ namespace Teams.Controllers
         [HttpPost]
         public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel multipleAnswersQuestionDTO)
         {
-            var allAnswers = new List<MultipleAnswerQuestionOption>();
-            allAnswers = multipleAnswersQuestionDTO
-                .AnswersText
-                .Select((value, index) => new MultipleAnswerQuestionOption(value, multipleAnswersQuestionDTO.IsRightAnswer[index]))
+           var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
+                .Select(x => new MultipleAnswerQuestionOption(x.AnswersText,x.IsRightAnswer))
                 .ToList();
 
             _questionRepository.AddQuestion(new MultipleAnswerQuestion(multipleAnswersQuestionDTO.QuestionText, allAnswers));
@@ -73,10 +71,8 @@ namespace Teams.Controllers
         [HttpPut]
         public IActionResult EditMultipleAnswerQuestion([FromBody] MultipleQuestionEditModel multipleAnswersQuestionDTO)
         {
-            var allAnswers = new List<MultipleAnswerQuestionOption>();
-            allAnswers = multipleAnswersQuestionDTO
-                .AnswersText
-                .Select((value, index) => new MultipleAnswerQuestionOption(value, multipleAnswersQuestionDTO.IsRightAnswer[index]))
+            var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
+                .Select(x => new MultipleAnswerQuestionOption(x.AnswersText, x.IsRightAnswer))
                 .ToList();
 
             MultipleAnswerQuestion question = _questionRepository.PickById(multipleAnswersQuestionDTO.Id);
