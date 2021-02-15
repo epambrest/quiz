@@ -12,10 +12,14 @@ using Teams.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Teams.Data.OpenAnswerQuestionRepos;
 using Teams.Data.SingleSelectionQuestionRepos;
 using Teams.Data.TestRepos;
 using Teams.Data.QuestionRepos;
 using Teams.Data.Repositories;
+using Teams.Data.TestRunRepos;
+using Teams.Domain;
+using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
 
 namespace Teams
@@ -35,8 +39,7 @@ namespace Teams
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
             services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
@@ -45,6 +48,7 @@ namespace Teams
             services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
+            services.AddScoped<ITestRunRepository, TestRunRepository>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddControllersWithViews();
             services.AddRazorPages();
