@@ -13,25 +13,25 @@ namespace Teams.Controllers
 {
     public class ProgramTestController : Controller
     {
-        private  IProgramCodeQuestionRepository _questionRepository;
+        private IProgramCodeQuestionRepository _questionRepository;
         private IProgramTestRepository _testRepository;
-        private ApplicationDbContext _context;
 
         public ProgramTestController(IProgramCodeQuestionRepository questionRepository, IProgramTestRepository testRepository, ApplicationDbContext context)
         {
-            _context = context;
             _testRepository = testRepository;
             _questionRepository = questionRepository;
-        }        
-
+        }       
+        
+        [Route("[Controller]/CreateQuestion")] 
+        [AcceptVerbs]
         public IActionResult CreateProgramQuestion() => View();
 
+        [Route("[Controller]/CreateQuestion")]
         [HttpPost]
         public async Task<IActionResult> CreateProgramQuestion(ProgramCodeQuestionViewModel programCodeQuestionView)
         {
             var programCodeQuestion = new ProgramCodeQuestion(programCodeQuestionView.Text);
-            _questionRepository.Add(programCodeQuestion);
-            await _context.SaveChangesAsync();
+            await _questionRepository.Add(programCodeQuestion);
             return RedirectToAction("Index", "Home");
         }
 
@@ -54,7 +54,7 @@ namespace Teams.Controllers
         [HttpPost]
         public async Task SaveTest(ProgramTest progTest)
         {            
-            await _testRepository.Save(progTest);
+            await _testRepository.Add(progTest);
         }
 
         [HttpDelete]       

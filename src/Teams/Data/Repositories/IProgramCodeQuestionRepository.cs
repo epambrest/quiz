@@ -9,7 +9,7 @@ namespace Teams.Data.Repositories
     public interface IProgramCodeQuestionRepository
     {
         ProgramCodeQuestion PickById(Guid id);
-        void Add(ProgramCodeQuestion question);
+        Task Add(ProgramCodeQuestion question);
         Task UpdateQuestion(ProgramCodeQuestion question);
     }
 }

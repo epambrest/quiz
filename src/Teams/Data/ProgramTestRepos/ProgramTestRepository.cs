@@ -35,7 +35,7 @@ namespace Teams.Data.ProgramTestRepos
             return await _context.ProgramTests.Where(x => x.QuestionId == id).ToListAsync();
         }
 
-        public async Task Save(ProgramTest programTest)
+        public async Task Add(ProgramTest programTest)
         {
             await _context.ProgramTests.AddAsync(programTest);
             await _context.SaveChangesAsync();
