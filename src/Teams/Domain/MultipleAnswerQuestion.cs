@@ -12,8 +12,8 @@ namespace Teams.Domain
 {
     public class MultipleAnswerQuestion : Question
     {
-        private List<MultipleAnswerQuestionOption> answers;
-        public IReadOnlyCollection<MultipleAnswerQuestionOption> Answers => answers.ToList();
+        private List<MultipleAnswerQuestionOption> _answers;
+        public IReadOnlyCollection<MultipleAnswerQuestionOption> Answers => _answers;
         public MultipleAnswerQuestion(string text) : base(text)
         {
             if (string.IsNullOrEmpty(text)) throw new ArgumentException("A question must have non-empty title");
@@ -22,7 +22,7 @@ namespace Teams.Domain
         {
             if (answers.Count == 0) throw new ArgumentException("A question must have at least one possible answer");
             if (string.IsNullOrEmpty(text)) throw new ArgumentException("A question must have non-empty title");
-            this.answers = answers;
+            _answers = answers;
         }
         public Guid[] GetRightAnswersIds()
         {
@@ -31,6 +31,12 @@ namespace Teams.Domain
         public MultipleAnswerQuestionOption[] GetRightAnswers()
         {
             return Answers.Where(a => a.IsRight).ToArray();
+        }
+
+        public void EditQuestion(string questionText, List<MultipleAnswerQuestionOption> answers)
+        {
+            Text = questionText;
+            _answers = answers;
         }
     }
 }
