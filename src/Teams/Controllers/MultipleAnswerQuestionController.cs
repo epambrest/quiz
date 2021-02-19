@@ -39,6 +39,7 @@ namespace Teams.Controllers
             return View(question);
         }
 
+        [Route("[Controller]/[Action]/{id?}")]
         public IActionResult EditMultipleAnswerQuestion(Guid id)
         {
             var question = new MultipleAnswerQuestionViewModel()
