@@ -9,7 +9,7 @@ namespace Teams.Models
     public class MultipleQuestionAddModel  
     {
         public string QuestionText { get; set; }
-        public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public IEnumerable<QuestionAnswer> QuestionAnswers { get; set; }
     }
 
     public class QuestionAnswer

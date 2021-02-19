@@ -14,13 +14,11 @@ namespace Teams.Controllers
 {
     public class MultipleAnswerQuestionController : Controller
     {
-        private readonly IApplicationDbContext _dB;
         private readonly IMultipleAnswerQuestionRepository _questionRepository;
 
-        public MultipleAnswerQuestionController(IMultipleAnswerQuestionRepository questionRepository, IApplicationDbContext db)
+        public MultipleAnswerQuestionController(IMultipleAnswerQuestionRepository questionRepository)
         {
-            this._questionRepository = questionRepository;
-            _dB = db;
+            _questionRepository = questionRepository;
         }
         [HttpGet]
         public IActionResult Index(Guid id)
@@ -58,12 +56,11 @@ namespace Teams.Controllers
         [HttpPost]
         public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel multipleAnswersQuestionDTO)
         {
-           var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
-                .Select(x => new MultipleAnswerQuestionOption(x.AnswersText,x.IsRightAnswer))
-                .ToList();
+            var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
+                 .Select(x => new MultipleAnswerQuestionOption(x.AnswersText, x.IsRightAnswer))
+                 .ToList();
 
             _questionRepository.AddQuestion(new MultipleAnswerQuestion(multipleAnswersQuestionDTO.QuestionText, allAnswers));
-            _dB.SaveChanges();
 
             return RedirectToAction("Index", "Home");
 

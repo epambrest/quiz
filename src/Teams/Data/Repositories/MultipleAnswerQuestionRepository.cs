@@ -22,6 +22,7 @@ namespace Teams.Data.Repositories
         public void AddQuestion(MultipleAnswerQuestion question)
         {
             _db.MultipleAnswerQuestions.Add(question);
+            _db.SaveChanges();
         }
 
         public void DeleteQuestionOptionsInDB(MultipleAnswerQuestion question)
