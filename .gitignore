@@ -9,3 +9,10 @@ src/Teams/Views/Shared
 src/bin
 src/obj
 src/Teams.sln.DotSettings.user
+CodeTester.Tests/obj/
+CodeTester/obj/
+src/Lab.Quiz.BL/obj/
+src/Lab.Quiz.Common/obj/
+src/Lab.Quiz.DAL/obj/
+src/Lab.Quiz.DAL.Tests/obj/
+src/Lab.Quiz.BL.Tests/obj/
