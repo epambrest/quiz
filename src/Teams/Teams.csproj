@@ -1,12 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Teams-78C7596C-0459-4D03-9610-8092B16DBE33</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\TestRunRepos\**" />
+    <Content Remove="Data\Migrations\TestRunRepos\**" />
+    <EmbeddedResource Remove="Data\Migrations\TestRunRepos\**" />
+    <None Remove="Data\Migrations\TestRunRepos\**" />
+    <TypeScriptCompile Remove="Data\Migrations\TestRunRepos\**" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200925133258_UpdateMultipleAnswerQuestionOption.cs" />
     <Compile Remove="Data\Migrations\20200925133258_UpdateMultipleAnswerQuestionOption.Designer.cs" />
@@ -16,6 +21,54 @@
     <Compile Remove="Data\Migrations\20200930114954_AddMultipleAnswerQuestionOptions.Designer.cs" />
     <Compile Remove="Data\Migrations\20201102135014_AddProgramCodeQuestion.cs" />
     <Compile Remove="Data\Migrations\20201102135014_AddProgramCodeQuestion.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201203084553_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201203084553_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201204101042_AddTestRunEntity.cs" />
+    <Compile Remove="Data\Migrations\20201204101042_AddTestRunEntity.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201204101950_AddedTestRun.cs" />
+    <Compile Remove="Data\Migrations\20201204101950_AddedTestRun.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201216165459_AddTestRunEntity.cs" />
+    <Compile Remove="Data\Migrations\20201216165459_AddTestRunEntity.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201220193512_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201220193512_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201220194008_AddedTestRun2.cs" />
+    <Compile Remove="Data\Migrations\20201220194008_AddedTestRun2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201220194353_AddTestRun2.cs" />
+    <Compile Remove="Data\Migrations\20201220194353_AddTestRun2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201220195137_AddTestRun.cs" />
+    <Compile Remove="Data\Migrations\20201220195137_AddTestRun.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201220202758_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201220202758_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225082640_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225082640_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225084826_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225084826_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225084847_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225084847_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090429_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090429_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090605_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090605_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225090732_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225090732_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225095100_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225095100_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225104524_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225104524_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225110746_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225110746_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225110959_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225110959_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225112002_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225112002_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201225112428_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201225112428_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201228165805_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201228165805_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230185813_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201230185813_AddTestRunTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230185841_AddTestRunTable.cs" />
+    <Compile Remove="Data\Migrations\20201230185841_AddTestRunTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20201202124242_RenameAsQueuedProgram.cs" />
     <Compile Remove="Data\Migrations\20201202124242_RenameAsQueuedProgram.Designer.cs" />
     <Compile Remove="Data\Migrations\20210122204232_AddProgramTest.cs" />
@@ -45,12 +98,11 @@
     <Compile Remove="Data\Migrations\20210122231549_AddUpdatedForeignKeyProgTest.cs" />
     <Compile Remove="Data\Migrations\20210122231549_AddUpdatedForeignKeyProgTest.Designer.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Views\ProgramCodeQuestion\ProgramCodeQuestionCheks.ts" />
   </ItemGroup>
-
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
@@ -68,5 +120,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.5.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Delete\Index.cshtml" />
+  </ItemGroup>
 </Project>

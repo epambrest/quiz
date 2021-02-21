@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 using Teams.Domain;
 using Teams.Models;
 
 namespace Teams.Data
 {
-    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -17,6 +21,8 @@ namespace Teams.Data
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<TestRun> TestRuns { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
         public DbSet<ProgramTest> ProgramTests { get; set; }
 
@@ -24,9 +30,14 @@ namespace Teams.Data
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Answer>().Property(e=>e.AnswerOptions)
+                .HasConversion(v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<ReadOnlyCollection<Guid>>(v));
+            builder.Entity<TestRun>().HasMany(e => e.Answers);
             builder.Entity<QueuedProgram>().ToTable("QueuedPrograms").HasKey("Id");
             builder.Entity<QueuedProgram>().Property(b => b.Id).HasColumnName("Id").HasColumnType("bigint")
                 .ValueGeneratedOnAdd();
