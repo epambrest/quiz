@@ -13,10 +13,10 @@ namespace Lab.Quiz.DAL.Entities
         public Test Test { get; private set; }
         public Guid QuestionId { get; private set; }
         public Question Question { get; private set; }
-        public TestQuestion(Guid testId, Guid questionId)
-        {
-            TestId = testId;
-            QuestionId = questionId;
-        }
+        //public TestQuestion(Guid testId, Guid questionId)
+        //{
+        //    TestId = testId;
+        //    QuestionId = questionId;
+        //}
     }
 }

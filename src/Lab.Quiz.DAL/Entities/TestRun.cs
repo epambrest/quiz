@@ -15,37 +15,37 @@ namespace Lab.Quiz.DAL.Entities
             get => _answers.AsReadOnly();
             private set => _answers = new List<Answer>(value);
         } 
-        private List<Answer> _answers = new List<Answer>();
+        //private List<Answer> _answers = new List<Answer>();
         public bool InProgress { get; private set; }
 
-        public TestRun(string testedUserId, Guid testId)
-        {
-            TestedUserId = testedUserId;
-            TestId = testId;
-            InProgress = true;
-            Id = new Random().Next(1, 1000);
-        }
+        //public TestRun(string testedUserId, Guid testId)
+        //{
+        //    TestedUserId = testedUserId;
+        //    TestId = testId;
+        //    InProgress = true;
+        //    Id = new Random().Next(1, 1000);
+        //}
         
-        public TestRun(string testedUserId, Guid testId, int id)
-        {
-            TestedUserId = testedUserId;
-            TestId = testId;
-            InProgress = true;
-            Id = id;
-        }
+        //public TestRun(string testedUserId, Guid testId, int id)
+        //{
+        //    TestedUserId = testedUserId;
+        //    TestId = testId;
+        //    InProgress = true;
+        //    Id = id;
+        //}
 
-        private TestRun()
-        {
-        }
+        //private TestRun()
+        //{
+        //}
 
-        public void Finish()
-        {
-            InProgress = false;
-        }
+        //public void Finish()
+        //{
+        //    InProgress = false;
+        //}
 
-        public void AddAnswer(Answer answer)
-        {
-            _answers.Add(answer);
-        }
+        //public void AddAnswer(Answer answer)
+        //{
+        //    _answers.Add(answer);
+        //}
     }
 }

@@ -12,25 +12,25 @@ namespace Lab.Quiz.DAL.Entities
             get => _answerOptions.AsReadOnly();
             private set => _answerOptions = new List<Guid>(value);
         }
-        private List<Guid> _answerOptions = new List<Guid>();
+        //private List<Guid> _answerOptions = new List<Guid>();
 
         public string AnswerText { get; }
         public Guid TestQuestionId { get;}
 
-        public Answer()
-        {
-        }
+        //public Answer()
+        //{
+        //}
 
-        public Answer(Guid testQuestionId, string answerText)
-        {
-            TestQuestionId = testQuestionId;
-            AnswerText = answerText;
-        }
+        //public Answer(Guid testQuestionId, string answerText)
+        //{
+        //    TestQuestionId = testQuestionId;
+        //    AnswerText = answerText;
+        //}
         
-        public Answer(Guid testQuestionId, IEnumerable<Guid> optionsIds)
-        {
-            TestQuestionId = testQuestionId;
-            _answerOptions = optionsIds.ToList();
-        }
+        //public Answer(Guid testQuestionId, IEnumerable<Guid> optionsIds)
+        //{
+        //    TestQuestionId = testQuestionId;
+        //    _answerOptions = optionsIds.ToList();
+        //}
     }
 }
