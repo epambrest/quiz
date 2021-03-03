@@ -5,7 +5,6 @@ src/Teams/obj/
 src/.vs
 src/Teams.Tests/bin
 src/Teams.Tests/obj
-src/Teams/Views/Shared
 src/bin
 src/obj
 src/Teams.sln.DotSettings.user
