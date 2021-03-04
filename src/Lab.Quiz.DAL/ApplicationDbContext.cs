@@ -21,7 +21,6 @@ namespace Lab.Quiz.DAL
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
-        public DbSet<Answer> Answers { get; set; }
         public DbSet<TestRun> TestRuns { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
 

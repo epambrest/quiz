@@ -19,7 +19,6 @@ namespace Lab.Quiz.DAL.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
         public DbSet<TestRun> TestRuns { get; set; }
-        public DbSet<Answer> Answers { get; set; }
         EntityEntry Entry(Object entity);
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }

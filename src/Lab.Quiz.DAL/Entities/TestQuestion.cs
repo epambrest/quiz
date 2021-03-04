@@ -5,18 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lab.Quiz.DAL.Entities
+namespace Teams.Domain
 {
     public class TestQuestion: Entity
     {
-        public Guid TestId { get; private set; }
-        public Test Test { get; private set; }
-        public Guid QuestionId { get; private set; }
-        public Question Question { get; private set; }
-        //public TestQuestion(Guid testId, Guid questionId)
-        //{
-        //    TestId = testId;
-        //    QuestionId = questionId;
-        //}
+        public Guid TestId { get; set; }
+        public Test Test { get; set; }
+        public Guid QuestionId { get; set; }
+        public Question Question { get; set; }
     }
 }
