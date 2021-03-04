@@ -6,8 +6,7 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
-    public interface IOpenAnswerQuestionRepository
+    public interface IOpenAnswerQuestionRepository : IRepository<OpenAnswerQuestion>
     {
-        public OpenAnswerQuestion Get(Guid id);
     }
 }

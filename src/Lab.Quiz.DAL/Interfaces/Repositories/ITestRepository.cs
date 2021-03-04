@@ -7,9 +7,8 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
-    public interface ITestRepository 
+    public interface ITestRepository : IRepository<Test>
     {
-        public List<Test> GetAll();
-        public Test Get(Guid id);
+        void DeleteTestQuestions(Guid id);
     }
 }

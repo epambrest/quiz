@@ -62,7 +62,7 @@ namespace Teams.Controllers
             {
                 return BadRequest();
             }
-            var testQuestions = _dbContext.TestQuestions.Where(w => w.TestId == test.Id);
+            var testQuestions = _dbContext.TestQuestions.Where(w => w.TestId == test.Id); /////////you can use this method --- public void DeleteTestQuestions(Guid test.Id)
             _dbContext.TestQuestions.RemoveRange(testQuestions);
             foreach (var item in test.Questions)
             {

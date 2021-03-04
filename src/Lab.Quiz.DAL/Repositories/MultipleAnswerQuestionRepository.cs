@@ -10,38 +10,58 @@ namespace Lab.Quiz.DAL.Repositories
 {
     public class MultipleAnswerQuestionRepository : IMultipleAnswerQuestionRepository
     {
-        IApplicationDbContext _db;
+        IApplicationDbContext _dbContext;
         public MultipleAnswerQuestionRepository(IApplicationDbContext db)
         {
-            _db = db;
+            _dbContext = db;
         }
-        public MultipleAnswerQuestion PickById(Guid Id)
+        public MultipleAnswerQuestion GetById(Guid Id)
         {
-            return _db.MultipleAnswerQuestions.Include(a => a.Answers).Single(q => q.Id == Id);
-        }
-
-        public void AddQuestion(MultipleAnswerQuestion question)
-        {
-            _db.MultipleAnswerQuestions.Add(question);
-            _db.SaveChanges();
+            return _dbContext.MultipleAnswerQuestions.Include(a => a.Answers).Single(q => q.Id == Id);
         }
 
-        public void DeleteQuestionOptionsInDB(MultipleAnswerQuestion question)
+        public async Task<MultipleAnswerQuestion> GetByIdAsync(Guid Id)
         {
-            var answers = question.Answers.ToList();
+            return await _dbContext.MultipleAnswerQuestions.Include(a => a.Answers).SingleAsync(q => q.Id == Id);
+        }
+
+        public IQueryable<MultipleAnswerQuestion> GetAll()
+        {
+            return _dbContext.MultipleAnswerQuestions;
+        }
+
+        public void Add(MultipleAnswerQuestion entity)
+        {
+            _dbContext.MultipleAnswerQuestions.Add(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void AddAsync(MultipleAnswerQuestion entity)
+        {
+            _dbContext.MultipleAnswerQuestions.AddAsync(entity);
+            _dbContext.SaveChangesAsync();
+        }
+
+        public void DeleteQuestionOptionsInDB(MultipleAnswerQuestion entity)
+        {
+            var answers = entity.Answers.ToList();
 
             foreach (var a in answers)
             {
-                _db.Entry(a).State = EntityState.Deleted;
+                _dbContext.Entry(a).State = EntityState.Deleted;
             }
-            _db.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
-        public void UpdateQuestion(MultipleAnswerQuestion question)
+        public void Update(MultipleAnswerQuestion entity)
         {
-            _db.MultipleAnswerQuestions.Update(question);
-            _db.SaveChanges();
+            _dbContext.MultipleAnswerQuestions.Update(entity);
+            _dbContext.SaveChanges();
         }
-
+        public void Delete(MultipleAnswerQuestion entity)
+        {
+            _dbContext.MultipleAnswerQuestions.Remove(entity);
+            _dbContext.SaveChanges();
+        }
     }
 }

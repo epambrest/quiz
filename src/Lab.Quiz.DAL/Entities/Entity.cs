@@ -9,12 +9,12 @@ namespace Lab.Quiz.DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; private set; }
-        //public Entity()
-        //{
-        //}
-        //public Entity(Guid id)
-        //{
-        //    Id = id;
-        //}
+        public Entity()
+        {
+        }
+        public Entity(Guid id)
+        {
+            Id = id;
+        }
     }
 }

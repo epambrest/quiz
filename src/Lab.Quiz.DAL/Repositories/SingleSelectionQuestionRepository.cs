@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lab.Quiz.DAL.Interfaces;
 using Lab.Quiz.DAL.Entities;
+using System.Collections.Generic;
 
 namespace Lab.Quiz.DAL.Repositories
 {
@@ -15,22 +16,40 @@ namespace Lab.Quiz.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<SingleSelectionQuestion> GetAsync(Guid id)
+        public SingleSelectionQuestion GetById(Guid id)
+        {
+            return _dbContext.SingleSelectionQuestions
+               .Include(q => q.Options)
+               .FirstOrDefault(i => i.Id == id);
+        }
+
+        public async Task<SingleSelectionQuestion> GetByIdAsync(Guid id)
         {
             return await _dbContext.SingleSelectionQuestions
                .Include(q => q.Options)
                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public void AddQuestion(SingleSelectionQuestion question)
+        public IQueryable<SingleSelectionQuestion> GetAll()
         {
-            _dbContext.SingleSelectionQuestions.Add(question);
+            return _dbContext.SingleSelectionQuestions;
+        }
+
+        public void Add(SingleSelectionQuestion entity)
+        {
+            _dbContext.SingleSelectionQuestions.Add(entity);
             _dbContext.SaveChanges();
         }
 
-        public void DeleteQuestionOptionsInDB(SingleSelectionQuestion question)
+        public void AddAsync(SingleSelectionQuestion entity)
         {
-            var options = question.Options
+            _dbContext.SingleSelectionQuestions.AddAsync(entity);
+            _dbContext.SaveChangesAsync();
+        }
+
+        public void DeleteQuestionOptionsInDB(SingleSelectionQuestion entity)
+        {
+            var options = entity.Options
                 .ToList();
             foreach(var o in options)
             {
@@ -39,9 +58,15 @@ namespace Lab.Quiz.DAL.Repositories
              _dbContext.SaveChanges();
         }
 
-        public void UpdateQuestion(SingleSelectionQuestion question)
+        public void Update(SingleSelectionQuestion entity)
         {
-            _dbContext.SingleSelectionQuestions.Update(question);
+            _dbContext.SingleSelectionQuestions.Update(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(SingleSelectionQuestion entity)
+        {
+            _dbContext.SingleSelectionQuestions.Remove(entity);
             _dbContext.SaveChanges();
         }
     }

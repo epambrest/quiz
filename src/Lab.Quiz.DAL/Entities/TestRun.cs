@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Lab.Quiz.DAL.Entities 
-{ 
+namespace Lab.Quiz.DAL.Entities
+{
     public class TestRun
     {
         public string TestedUserId { get; private set; }
@@ -14,38 +14,38 @@ namespace Lab.Quiz.DAL.Entities
         {
             get => _answers.AsReadOnly();
             private set => _answers = new List<Answer>(value);
-        } 
-        //private List<Answer> _answers = new List<Answer>();
+        }
+        private List<Answer> _answers = new List<Answer>();
         public bool InProgress { get; private set; }
 
-        //public TestRun(string testedUserId, Guid testId)
-        //{
-        //    TestedUserId = testedUserId;
-        //    TestId = testId;
-        //    InProgress = true;
-        //    Id = new Random().Next(1, 1000);
-        //}
-        
-        //public TestRun(string testedUserId, Guid testId, int id)
-        //{
-        //    TestedUserId = testedUserId;
-        //    TestId = testId;
-        //    InProgress = true;
-        //    Id = id;
-        //}
+        public TestRun(string testedUserId, Guid testId)
+        {
+            TestedUserId = testedUserId;
+            TestId = testId;
+            InProgress = true;
+            Id = new Random().Next(1, 1000);
+        }
 
-        //private TestRun()
-        //{
-        //}
+        public TestRun(string testedUserId, Guid testId, int id)
+        {
+            TestedUserId = testedUserId;
+            TestId = testId;
+            InProgress = true;
+            Id = id;
+        }
 
-        //public void Finish()
-        //{
-        //    InProgress = false;
-        //}
+        private TestRun()
+        {
+        }
 
-        //public void AddAnswer(Answer answer)
-        //{
-        //    _answers.Add(answer);
-        //}
+        public void Finish()
+        {
+            InProgress = false;
+        }
+
+        public void AddAnswer(Answer answer)
+        {
+            _answers.Add(answer);
+        }
     }
 }

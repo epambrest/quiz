@@ -6,11 +6,8 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
-    public interface ISingleSelectionQuestionRepository
+    public interface ISingleSelectionQuestionRepository : IRepository<SingleSelectionQuestion>
     {
-        Task<SingleSelectionQuestion> GetAsync(Guid id);
-        void AddQuestion(SingleSelectionQuestion question);
         void DeleteQuestionOptionsInDB(SingleSelectionQuestion question);
-        void UpdateQuestion(SingleSelectionQuestion question);
     }
 }

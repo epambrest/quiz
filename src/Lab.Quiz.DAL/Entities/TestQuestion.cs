@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Lab.Quiz.DAL.Entities
 {
-    public class TestQuestion: Entity
+    public class TestQuestion : Entity
     {
         public Guid TestId { get; private set; }
         public Test Test { get; private set; }
         public Guid QuestionId { get; private set; }
         public Question Question { get; private set; }
-        //public TestQuestion(Guid testId, Guid questionId)
-        //{
-        //    TestId = testId;
-        //    QuestionId = questionId;
-        //}
+        public TestQuestion(Guid testId, Guid questionId)
+        {
+            TestId = testId;
+            QuestionId = questionId;
+        }
     }
 }
