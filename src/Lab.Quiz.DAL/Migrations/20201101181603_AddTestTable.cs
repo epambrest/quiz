@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Lab.Quiz.DAL;
 
 namespace Lab.Quiz.DAL.Migrations
 {
