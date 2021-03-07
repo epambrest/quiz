@@ -1,7 +1,6 @@
 ﻿using System;
-using Teams.Models;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class OpenAnswerQuestion : Question
     {

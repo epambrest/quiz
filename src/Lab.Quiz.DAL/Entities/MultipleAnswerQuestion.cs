@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Teams.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Net.Mime;
@@ -8,7 +7,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class MultipleAnswerQuestion : Question
     {

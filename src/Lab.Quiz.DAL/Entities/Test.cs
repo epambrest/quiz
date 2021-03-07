@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Teams.Models;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class Test : Entity
     {

@@ -14,10 +14,10 @@ namespace Lab.Quiz.DAL.Repositories
         {
             _db = db;
         }
+
         public void Add(Guid id, string text)
         {
-            var model = new QueuedProgram(id, text);
-            _db.QueuedPrograms.Add(model);
+            throw new NotImplementedException();
         }
     }
 }

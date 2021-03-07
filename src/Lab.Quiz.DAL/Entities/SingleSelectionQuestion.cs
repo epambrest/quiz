@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class SingleSelectionQuestion : Question
     {

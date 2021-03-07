@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Teams.Domain;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teams.Models
+namespace Lab.Quiz.DAL.Entities
 {
     public class QueuedProgram
     {

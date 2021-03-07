@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class TestQuestion: Entity
     {

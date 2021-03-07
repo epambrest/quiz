@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class Answer : Entity
     {

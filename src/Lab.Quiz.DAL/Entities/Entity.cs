@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Teams.Domain
+namespace Lab.Quiz.DAL.Entities
 {
     public class Entity
     {
