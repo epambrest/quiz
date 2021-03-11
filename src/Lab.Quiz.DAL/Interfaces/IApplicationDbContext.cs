@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Teams.Domain;
-using Teams.Models;
+using Lab.Quiz.DAL.Entities;
 
-namespace Teams.Data
+namespace Lab.Quiz.DAL.Interfaces
 {
     public interface IApplicationDbContext
     {
@@ -20,7 +19,6 @@ namespace Teams.Data
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
         public DbSet<OpenAnswerQuestion> OpenAnswerQuestions { get; set;}
         public DbSet<TestRun> TestRuns { get; set; }
-        public DbSet<Answer> Answers { get; set; }
         EntityEntry Entry(Object entity);
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }

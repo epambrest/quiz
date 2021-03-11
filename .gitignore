@@ -15,3 +15,10 @@ src/Lab.Quiz.Common/obj/
 src/Lab.Quiz.DAL/obj/
 src/Lab.Quiz.DAL.Tests/obj/
 src/Lab.Quiz.BL.Tests/obj/
+src/Lab.Quiz.BL/bin/
+src/Lab.Quiz.Common/bin/
+src/Lab.Quiz.DAL/bin/
+src/Lab.Quiz.DAL.Tests/bin/
+src/Lab.Quiz.BL.Tests/bin/
+CodeTester.Tests/bin/
+CodeTester/bin/
