@@ -1,18 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using Lab.Quiz.DAL.Entities;
+using System.Threading.Tasks;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IMultipleAnswerQuestionRepository MultipleAnswerQuestionRepository { get; set; }
-        IOpenAnswerQuestionRepository OpenAnswerQuestionRepository { get; set; }
-        IProgramCodeQuestionRepository ProgramCodeQuestionRepository { get; set; }
-        IQuestionRepository QuestionRepository { get; set; }
-        IQueuedProgramRepository QueuedProgramRepository { get; set; }
-        ISingleSelectionQuestionRepository SingleSelectionQuestionRepository { get; set; }
-        ITestRepository TestRepository { get; set; }
-        ITestRunRepository TestRunRepository { get; set; }
-
+        IRepository<Question> QuestionsRepository{ get; }
+        IRepository<Answer> AnswersRepository { get; }
+        IRepository<OpenAnswerQuestion> OpenAnswerQuestionsRepository { get; }
+        IRepository<SingleSelectionQuestion> SingleSelectionQuestionsRepository { get; }
+        IRepository<MultipleAnswerQuestion> MultipleAnswerQuestionsRepository { get; }
+        IRepository<ProgramCodeQuestion> ProgramCodeQuestionsRepository { get; }
+        IRepository<TestQuestion> TestQuestionsRepository { get; }
+        IRepository<Test> TestsRepository { get; }
+        IRepository<TestRun> TestRunsRepository { get; }
+        IRepository<QueuedProgram> QueuedProgramsRepository { get; }
         Task SaveAsync();
     }
 }
