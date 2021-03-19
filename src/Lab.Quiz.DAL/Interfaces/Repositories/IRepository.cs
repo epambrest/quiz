@@ -9,7 +9,7 @@ namespace Lab.Quiz.DAL.Interfaces
     {
         Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
-        void AddAsync(TEntity entity);
+        void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
     }
