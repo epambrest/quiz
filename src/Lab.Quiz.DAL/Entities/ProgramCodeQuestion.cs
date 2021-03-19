@@ -7,9 +7,5 @@ namespace Lab.Quiz.DAL.Entities
 {
     public class ProgramCodeQuestion : Question
     {
-        public ProgramCodeQuestion(string text) : base(text)
-        {
-
-        }
     }
 }
