@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Teams.Data.Repositories;
 using Teams.Data;
 using Teams.Models;
@@ -18,15 +19,19 @@ namespace Teams.Controllers
         private IProgramCodeQuestionRepository questionRepository;
         private IQueuedProgramRepository programTextRepository;
         private IApplicationDbContext _db;
-        public ProgramCodeQuestionController(IApplicationDbContext db, IProgramCodeQuestionRepository questionRepository, IQueuedProgramRepository programTextRepository)
+        private readonly ILogger<ProgramCodeQuestionController> _logger;
+        public ProgramCodeQuestionController(IApplicationDbContext db, IProgramCodeQuestionRepository questionRepository, 
+            IQueuedProgramRepository programTextRepository, ILogger<ProgramCodeQuestionController> logger)
         {
             this.questionRepository = questionRepository;
             this.programTextRepository = programTextRepository;
             _db = db;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Index(Guid id)
         {
+            _logger.LogInformation($"Recieved GUID: {id}");
             var question = questionRepository.PickById(id);
             var model = new ProgramCodeQuestionViewModel()
             {
@@ -38,6 +43,7 @@ namespace Teams.Controllers
         [HttpPost]
         public IActionResult Index(ProgramCodeQuestionViewModel model)
         {
+            _logger.LogInformation("");
             if (model.File is null)
             {
                 model.AlertText = "Please upload a file before submitting.";

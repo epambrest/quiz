@@ -20,18 +20,22 @@ namespace Teams.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation("");
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            string requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            _logger.LogInformation($"RequestId: {requestId}");
+            return View(new ErrorViewModel { RequestId = requestId });
         }
     }
 }
