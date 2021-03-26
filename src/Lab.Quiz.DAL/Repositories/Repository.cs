@@ -10,12 +10,10 @@ namespace Lab.Quiz.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class 
     {
-        private DbContext _dbContext;
         DbSet<TEntity> Entities { get; set; }
-        public Repository(DbContext dbContext)
+        public Repository(DbSet<TEntity> entities)
         {
-            _dbContext = dbContext;
-            Entities = _dbContext.Set<TEntity>();
+            Entities = entities;
         }
 
         public async Task<TEntity> GetByIdAsync(Guid id)
