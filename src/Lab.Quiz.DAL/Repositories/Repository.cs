@@ -28,7 +28,7 @@ namespace Lab.Quiz.DAL.Repositories
 
         public void Add(TEntity entity)
         {
-            Entities.AddAsync(entity);
+            Entities.Add(entity);
         }
 
         public void Update(TEntity entity)

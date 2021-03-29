@@ -8,7 +8,7 @@ using Lab.Quiz.DAL.Repositories;
 
 namespace Lab.Quiz.DAL
 {
-    public sealed class UnitOfWork : IUnitOfWork ,IDisposable
+    public sealed class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ApplicationDbContext _dbContext;
         private Repository<Question> _QuestionsRepository;
