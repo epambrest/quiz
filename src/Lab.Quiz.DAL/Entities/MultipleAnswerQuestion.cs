@@ -12,6 +12,5 @@ namespace Lab.Quiz.DAL.Entities
     public class MultipleAnswerQuestion : Question
     {
         public ICollection<MultipleAnswerQuestionOption> Answers { get; set; }
-
     }
 }

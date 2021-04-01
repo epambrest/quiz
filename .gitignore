@@ -9,7 +9,9 @@ src/bin
 src/obj
 src/Teams.sln.DotSettings.user
 CodeTester.Tests/obj/
+CodeTester.Tests/bin/
 CodeTester/obj/
+CodeTester/bin/
 src/Lab.Quiz.BL/obj/
 src/Lab.Quiz.Common/obj/
 src/Lab.Quiz.DAL/obj/

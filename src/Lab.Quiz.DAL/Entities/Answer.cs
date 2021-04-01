@@ -10,6 +10,5 @@ namespace Lab.Quiz.DAL.Entities
         public ICollection<Guid> AnswerOptions { get; set; }
         public string AnswerText { get; set; }
         public Guid TestQuestionId { get; set; }
-
     }
 }

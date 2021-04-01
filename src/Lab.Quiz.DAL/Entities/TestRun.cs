@@ -12,6 +12,5 @@ namespace Lab.Quiz.DAL.Entities
         public Guid TestId { get; set; }
         public ICollection<Answer> Answers { get; set; }
         public bool InProgress { get; set; }
-
     }
 }
