@@ -10,17 +10,17 @@ namespace Lab.Quiz.DAL
 {
     public sealed class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly ApplicationDbContext _dbContext;
-        private Repository<Question> _QuestionsRepository;
-        private Repository<Answer> _AnswersRepository;
-        private Repository<OpenAnswerQuestion> _OpenAnswerQuestionsRepository;
-        private Repository<SingleSelectionQuestion> _SingleSelectionQuestionsRepository;
-        private Repository<MultipleAnswerQuestion> _MultipleAnswerQuestionsRepository;
-        private Repository<ProgramCodeQuestion> _ProgramCodeQuestionsRepository;
-        private Repository<TestQuestion> _TestQuestionsRepository;
-        private Repository<Test> _TestsRepository;
-        private Repository<TestRun> _TestRunsRepository;
-        private Repository<QueuedProgram> _QueuedProgramsRepository;
+        private readonly IApplicationDbContext _dbContext;
+        private IRepository<Question> _QuestionsRepository;
+        private IRepository<Answer> _AnswersRepository;
+        private IRepository<OpenAnswerQuestion> _OpenAnswerQuestionsRepository;
+        private IRepository<SingleSelectionQuestion> _SingleSelectionQuestionsRepository;
+        private IRepository<MultipleAnswerQuestion> _MultipleAnswerQuestionsRepository;
+        private IRepository<ProgramCodeQuestion> _ProgramCodeQuestionsRepository;
+        private IRepository<TestQuestion> _TestQuestionsRepository;
+        private IRepository<Test> _TestsRepository;
+        private IRepository<TestRun> _TestRunsRepository;
+        private IRepository<QueuedProgram> _QueuedProgramsRepository;
 
         private bool _disposed;
 

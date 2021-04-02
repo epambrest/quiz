@@ -105,4 +105,10 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Delete\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lab.Quiz.BL\Lab.Quiz.BL.csproj" />
+  </ItemGroup>
 </Project>

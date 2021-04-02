@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	<CodeAnalysisRuleSet>$(SolutionDir)\Teams\Solution Items\quiz.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <AdditionalFiles Include="$(SolutionDir)Teams\Solution Items\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+  	<ItemGroup>
+		<AdditionalFiles Include="$(SolutionDir)Teams\Solution Items\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab.Quiz.Common\Lab.Quiz.Common.csproj" />
+    <ProjectReference Include="..\Lab.Quiz.DAL\Lab.Quiz.DAL.csproj" />
   </ItemGroup>
 
 </Project>

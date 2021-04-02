@@ -8,7 +8,7 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext : IDisposable
     {
         public DbSet<Question> Questions { get; set; }
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }

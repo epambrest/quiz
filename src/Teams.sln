@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Quiz.Common", "Lab.Quiz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6ECDCF71-4622-4367-881A-F6D359A294D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Quiz.DAL.Tests", "Lab.Quiz.DAL.Tests\Lab.Quiz.DAL.Tests.csproj", "{1071D07C-2C80-43F5-9370-A55585F26119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Quiz.DAL.Tests", "Lab.Quiz.DAL.Tests\Lab.Quiz.DAL.Tests.csproj", "{1071D07C-2C80-43F5-9370-A55585F26119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Quiz.BL.Tests", "Lab.Quiz.BL.Tests\Lab.Quiz.BL.Tests.csproj", "{1755CEFC-BAD5-4EA3-98CF-22A9B7FFFC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Quiz.BL.Tests", "Lab.Quiz.BL.Tests\Lab.Quiz.BL.Tests.csproj", "{1755CEFC-BAD5-4EA3-98CF-22A9B7FFFC00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D295860-BE66-4EA1-84C9-12A4065983D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
