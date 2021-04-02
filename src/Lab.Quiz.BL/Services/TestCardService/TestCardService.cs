@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lab.Quiz.BL.Services.TestService.Models;
+using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.Entities;
 using Lab.Quiz.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lab.Quiz.BL.Services.TestService
+namespace Lab.Quiz.BL.Services.TestCardService
 {
     internal class TestCardService : ITestCardService
     {

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lab.Quiz.BL.Services.TestService.Models;
+﻿using System.Linq;
+using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.Entities;
 
-namespace Lab.Quiz.BL.Services.TestService.Mapping
+namespace Lab.Quiz.BL.Services.TestCardService.Mapping
 {
     /// <summary>
     /// The <see cref="IManualMapperProfile"/> implementation for <see cref="TestCardModel"/> model.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab.Quiz.BL.Services.TestService.Models
+namespace Lab.Quiz.BL.Services.TestCardService.Models
 {
     public class TestQuestionModel
     {

@@ -1,5 +1,5 @@
-﻿using Lab.Quiz.BL.Services.TestService;
-using Lab.Quiz.BL.Services.TestService.Mapping;
+﻿using Lab.Quiz.BL.Services.TestCardService;
+using Lab.Quiz.BL.Services.TestCardService.Mapping;
 using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.DependencyInjection;
 using Microsoft.Extensions.Configuration;

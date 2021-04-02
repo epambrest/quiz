@@ -1,8 +1,8 @@
-﻿using Lab.Quiz.BL.Services.TestService.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lab.Quiz.BL.Services.TestCardService.Models;
 
-namespace Lab.Quiz.BL.Services.TestService
+namespace Lab.Quiz.BL.Services.TestCardService
 {
 
     public interface ITestCardService
