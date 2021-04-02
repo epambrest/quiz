@@ -1,4 +1,6 @@
 ﻿using Lab.Quiz.BL.Services.TestService;
+using Lab.Quiz.BL.Services.TestService.Mapping;
+using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,12 +13,8 @@ namespace Lab.Quiz.BL.DependencyInjection
         {
             services.AddDataLayer(configuration);
             services.AddScoped<ITestCardService, TestCardService>();
-
-
-            //services
-            //    .Configure<CosmosDbConfig>(o => configuration.GetSection(nameof(CosmosDbConfig)).Bind(o))
-            //    .AddScoped<IApiProxyUnitOfWorkFactory, ApiProxyUnitOfWorkFactory>()
-            //    .AddScoped<IApiProxyUnitOfWork>(c => c.GetRequiredService<IApiProxyUnitOfWorkFactory>().Create());
+            services.AddScoped<IManualMapperProfile, TestCardMapperProfile>();
+            services.AddScoped<IManualMapperProfile, TestCardCollectionMapperProfile>();
 
             return services;
         }

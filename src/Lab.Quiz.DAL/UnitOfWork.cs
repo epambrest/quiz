@@ -24,7 +24,7 @@ namespace Lab.Quiz.DAL
 
         private bool _disposed;
 
-        public UnitOfWork(ApplicationDbContext dbContext)
+        public UnitOfWork(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
