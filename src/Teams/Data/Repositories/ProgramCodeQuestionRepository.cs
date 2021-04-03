@@ -20,9 +20,17 @@ namespace Teams.Data.Repositories
         {
             return _db.ProgramCodeQuestions.Single(q => q.Id == id);
         }
-        public void Add(ProgramCodeQuestion question)
+        public async Task Add(ProgramCodeQuestion question)
         {
-            _db.ProgramCodeQuestions.Add(question);
+            await _db.ProgramCodeQuestions.AddAsync(question);
+            await _db.SaveChangesAsync();
+
+        }
+
+        public async Task UpdateQuestion(ProgramCodeQuestion question)
+        {
+            _db.Questions.Update(question);
+            await _db.SaveChangesAsync();
         }
     }
 }

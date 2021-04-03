@@ -1,0 +1,79 @@
+﻿@model Teams.Models.ProgramCodeQuestionViewModel
+
+<style>
+    textarea{
+        resize: none;
+    }
+</style>
+
+<input type="text" id="idQuestion" value="@Model.Id" hidden />
+
+    <div>
+        <h1>
+            @Model.Text
+        </h1>
+    </div>
+
+    <table id="tblResult" class="table table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>InputTest</th>
+                <th>OutputTest</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+    </table>
+
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@section scripts{
+
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+            $('#tblResult').DataTable({
+                "ajax": {
+                "url": '/ProgramTest/GetAllElements',
+                "data": { idQuestion: $("#idQuestion").val() },
+                "dataSrc": ''
+                },
+                columns: [
+
+                    { data: 'Id' },
+                    { data: 'InputTest' },
+                    {
+                        "render": function (data, type, row) {
+                            return "<textarea id=" + JSON.stringify(row.Id) + " class='form-control' rows=2 cols=6 ></textarea>";}
+                    },
+                    {
+                        data: "id", render: function (data, type, row, meta) {
+                            return "<button class= 'btn btn-primary' style='margin-right:5px;' onClick='Check(" + JSON.stringify(row) + ")'>Check</button>"; }
+                    },
+
+                ]
+
+            });
+
+        });
+
+        function Check(ProgramCodeitem) {
+            var text = document.getElementById(ProgramCodeitem.Id).value;
+            var outret = ProgramCodeitem.OutputTest;
+            document.getElementById(ProgramCodeitem.Id).style.borderColor = (text == outret) ? "#00FF00" : "#FF0000";
+            document.getElementById(ProgramCodeitem.Id).readOnly = true;
+        }
+
+    </script>
+
+
+}

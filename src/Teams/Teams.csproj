@@ -75,6 +75,32 @@
     <Compile Remove="Data\Migrations\20201230185841_AddTestRunTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20201202124242_RenameAsQueuedProgram.cs" />
     <Compile Remove="Data\Migrations\20201202124242_RenameAsQueuedProgram.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122204232_AddProgramTest.cs" />
+    <Compile Remove="Data\Migrations\20210122204232_AddProgramTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122204633_UpdatedProgramTest.cs" />
+    <Compile Remove="Data\Migrations\20210122204633_UpdatedProgramTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122204938_UpdateForeignKeyProgramTest.cs" />
+    <Compile Remove="Data\Migrations\20210122204938_UpdateForeignKeyProgramTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122214452_AddUpdatedProgramTest.cs" />
+    <Compile Remove="Data\Migrations\20210122214452_AddUpdatedProgramTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122214539_AddUpdatedForeignKeyProgramTest.cs" />
+    <Compile Remove="Data\Migrations\20210122214539_AddUpdatedForeignKeyProgramTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122220623_AddUpdatedForeignKeyProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122220623_AddUpdatedForeignKeyProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122224653_AddProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122224653_AddProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122225712_AddProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122225712_AddProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122225942_AddUpdatedForeignKeyProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122225942_AddUpdatedForeignKeyProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122230549_AddUpdatedForeignKeyProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122230549_AddUpdatedForeignKeyProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122231040_AddUpdatedProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122231040_AddUpdatedProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122231137_AddUpdatedForeignKeyProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122231137_AddUpdatedForeignKeyProgTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122231549_AddUpdatedForeignKeyProgTest.cs" />
+    <Compile Remove="Data\Migrations\20210122231549_AddUpdatedForeignKeyProgTest.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\ProgramCodeQuestion\ProgramCodeQuestionCheks.ts" />

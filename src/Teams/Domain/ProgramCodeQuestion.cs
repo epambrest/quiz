@@ -11,5 +11,10 @@ namespace Teams.Domain
         {
 
         }
+
+        public void InitialQuestion(string text)
+        {
+            Text = text;
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace Teams.Data
         public DbSet<Answer> Answers { get; set; }
         public DbSet<TestRun> TestRuns { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
+        public DbSet<ProgramTest> ProgramTests { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

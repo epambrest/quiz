@@ -24,5 +24,6 @@ namespace Teams.Data
         EntityEntry Entry(Object entity);
         public DbSet<ProgramCodeQuestion> ProgramCodeQuestions { get; set; }
         public DbSet<QueuedProgram> QueuedPrograms { get; set; }
+        public DbSet<ProgramTest> ProgramTests { get; set; }
     }
 }

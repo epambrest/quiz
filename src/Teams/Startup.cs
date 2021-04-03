@@ -21,6 +21,7 @@ using Teams.Data.TestRunRepos;
 using Teams.Domain;
 using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Teams.Data.ProgramTestRepos;
 
 namespace Teams
 {
@@ -50,7 +51,12 @@ namespace Teams
             services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
             services.AddScoped<ITestRunRepository, TestRunRepository>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-            services.AddControllersWithViews();
+            services.AddScoped<IProgramTestRepository, ProgramTestRepository>();
+            services.AddControllersWithViews()
+                    .AddJsonOptions(o => {
+                        o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                        o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    });
             services.AddRazorPages();
         }
 
