@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Teams.Extensions;
 using Teams.Models;
 
 namespace Teams.Controllers
@@ -20,17 +21,20 @@ namespace Teams.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation();
             return View();
         }
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation();
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            _logger.LogInformation();
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Teams.Data.SingleSelectionQuestionRepos;
 using Teams.Domain;
+using Teams.Extensions;
 using Teams.Models;
 
 namespace Teams.Controllers
@@ -12,20 +14,26 @@ namespace Teams.Controllers
     public class SingleSelectionQuestionCreateController : Controller
     {
         readonly private ISingleSelectionQuestionRepository _singleRepository;
-        public SingleSelectionQuestionCreateController(ISingleSelectionQuestionRepository singleRepository)
+        private readonly ILogger<SingleSelectionQuestionCreateController> _logger;
+        public SingleSelectionQuestionCreateController(ISingleSelectionQuestionRepository singleRepository, 
+            ILogger<SingleSelectionQuestionCreateController> logger)
         {
             _singleRepository = singleRepository;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            _logger.LogInformation();
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
         {
+            _logger.LogInformation();
+
             if (modelForView == null)
             return BadRequest("Model for view is empty.");
             
@@ -38,6 +46,8 @@ namespace Teams.Controllers
         [Route("[Controller]/Edit")]
         public async Task<IActionResult> EditQuestionById(Guid id)
         {
+            _logger.LogInformation($"Recieved GUID: {id}");
+
             var question = await _singleRepository.GetAsync(id);
             if (question == null)
             return NotFound();
@@ -65,6 +75,9 @@ namespace Teams.Controllers
         [Route("[Controller]/Edit")]
         public async Task<IActionResult> EditQuestionById(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
         {
+            _logger.LogInformation($"GUID: {modelForView.Id}|Answers: {String.Join(", ", textOfAnswers)}" +
+                $"|radioButtonValue: {radioButtonValue}");
+
             if (modelForView == null)
             return BadRequest("Model for view is empty.");
 

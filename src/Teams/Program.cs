@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Web;
 
 namespace Teams
 {
@@ -13,6 +15,8 @@ namespace Teams
     {
         public static void Main(string[] args)
         {
+            LogManager.Setup().LoadConfigurationFromAppSettings();
+
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -21,6 +25,7 @@ namespace Teams
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseNLog();
     }
 }
