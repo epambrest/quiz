@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Teams.Data.Repositories;
 using Teams.Data;
+using Teams.Extensions;
 using Teams.Models;
 using Teams.Domain;
 
@@ -43,7 +44,7 @@ namespace Teams.Controllers
         [HttpPost]
         public IActionResult Index(ProgramCodeQuestionViewModel model)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             if (model.File is null)
             {
                 model.AlertText = "Please upload a file before submitting.";

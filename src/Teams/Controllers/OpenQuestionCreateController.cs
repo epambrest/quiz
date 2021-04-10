@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Teams.Data;
 using Teams.Domain;
+using Teams.Extensions;
 using Teams.Models;
 
 namespace Teams.Controllers
@@ -25,14 +26,14 @@ namespace Teams.Controllers
 
         public IActionResult Create()
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(OpenAnswerQuestionModel modelForView)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             OpenAnswerQuestion question = new OpenAnswerQuestion(modelForView.Question, modelForView.Answer);
             _db.OpenAnswerQuestions.Add(question);
             await _db.SaveChangesAsync();
@@ -59,7 +60,7 @@ namespace Teams.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(OpenAnswerQuestionModel modelForView)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             OpenAnswerQuestion question = await _db.OpenAnswerQuestions.FirstOrDefaultAsync(p => p.Id == modelForView.Id);
             question.UpdateQuestion(modelForView.Question, modelForView.Answer);
             await _db.SaveChangesAsync();

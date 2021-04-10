@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Teams.Extensions;
 using Westwind.AspNetCore.Markdown;
 
 namespace Teams.Controllers
@@ -16,7 +17,7 @@ namespace Teams.Controllers
         [HttpPost]
         public JsonResult GetMarkdownQuestion(string question)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             string html = Markdown.Parse(question);
             return Json(html);
         }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Teams.Data;
 using Teams.Data.Repositories;
 using Teams.Domain;
+using Teams.Extensions;
 using Teams.Models;
 
 namespace Teams.Controllers
@@ -58,15 +59,15 @@ namespace Teams.Controllers
         [HttpGet]
         public IActionResult ShowMultipleAnswerQuestionForm()
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             return View("AddMultipleAnswerQuestion");
         }
 
         [HttpPost]
         public IActionResult AddMultipleAnswerQuestion([FromBody] MultipleQuestionAddModel multipleAnswersQuestionDTO)
         {
-            IEnumerable<string> answers = multipleAnswersQuestionDTO.QuestionAnswers.Select(a => a.AnswersText);
-            _logger.LogInformation($"QuestionText: {multipleAnswersQuestionDTO.QuestionText}|Answers: {String.Join(", ", answers)}");
+            LogAnswersAndQuestionText(multipleAnswersQuestionDTO.QuestionAnswers, 
+                multipleAnswersQuestionDTO.QuestionText);
 
             var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
                  .Select(x => new MultipleAnswerQuestionOption(x.AnswersText, x.IsRightAnswer))
@@ -80,8 +81,8 @@ namespace Teams.Controllers
         [HttpPut]
         public IActionResult EditMultipleAnswerQuestion([FromBody] MultipleQuestionEditModel multipleAnswersQuestionDTO)
         {
-            IEnumerable<string> answers = multipleAnswersQuestionDTO.QuestionAnswers.Select(a => a.AnswersText);
-            _logger.LogInformation($"QuestionText: {multipleAnswersQuestionDTO.QuestionText}|Answers: {String.Join(", ", answers)}");
+            LogAnswersAndQuestionText(multipleAnswersQuestionDTO.QuestionAnswers,
+                multipleAnswersQuestionDTO.QuestionText);
 
             var allAnswers = multipleAnswersQuestionDTO.QuestionAnswers
                 .Select(x => new MultipleAnswerQuestionOption(x.AnswersText, x.IsRightAnswer))
@@ -94,6 +95,12 @@ namespace Teams.Controllers
             _questionRepository.UpdateQuestion(question);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private void LogAnswersAndQuestionText(IEnumerable<QuestionAnswer> questionAnswers, string questionText)
+        {
+            IEnumerable<string> answers = questionAnswers.Select(a => a.AnswersText);
+            _logger.LogInformation($"QuestionText: {questionText}|Answers: {String.Join(", ", answers)}");
         }
     }
 }

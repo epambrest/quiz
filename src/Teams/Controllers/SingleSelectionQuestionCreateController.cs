@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Teams.Data.SingleSelectionQuestionRepos;
 using Teams.Domain;
+using Teams.Extensions;
 using Teams.Models;
 
 namespace Teams.Controllers
@@ -24,14 +25,14 @@ namespace Teams.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(SingleSelectionQuestionModel modelForView, IList<string> textOfAnswers, string radioButtonValue)
         {
-            _logger.LogInformation("");
+            _logger.LogInformation();
 
             if (modelForView == null)
             return BadRequest("Model for view is empty.");
