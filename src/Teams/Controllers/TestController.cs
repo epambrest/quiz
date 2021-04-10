@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Lab.Quiz.BL.Services.TestCardService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Teams.Data;
@@ -15,19 +16,38 @@ namespace Teams.Controllers
 {
     public class TestController : Controller
     {
+        private ITestCardService _testCardService;
+
         private ITestRepository _testRepository;
         private IQuestionRepository _questionRepository;
         private IApplicationDbContext _dbContext;
-        public TestController(ITestRepository testRepository, IQuestionRepository questionRepository, IApplicationDbContext dbContext)
+
+        public TestController(
+            ITestCardService testCardService,
+            ITestRepository testRepository, 
+            IQuestionRepository questionRepository,
+            IApplicationDbContext dbContext)
         {
+            _testCardService = testCardService;
+
             _testRepository = testRepository;
             _questionRepository = questionRepository;
             _dbContext = dbContext;
         }
+
+        [HttpGet]
+        [Route("testcards")]
+        public async Task<IActionResult> GetTestCards()
+        {
+            var testCards = await _testCardService.GetTests();
+            return new OkObjectResult(testCards);
+        }
+
         public IActionResult Index()
         {
             return View(_testRepository.GetAll());
         }
+
         [HttpPost]
         public IActionResult Create([FromBody] string name)
         {
@@ -62,7 +82,7 @@ namespace Teams.Controllers
             {
                 return BadRequest();
             }
-            var testQuestions = _dbContext.TestQuestions.Where(w => w.TestId == test.Id);
+            var testQuestions = _dbContext.TestQuestions.Where(w => w.TestId == test.Id); /////////you can use this method --- public void DeleteTestQuestions(Guid test.Id)
             _dbContext.TestQuestions.RemoveRange(testQuestions);
             foreach (var item in test.Questions)
             {
