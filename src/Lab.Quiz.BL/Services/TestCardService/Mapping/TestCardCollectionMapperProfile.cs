@@ -6,11 +6,11 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.BL.Services.TestCardService.Mapping
 {
-    internal class TestCardCollectionMapperProfile : IManualMapperProfile<ICollection<Test>, ICollection<TestCardModel>>
+    internal class TestCardCollectionMapperProfile : IManualMapperProfile<ICollection<TestCardModel>, ICollection<TestCardVModel>>
     {
-        public ICollection<TestCardModel> MapManual(ICollection<Test> source)
+        public ICollection<TestCardVModel> MapManual(ICollection<TestCardModel> source)
         {
-            return source.Select(s => new TestCardModel
+            return source.Select(s => new TestCardVModel
             {
                 TestTitle = s.Title,
                 TestQuestions = s.TestQuestions?.Select(q => new TestQuestionModel

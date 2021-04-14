@@ -16,11 +16,11 @@ namespace Lab.Quiz.DAL.Repositories
         {
             _dbContext = dbContext;
         }
-        public List<Test> GetAll()
+        public List<TestCardModel> GetAll()
         {
             return _dbContext.Tests.ToList();
         }
-        public Test Get(Guid id)
+        public TestCardModel Get(Guid id)
         {
             return _dbContext.Tests.Include(q => q.TestQuestions).FirstOrDefault(w => w.Id == id);
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Lab.Quiz.DAL.Entities
 {
-    public class Test : Entity
+    public class TestCardModel : Entity
     {
         public string Title { get; set; }
         public ICollection<TestQuestion> TestQuestions { get; set; }

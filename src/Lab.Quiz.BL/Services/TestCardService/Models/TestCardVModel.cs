@@ -2,7 +2,7 @@
 
 namespace Lab.Quiz.BL.Services.TestCardService.Models
 {
-    public class TestCardModel
+    public class TestCardVModel
     {
         public string TestTitle { get; set; }
 

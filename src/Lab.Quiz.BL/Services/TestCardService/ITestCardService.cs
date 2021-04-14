@@ -6,6 +6,7 @@ namespace Lab.Quiz.BL.Services.TestCardService
 {
     public interface ITestCardService
     {
-        Task<ICollection<TestCardModel>> GetTests();
+        Task<ICollection<TestCardVModel>> GetAllTestCards();
+        Task CreateTestCard(string testCardName);
     }
 }

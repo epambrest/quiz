@@ -9,7 +9,7 @@ namespace Lab.Quiz.DAL.Interfaces
 {
     public interface ITestRepository 
     {
-        public List<Test> GetAll();
-        public Test Get(Guid id);
+        public List<TestCardModel> GetAll();
+        public TestCardModel Get(Guid id);
     }
 }

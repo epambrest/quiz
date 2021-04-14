@@ -21,13 +21,20 @@ namespace Lab.Quiz.BL.Services.TestCardService
             _mapper = mapper;
         }
 
-        public async Task<ICollection<TestCardModel>> GetTests()
+        public async Task<ICollection<TestCardVModel>> GetAllTestCards()
         {
             var tests = await _unitOfWork.TestsRepository.GetAll()
                 .Include(x => x.TestQuestions)
                 .ToListAsync();
 
-            return _mapper.Map<ICollection<Test>, ICollection<TestCardModel>>(tests);
+            return _mapper.Map<ICollection<TestCardModel>, ICollection<TestCardVModel>>(tests);
+        }
+
+        public async Task CreateTestCard(string testCardName)
+        {
+         var testCardVModel =  _mapper.Map<TestCardVModel, TestCardModel>(new TestCardVModel {TestTitle = testCardName });
+         _unitOfWork.TestsRepository.Add(testCardVModel);
+         await _unitOfWork.SaveAsync();
         }
     }
 }

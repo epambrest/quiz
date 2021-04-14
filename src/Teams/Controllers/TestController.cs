@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Lab.Quiz.BL.Services.TestCardService;
+using Lab.Quiz.BL.Services.TestCardService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Teams.Data;
@@ -39,7 +40,7 @@ namespace Teams.Controllers
         [Route("testcards")]
         public async Task<IActionResult> GetTestCards()
         {
-            var testCards = await _testCardService.GetTests();
+            var testCards = await _testCardService.GetAllTestCards();
             return new OkObjectResult(testCards);
         }
 
@@ -49,13 +50,13 @@ namespace Teams.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] string name)
+        public async Task<IActionResult> Create([FromBody]string name)
         {
-            var newTest = new Test(name);
-            _dbContext.Tests.Add(newTest);
-            _dbContext.SaveChanges();
+            // throw new Exception();
+            await _testCardService.CreateTestCard(name);
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
