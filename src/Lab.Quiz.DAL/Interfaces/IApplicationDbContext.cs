@@ -13,7 +13,7 @@ namespace Lab.Quiz.DAL.Interfaces
         public DbSet<Question> Questions { get; set; }
         public DbSet<SingleSelectionQuestion> SingleSelectionQuestions { get; set; }
         public DbSet<MultipleAnswerQuestion> MultipleAnswerQuestions { get; set; }
-        public DbSet<TestCardModel> Tests { get; set; }
+        public DbSet<QuizCardDALModel> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));

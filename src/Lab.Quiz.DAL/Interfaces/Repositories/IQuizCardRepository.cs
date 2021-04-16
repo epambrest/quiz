@@ -7,9 +7,9 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Interfaces
 {
-    public interface ITestRepository 
+    public interface IQuizCardRepository 
     {
-        public List<TestCardModel> GetAll();
-        public TestCardModel Get(Guid id);
+        public List<QuizCardDALModel> GetAll();
+        public QuizCardDALModel Get(Guid id);
     }
 }

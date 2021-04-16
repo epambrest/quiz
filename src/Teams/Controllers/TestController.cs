@@ -17,14 +17,14 @@ namespace Teams.Controllers
 {
     public class TestController : Controller
     {
-        private ITestCardService _testCardService;
+        private IQuizCardService _testCardService;
 
         private ITestRepository _testRepository;
         private IQuestionRepository _questionRepository;
         private IApplicationDbContext _dbContext;
 
         public TestController(
-            ITestCardService testCardService,
+            IQuizCardService testCardService,
             ITestRepository testRepository, 
             IQuestionRepository questionRepository,
             IApplicationDbContext dbContext)
@@ -40,27 +40,26 @@ namespace Teams.Controllers
         [Route("testcards")]
         public async Task<IActionResult> GetTestCards()
         {
-            var testCards = await _testCardService.GetAllTestCards();
-            return new OkObjectResult(testCards);
+            return View(await _testCardService.GetAllQuizCards());
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_testRepository.GetAll());
+            var testCards = await _testCardService.GetAllQuizCards();
+            return View(testCards);
         }
-
+ 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]string name)
         {
-            // throw new Exception();
-            await _testCardService.CreateTestCard(name);
+            await _testCardService.CreateQuizCard(name);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var test = _testRepository.Get(id);
+            var test = await _testCardService.GetQuizCard(id);
             if (test == null)
             {
                 return NotFound();
@@ -68,7 +67,7 @@ namespace Teams.Controllers
             var testDto = new TestDTO() 
             {
                 Id = test.Id,
-                Title = test.Title
+                Title = test.TestTitle,
             };
             testDto.Questions = _questionRepository
                 .GetTestQuestions(id)

@@ -9,18 +9,18 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.DAL.Repositories
 {
-    public class TestRepository : ITestRepository
+    public class QuizCardRepository : IQuizCardRepository
     {
         private IApplicationDbContext _dbContext;
-        public TestRepository(IApplicationDbContext dbContext)
+        public QuizCardRepository(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public List<TestCardModel> GetAll()
+        public List<QuizCardDALModel> GetAll()
         {
             return _dbContext.Tests.ToList();
         }
-        public TestCardModel Get(Guid id)
+        public QuizCardDALModel Get(Guid id)
         {
             return _dbContext.Tests.Include(q => q.TestQuestions).FirstOrDefault(w => w.Id == id);
         }

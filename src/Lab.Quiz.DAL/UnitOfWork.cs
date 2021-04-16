@@ -18,7 +18,7 @@ namespace Lab.Quiz.DAL
         private IRepository<MultipleAnswerQuestion> _MultipleAnswerQuestionsRepository;
         private IRepository<ProgramCodeQuestion> _ProgramCodeQuestionsRepository;
         private IRepository<TestQuestion> _TestQuestionsRepository;
-        private IRepository<TestCardModel> _TestsRepository;
+        private IRepository<QuizCardDALModel> _quizCardRepository;
         private IRepository<TestRun> _TestRunsRepository;
         private IRepository<QueuedProgram> _QueuedProgramsRepository;
 
@@ -36,7 +36,7 @@ namespace Lab.Quiz.DAL
         public IRepository<MultipleAnswerQuestion> MultipleAnswerQuestionsRepository => _MultipleAnswerQuestionsRepository ??= new Repository<MultipleAnswerQuestion>(_dbContext.MultipleAnswerQuestions);
         public IRepository<ProgramCodeQuestion> ProgramCodeQuestionsRepository => _ProgramCodeQuestionsRepository ??= new Repository<ProgramCodeQuestion>(_dbContext.ProgramCodeQuestions);
         public IRepository<TestQuestion> TestQuestionsRepository => _TestQuestionsRepository ??= new Repository<TestQuestion>(_dbContext.TestQuestions);
-        public IRepository<TestCardModel> TestsRepository => _TestsRepository ??= new Repository<TestCardModel>(_dbContext.Tests);
+        public IRepository<QuizCardDALModel> QuizCardRepository => _quizCardRepository ??= new Repository<QuizCardDALModel>(_dbContext.Tests);
         public IRepository<TestRun> TestRunsRepository => _TestRunsRepository ??= new Repository<TestRun>(_dbContext.TestRuns);
         public IRepository<QueuedProgram> QueuedProgramsRepository => _QueuedProgramsRepository ??= new Repository<QueuedProgram>(_dbContext.QueuedPrograms);
 

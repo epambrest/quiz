@@ -6,18 +6,19 @@ using Lab.Quiz.DAL.Entities;
 
 namespace Lab.Quiz.BL.Services.TestCardService.Mapping
 {
-    internal class TestCardCollectionMapperProfile : IManualMapperProfile<ICollection<TestCardModel>, ICollection<TestCardVModel>>
+    internal class TestCardCollectionMapperProfile : IManualMapperProfile<ICollection<QuizCardDALModel>, ICollection<QuizCardBLModel>>
     {
-        public ICollection<TestCardVModel> MapManual(ICollection<TestCardModel> source)
+        public ICollection<QuizCardBLModel> MapManual(ICollection<QuizCardDALModel> source)
         {
-            return source.Select(s => new TestCardVModel
+            return source.Select(s => new QuizCardBLModel
             {
                 TestTitle = s.Title,
                 TestQuestions = s.TestQuestions?.Select(q => new TestQuestionModel
                 {
                     QuestionId = q.QuestionId,
-                    TestId = q.QuestionId
+                    TestId = q.QuestionId,
                 }).ToList(),
+                Id = s.Id,
             }).ToList();
         }
     }

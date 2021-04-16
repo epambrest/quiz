@@ -12,7 +12,7 @@ namespace Lab.Quiz.DAL.Interfaces
         IRepository<MultipleAnswerQuestion> MultipleAnswerQuestionsRepository { get; }
         IRepository<ProgramCodeQuestion> ProgramCodeQuestionsRepository { get; }
         IRepository<TestQuestion> TestQuestionsRepository { get; }
-        IRepository<TestCardModel> TestsRepository { get; }
+        IRepository<QuizCardDALModel> QuizCardRepository { get; }
         IRepository<TestRun> TestRunsRepository { get; }
         IRepository<QueuedProgram> QueuedProgramsRepository { get; }
         Task SaveAsync();

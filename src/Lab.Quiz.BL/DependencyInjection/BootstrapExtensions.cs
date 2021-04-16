@@ -12,7 +12,7 @@ namespace Lab.Quiz.BL.DependencyInjection
         public static IServiceCollection AddBusinessLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDataLayer(configuration);
-            services.AddScoped<ITestCardService, TestCardService>();
+            services.AddScoped<IQuizCardService, QuizCardService>();
             services.AddScoped<IManualMapperProfile, TestCardMapperProfile>();
             services.AddScoped<IManualMapperProfile, TestCardCollectionMapperProfile>();
 

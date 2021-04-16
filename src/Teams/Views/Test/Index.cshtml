@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Teams.Domain.Test>
+﻿@model IEnumerable<Lab.Quiz.BL.Services.TestCardService.Models.TestCardBLModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +16,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.TestTitle)
             </td>
             <td align="right">
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

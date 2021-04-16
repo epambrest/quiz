@@ -6,28 +6,29 @@ using Lab.Quiz.DAL.Entities;
 namespace Lab.Quiz.BL.Services.TestCardService.Mapping
 {
     /// <summary>
-    /// The <see cref="IManualMapperProfile"/> implementation for <see cref="TestCardVModel"/> model.
+    /// The <see cref="IManualMapperProfile"/> implementation for <see cref="QuizCardBLModel"/> model.
     /// </summary>
-    internal class TestCardMapperProfile : IManualMapperProfile<TestCardModel, TestCardVModel>,
-         IManualMapperProfile<TestCardVModel, TestCardModel>
+    internal class TestCardMapperProfile : IManualMapperProfile<QuizCardDALModel, QuizCardBLModel>,
+         IManualMapperProfile<QuizCardBLModel, QuizCardDALModel>
     {
         /// <inheritdoc />
-        public TestCardVModel MapManual(TestCardModel source)
+        public QuizCardBLModel MapManual(QuizCardDALModel source)
         {
-            return new TestCardVModel
+            return new QuizCardBLModel
             {
                 TestTitle = source.Title,
                 TestQuestions = source.TestQuestions?.Select(x => new TestQuestionModel
-                {
+                {                    
                     QuestionId = x.QuestionId,
-                    TestId = x.QuestionId
+                    TestId = x.QuestionId,
+                    
                 }).ToList(),
             };
         }
 
-        public TestCardModel MapManual(TestCardVModel source)
+        public QuizCardDALModel MapManual(QuizCardBLModel source)
         {
-            return new TestCardModel
+            return new QuizCardDALModel
             {
                 Title = source.TestTitle,
                 TestQuestions = source.TestQuestions?.Select(q => new TestQuestion
@@ -35,6 +36,7 @@ namespace Lab.Quiz.BL.Services.TestCardService.Mapping
                     QuestionId = q.QuestionId,
                     TestId = q.TestId,
                 }).ToList(),
+                Id = source.Id,
             };
         }
     }
