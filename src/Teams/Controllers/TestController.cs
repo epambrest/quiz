@@ -49,13 +49,14 @@ namespace Teams.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] string name)
+        public IActionResult Create([FromBody] string quizName)
         {
-            var newTest = new Test(name);
+            var newTest = new Test(quizName);
             _dbContext.Tests.Add(newTest);
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult Edit(Guid id)
         {

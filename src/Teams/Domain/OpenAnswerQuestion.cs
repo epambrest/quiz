@@ -27,7 +27,6 @@ namespace Teams.Domain
         {
             Text = question;
             Answer = answer;
-
         }
     }
 }

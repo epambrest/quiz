@@ -2,7 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Quiz</title>
+</head>
+    <body>
+        <div style="float: left;margin-right:7%; width:40%">
+            <table border="1" style="width:100%">
+                <tr>
+                    <th style="width:70%">Quiz List</th>
+                <th>
+                    <form asp-controller="Test" asp-action="Create" method="post">
+                        <label>New Quiz Name</label>
+                        <input type="text" name="quizName" placeholder="Quiz Name" />
+                        <input type="submit" value="Create" />
+                    </form>
+                </th>
+                </tr>
+                @foreach (var test in ViewBag.Tests)
+                {
+                    string testId = test.Id.ToString();
+                    <tr>
+                        <th>
+                            @Html.ActionLink(testId, "GetQuestions", "Question", testId, null)
+                        </th>
+                        <th>
+                            <form asp-controller="Test" asp-action="Delete" method="post">
+                                <label>Delete</label>
+                                <button type="submit" value="@testId"></button>
+                            </form>
+                        </th>
+                        <th>
+                            <form asp-controller="Test" asp-action="Start" method="post">
+                                <label>Start</label>
+                                <input type="submit" placeholder="Start" value="@testId" />
+                            </form>
+                        </th>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div style="float: left; width:40%">
+            <table border="1" style="width:100%">
+                <tr>
+                    <th style="width:70%">Questions List</th>
+                    <th>
+                        @Html.ActionLink("Create New", "Create", "OpenQuestionCreate")
+                    </th>
+                </tr>
+                @foreach (var question in ViewBag.Questions)
+                {
+                    <partial name="_DisplayQuestionsPartial" model="question" />
+                }
+            </table>
+        </div>
+    </body>
+</html>

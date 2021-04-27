@@ -5,24 +5,15 @@ using System.Threading.Tasks;
 using Lab.Quiz.BL.DependencyInjection;
 using Lab.Quiz.Common.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using Teams.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Teams.Data.OpenAnswerQuestionRepos;
-using Teams.Data.SingleSelectionQuestionRepos;
-using Teams.Data.TestRepos;
-using Teams.Data.QuestionRepos;
-using Teams.Data.Repositories;
-using Teams.Data.TestRunRepos;
-using Teams.Domain;
-using Teams.Models;
-using Teams.Data.OpenAnswerQuestionRepos;
+using Lab.Quiz.DAL;
+using Lab.Quiz.DAL.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Lab.Quiz.DAL.Repositories;
 
 namespace Teams
 {

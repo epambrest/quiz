@@ -68,14 +68,5 @@ namespace Teams.Controllers
             await _testRunRepository.AddAsync(updatedTestRun);
             return View(testRunDto);
         }
-
-        /// <summary>
-        /// This method is temporary, to be deleted after testing. It reads the context, gets the TestRun by id and returns back to caller.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<TestRun> PostRunTestMethod(int testRunId)
-        {
-            return await _testRunRepository.GetByIdAsync(testRunId);
-        }
     }   
 }
