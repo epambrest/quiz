@@ -15,12 +15,14 @@ namespace Teams.Controllers
     {
         private ISingleSelectionQuestionRepository _singleRepository { get; set; }
         private readonly ILogger<SingleSelectionQuestionController> _logger;
+
         public SingleSelectionQuestionController(ISingleSelectionQuestionRepository singleRepository,
             ILogger<SingleSelectionQuestionController> logger)
         {
             _singleRepository = singleRepository;
             _logger = logger;
         }
+
         [Route("[Controller]/{id?}")]
         public IActionResult Index(Guid id)
         {
@@ -29,6 +31,7 @@ namespace Teams.Controllers
             if (question == null) return NotFound();
             return View(question);
         }
+
         [HttpGet]
         public async Task<JsonResult> FindAnswer(Guid questionId)
         {

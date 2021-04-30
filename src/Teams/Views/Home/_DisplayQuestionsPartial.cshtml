@@ -3,16 +3,31 @@
 <tr>
     <td>Model.Text</td>
     <th>
-        <form asp-controller="Test" asp-action="Create" method="post">
-            <label>New Quiz Name</label>
-            <input type="text" name="quizName" placeholder="Quiz Name" />
-            <input type="submit" value="Create" />
-        </form>
-        <form asp-controller="Test" asp-action="Create" method="post">
-            <label>New Quiz Name</label>
-            <input type="text" name="quizName" placeholder="Quiz Name" />
-            <input type="submit" value="Create" />
-        </form>
+        <table border="1" style="width:100%">
+            <tr>
+                <th style="width:70%">Questions List</th>
+                <th>
+                    @Html.ActionLink("Create New", "Create", "OpenQuestionCreate")
+                </th>
+            </tr>
+            @foreach (var question in ViewBag.Questions)
+            {
+                string questionId = question.Id.ToString();
+                <tr>
+                    <th>
+                        <form asp-controller="Question" asp-action="Delete" method="post" style="width:15%">
+                            <button type="submit" value="@questionId">Delete</button>
+                        </form>
+                    </th>
+                    <th>
+                        <form asp-controller="Question" asp-action="Create" method="post" style="width:15%">
+                            <button type="submit" value="@questionId">Create</button>
+                        </form>
+                    </th>
+                </tr>
+            }
+        </table>
+        
     </th>
 
 </tr>

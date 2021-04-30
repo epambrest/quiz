@@ -1,11 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Lab.Quiz.DAL;
 
 namespace Lab.Quiz.DAL.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class CreatedHomePage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,11 +47,53 @@ namespace Lab.Quiz.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    QuestionType = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Answer = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestRuns",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TestedUserId = table.Column<string>(nullable: true),
+                    TestId = table.Column<Guid>(nullable: false),
+                    InProgress = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestRuns", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tests",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -74,7 +114,7 @@ namespace Lab.Quiz.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -154,6 +194,118 @@ namespace Lab.Quiz.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MultipleAnswerQuestionOption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    IsRight = table.Column<bool>(nullable: false),
+                    MultipleAnswerQuestionId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleAnswerQuestionOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleAnswerQuestionOption_Questions_MultipleAnswerQuestionId",
+                        column: x => x.MultipleAnswerQuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QueuedPrograms",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    questionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    program = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QueuedPrograms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QueuedPrograms_Questions_questionId",
+                        column: x => x.questionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SingleSelectionQuestionOption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    IsAnswer = table.Column<bool>(nullable: false),
+                    SingleSelectionQuestionId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SingleSelectionQuestionOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SingleSelectionQuestionOption_Questions_SingleSelectionQuestionId",
+                        column: x => x.SingleSelectionQuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AnswerOptions = table.Column<string>(nullable: true),
+                    AnswerText = table.Column<string>(nullable: true),
+                    TestQuestionId = table.Column<Guid>(nullable: false),
+                    TestRunId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_TestRuns_TestRunId",
+                        column: x => x.TestRunId,
+                        principalTable: "TestRuns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TestId = table.Column<Guid>(nullable: false),
+                    QuestionId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestQuestions_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TestQuestions_Tests_TestId",
+                        column: x => x.TestId,
+                        principalTable: "Tests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_TestRunId",
+                table: "Answers",
+                column: "TestRunId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,10 +344,38 @@ namespace Lab.Quiz.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MultipleAnswerQuestionOption_MultipleAnswerQuestionId",
+                table: "MultipleAnswerQuestionOption",
+                column: "MultipleAnswerQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QueuedPrograms_questionId",
+                table: "QueuedPrograms",
+                column: "questionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SingleSelectionQuestionOption_SingleSelectionQuestionId",
+                table: "SingleSelectionQuestionOption",
+                column: "SingleSelectionQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestQuestions_QuestionId",
+                table: "TestQuestions",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestQuestions_TestId",
+                table: "TestQuestions",
+                column: "TestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Answers");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -212,10 +392,31 @@ namespace Lab.Quiz.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "MultipleAnswerQuestionOption");
+
+            migrationBuilder.DropTable(
+                name: "QueuedPrograms");
+
+            migrationBuilder.DropTable(
+                name: "SingleSelectionQuestionOption");
+
+            migrationBuilder.DropTable(
+                name: "TestQuestions");
+
+            migrationBuilder.DropTable(
+                name: "TestRuns");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "Tests");
         }
     }
 }

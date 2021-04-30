@@ -9,6 +9,7 @@ using Lab.Quiz.DAL.Entities;
 using Lab.Quiz.DAL.Repositories;
 using Lab.Quiz.DAL;
 using Lab.Quiz.DAL.Interfaces;
+using System;
 
 namespace Teams.Controllers
 {
@@ -39,6 +40,14 @@ namespace Teams.Controllers
             _logger.LogInformation();
             ViewBag.tests = _testsRepo.GetAll();
             return View();
+        }
+
+        [HttpPost]
+        public PartialViewResult AddPartialToView(string id)
+        {
+            var test = _testsRepo.Get(Guid.Parse(id));
+            return PartialView(id);
+
         }
     }
 }
