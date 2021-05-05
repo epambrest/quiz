@@ -49,9 +49,9 @@ namespace Teams
                     Configuration.GetConnectionString("NewDefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<QuizDBContext>();
-            services.AddTransient<IRepository<Quiz>, Repository<Quiz>>();
-            services.AddTransient<IRepository<QuizCard>, Repository<QuizCard>>();
-            services.AddTransient<IRepository<CardAnswer>, Repository<CardAnswer>>();
+            services.AddScoped<IRepository<Quiz>, Repository<Quiz>>();
+            services.AddScoped<IRepository<QuizCard>, Repository<QuizCard>>();
+            services.AddScoped<IRepository<CardAnswer>, Repository<CardAnswer>>();
             //services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             //services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
             //services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
