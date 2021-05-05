@@ -23,6 +23,7 @@ using Teams.Data.TestRunRepos;
 using Teams.Domain;
 using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Lab.Quiz.NewDAL;
 
 namespace Teams
 {
@@ -41,20 +42,21 @@ namespace Teams
             services.AddCommonBootstrap(Configuration);
             services.AddBusinessLayer(Configuration);
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<QuizDBContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
-            services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
-            services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-            services.AddScoped<ITestRepository, TestRepository>();
-            services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
-            services.AddScoped<ITestRunRepository, TestRunRepository>();
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+                    Configuration.GetConnectionString("NewDefaultConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<QuizDBContext>();
+            //services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
+            //services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
+            //services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
+            //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            //services.AddScoped<ITestRepository, TestRepository>();
+            //services.AddScoped<ISingleSelectionQuestionRepository, SingleSelectionQuestionRepository>();
+            //services.AddScoped<IQuestionRepository, QuestionRepository>();
+            //services.AddScoped<IOpenAnswerQuestionRepository, OpenAnswerQuestionRepository>();
+            //services.AddScoped<ITestRunRepository, TestRunRepository>();
+            //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -64,8 +66,7 @@ namespace Teams
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();     
             }
             else
             {
