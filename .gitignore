@@ -24,3 +24,4 @@ src/Lab.Quiz.DAL.Tests/bin/
 src/Lab.Quiz.BL.Tests/bin/
 CodeTester.Tests/bin/
 CodeTester/bin/
+/.vs
