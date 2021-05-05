@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Quiz.NewDAL", "..\Lab.Quiz.NewDAL\Lab.Quiz.NewDAL.csproj", "{43CC20E4-111E-42DE-A82B-9859EC11ADD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Quiz.NewDAL.Tests", "..\Lab.Quiz.NewDAL.Tests\Lab.Quiz.NewDAL.Tests.csproj", "{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{43CC20E4-111E-42DE-A82B-9859EC11ADD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43CC20E4-111E-42DE-A82B-9859EC11ADD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43CC20E4-111E-42DE-A82B-9859EC11ADD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{3CBAB9B2-CEA2-4C88-8F80-FC6543F7FB64} = {6ECDCF71-4622-4367-881A-F6D359A294D2}
 		{1071D07C-2C80-43F5-9370-A55585F26119} = {6ECDCF71-4622-4367-881A-F6D359A294D2}
 		{1755CEFC-BAD5-4EA3-98CF-22A9B7FFFC00} = {6ECDCF71-4622-4367-881A-F6D359A294D2}
+		{E9D20687-A7FD-44CF-9AAB-982D25BC8CEB} = {6ECDCF71-4622-4367-881A-F6D359A294D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7AF90144-1CDC-4F74-9B42-E7F64E37730F}

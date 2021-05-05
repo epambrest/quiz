@@ -24,6 +24,8 @@ using Teams.Domain;
 using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
 using Lab.Quiz.NewDAL;
+using Lab.Quiz.NewDAL.Repositories;
+using Lab.Quiz.NewDAL.Models;
 
 namespace Teams
 {
@@ -47,6 +49,9 @@ namespace Teams
                     Configuration.GetConnectionString("NewDefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<QuizDBContext>();
+            services.AddTransient<IRepository<Quiz>, Repository<Quiz>>();
+            services.AddTransient<IRepository<QuizCard>, Repository<QuizCard>>();
+            services.AddTransient<IRepository<CardAnswer>, Repository<CardAnswer>>();
             //services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             //services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
             //services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();

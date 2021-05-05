@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab.Quiz.NewDAL.Repositories
 {
-    interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         ValueTask<T> Get(long id);
         IQueryable<T> GetAll();
