@@ -11,6 +11,7 @@ namespace Lab.Quiz.NewDAL
         public DbSet<QuizCard> QuizCards { get; set; }
         public DbSet<Models.Quiz> Quizzes { get; set; }
         public DbSet<CardAnswer> CardAnswers { get; set; }
+        public DbSet<QuizCardWithProgramCode> QuizCardsWithProgramCode { get; set; }
         public QuizDBContext(DbContextOptions<QuizDBContext> options) : base(options)
         {
 
