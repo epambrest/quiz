@@ -12,6 +12,6 @@ namespace Lab.Quiz.NewDAL.Models
         public string AnswerText { get; set; }
         [Required]
         public bool IsRight { get; set; }
-        public IList<QuizCard> QuizCards { get; set; }
+        public QuizCard QuizCard { get; set; }
     }
 }

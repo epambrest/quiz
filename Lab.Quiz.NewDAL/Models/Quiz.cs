@@ -11,5 +11,7 @@ namespace Lab.Quiz.NewDAL.Models
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
+        public IList<QuizCard> QuizCards { get; set; }
+        public IList<QuizCardWithProgramCode> QuizCardsWithProgramCode { get; set; }
     }
 }

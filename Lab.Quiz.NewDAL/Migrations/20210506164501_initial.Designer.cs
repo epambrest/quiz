@@ -4,14 +4,16 @@ using Lab.Quiz.NewDAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lab.Quiz.NewDAL.Migrations
 {
     [DbContext(typeof(QuizDBContext))]
-    partial class QuizDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210506164501_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
