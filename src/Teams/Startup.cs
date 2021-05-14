@@ -23,6 +23,9 @@ using Teams.Data.TestRunRepos;
 using Teams.Domain;
 using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Lab.Quiz.NewDAL;
+using Lab.Quiz.NewDAL.Repositories;
+using Lab.Quiz.NewDAL.Models;
 
 namespace Teams
 {
@@ -41,10 +44,17 @@ namespace Teams
             services.AddCommonBootstrap(Configuration);
             services.AddBusinessLayer(Configuration);
 
+            services.AddDbContext<QuizDBContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("NewDefaultConnection")));
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IRepository<Quiz>, Repository<Quiz>>();
+            services.AddScoped<IRepository<QuizCard>, Repository<QuizCard>>();
+            services.AddScoped<IRepository<CardAnswer>, Repository<CardAnswer>>();
             services.AddScoped<IMultipleAnswerQuestionRepository, MultipleAnswerQuestionRepository>();
             services.AddScoped<IProgramCodeQuestionRepository, ProgramCodeQuestionRepository>();
             services.AddScoped<IQueuedProgramRepository, QueuedProgramRepository>();
@@ -64,8 +74,7 @@ namespace Teams
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();     
             }
             else
             {
