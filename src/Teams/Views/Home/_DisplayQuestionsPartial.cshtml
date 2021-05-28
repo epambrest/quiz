@@ -1,33 +1,38 @@
-﻿@Model Question
+﻿@Model List<Lab.Quiz.DAL.Entities.Question>;
+@using Lab.Quiz.DAL.Entities;
 
-<tr>
-    <td>Model.Text</td>
-    <th>
-        <table border="1" style="width:100%">
+<table border="1" style="width:100%">
+        <tr>
+            <th style="width:70%">Questions List</th>
+            <th>
+                @using (Html.BeginForm("Filter", "Index", FormMethod.Get))
+                {
+                    @Html.DropDownList("QuestionType", new SelectList(Enum.GetValues(typeof(QuestionType))), "Sort Question Type", new { @class = "form-control" })
+                    <input type="submit" value="Filter" />
+                }
+            </th>
+        </tr>
+        @foreach (var question in Model)
+        {
+            string questionId = question.Id.ToString();
             <tr>
-                <th style="width:70%">Questions List</th>
                 <th>
-                    @Html.ActionLink("Create New", "Create", "OpenQuestionCreate")
+                    <form asp-controller="Question" asp-action="Delete" method="post" style="width:15%">
+                        <button type="submit" value="@questionId">Delete</button>
+                    </form>
+                </th>
+                <th>
+                    <form asp-controller="Question" asp-action="Create" method="post" style="width:15%">
+                        <button type="submit" value="@questionId">Create</button>
+                    </form>
                 </th>
             </tr>
-            @foreach (var question in ViewBag.Questions)
-            {
-                string questionId = question.Id.ToString();
-                <tr>
-                    <th>
-                        <form asp-controller="Question" asp-action="Delete" method="post" style="width:15%">
-                            <button type="submit" value="@questionId">Delete</button>
-                        </form>
-                    </th>
-                    <th>
-                        <form asp-controller="Question" asp-action="Create" method="post" style="width:15%">
-                            <button type="submit" value="@questionId">Create</button>
-                        </form>
-                    </th>
-                </tr>
-            }
-        </table>
-        
-    </th>
+        }
+    </table>
 
-</tr>
+    <script>
+
+    </script>
+
+    
+

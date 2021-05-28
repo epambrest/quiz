@@ -9,14 +9,5 @@ namespace Lab.Quiz.DAL.Entities
     {
         public string Text { get; set; }
         public ICollection<TestQuestion> TestQuestions { get; set; }
-        public QuestionType QuestionType { get; set; }
-    }
-
-    public enum QuestionType
-    {
-        SingleSelectionQuestion,
-        MultipleAnswerQuestion,
-        OpenAnswerQuestion,
-        ProgramCodeQuestion
     }
 }

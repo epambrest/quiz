@@ -13,5 +13,6 @@ namespace Lab.Quiz.DAL.Entities
         public Test Test { get; set; }
         public Guid QuestionId { get; set; }
         public Question Question { get; set; }
+        public QuestionType QuestionType { get; set; }
     }
 }

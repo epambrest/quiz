@@ -10,44 +10,40 @@ using Lab.Quiz.DAL.Repositories;
 using Lab.Quiz.DAL;
 using Lab.Quiz.DAL.Interfaces;
 using System;
+using Lab.Quiz.BL.Services.HomeService;
 
 namespace Teams.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ITestRepository _testsRepo;
-        private readonly IQuestionRepository _questionsRepo;
+        private readonly IHomeService _homeService;
 
-        public HomeController(ILogger<HomeController> logger, ITestRepository testRepo, IQuestionRepository questionRepo)
+        public HomeController(ILogger<HomeController> logger, IHomeService homeService)
         {
-            _testsRepo = testRepo;
-            _questionsRepo = questionRepo;
             _logger = logger;
+            _homeService = homeService;
         }
 
         public IActionResult Index()
         {
             _logger.LogInformation();
-            ViewBag.Tests = _testsRepo.GetAll();
-            ViewBag.Questions = _questionsRepo.GetQuestions();
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            _logger.LogInformation();
-            ViewBag.tests = _testsRepo.GetAll();
+            ViewBag.Tests = _homeService.GetTests();
             return View();
         }
 
         [HttpPost]
         public PartialViewResult AddPartialToView(string id)
         {
-            var test = _testsRepo.Get(Guid.Parse(id));
-            return PartialView(id);
+            var testQuestions = _homeService.GetQuestions(Guid.Parse(id));
+            return PartialView("_DisplayQuestionsPartial", testQuestions);
+        }
 
+        [HttpGet]
+        public PartialViewResult Filter(string questionType, string testId)
+        {
+            var testQuestions = _homeService.FilterQuestions(Guid.Parse(testId), new QuestionType());
+            return PartialView("_DisplayQuestionsPartial", testQuestions);
         }
     }
 }
