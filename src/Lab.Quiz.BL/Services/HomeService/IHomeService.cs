@@ -1,4 +1,4 @@
-﻿using Lab.Quiz.BL.Services.HomeService.Model;
+﻿using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.BL.Services.TestCardService;
 using Lab.Quiz.DAL.Entities;
 using System;
@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Lab.Quiz.BL.Services.HomeService
 {
-    public interface IHomeService : ITestCardService, IFilterable
+    public interface IHomeService : IFilterable
     {
-        Task<ICollection<TestQuestionModel>> GetQuestions(Guid id);
+        ICollection<TestQuestionModel> GetQuestions(string id);
+
+        Task<ICollection<TestCardModel>> GetTests();
     }
 }

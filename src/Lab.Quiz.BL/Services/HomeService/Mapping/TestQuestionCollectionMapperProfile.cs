@@ -1,4 +1,4 @@
-﻿using Lab.Quiz.BL.Services.HomeService.Model;
+﻿using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.Entities;
 using System;
@@ -16,7 +16,8 @@ namespace Lab.Quiz.BL.Services.HomeService.Mapping
             {
                 TestId = s.TestId,
                 QuestionId = s.QuestionId,
-                QuestionType = s.QuestionType,
+                QuestionType = s.QuestionType.ToString(),
+                Id = s.Id.ToString(),
             }).ToList();
         }
     }

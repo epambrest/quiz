@@ -5,96 +5,126 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"/>
     <title>Quiz</title>
 </head>
-<body>
-    <div style="float: left;margin-right:7%; width:40%">
-        <table border="1" style="width:100%">
-            <tr>
-                <th style="width:70%">Quiz List</th>
-                <th style="width:30%" colspan="3">
-                    <form asp-controller="Test" asp-action="Create" method="post">
-                        <label>Create new Quiz</label>
-                        <input type="text" name="quizName" placeholder="Quiz Name" />
-                        <input type="submit" value="Create" />
-                    </form>
-                </th>
-            </tr>
-            @foreach (var test in ViewBag.Tests)
-            {
-                string testId = test.Id.ToString();
-
-                <tr>
-                    <td>
-                        @test.Title
-                    </td>
-                    <td>
-                        <input type="button" value="@testId" id="questionEditBtn" onclick="loadQuestionsPartial(this.value)"/>
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("Delete", "Test", FormMethod.Post))
-                        {
-                            <input type="hidden" name="Id" value="@test.Id" />
-                            <input type="submit" value="Delete" />
-                        }
-
-                    </td>
-                    <td>
-                        <form asp-controller="Test" asp-action="Start" method="post" style="width:15%">
-                            <button type="submit" value="@testId">Start</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
-    <div style="float: left; width:40%" id="questionsDiv">
-        @*<table border="1" style="width:100%">
-            <tr>
-                <th style="width:70%">Questions List</th>
-                <th>
-                    @using (Html.BeginForm("Sort", "Question", FormMethod.Post))
-                    {
-                        @Html.DropDownList("QuestionType", new SelectList(Enum.GetValues(typeof(QuestionType))), "Show only questions of selected Type", new { @class = "form-control" })
-                        <input type="submit" value="Create" />
-                    }
-                </th>
-            </tr>
-            @foreach (var question in ViewBag.Questions)
-            {
-                string questionId = question.Id.ToString();
-                <tr>
-                    <th>
-                        <form asp-controller="Question" asp-action="Delete" method="post" style="width:15%">
-                            <button type="submit" value="@questionId">Delete</button>
-                        </form>
-                    </th>
-                    <th>
-                        <form asp-controller="Question" asp-action="Create" method="post" style="width:15%">
-                            <button type="submit" value="@questionId">Create</button>
-                        </form>
-                    </th>
-                </tr>
-            }
-        </table>*@
-    </div>
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script>
-    function loadQuestionsPartial(Id) {
-        alert("button pressed " + Id);
-        $.ajax({
-            url: '@Url.Action("AddPartialToView", "Home")',
-            data: { id: Id},
-            type: "POST",
-            success: function(data) {
-                $('#questionsDiv').html(data);
-            }
-        })
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-spacing: 20px;
     }
-    </script>
-</body>
-    
-</html>
+</style>
+<body>
+<div style="float: left; margin-right: 7%; width: 40%">
+    <table border="1" style="width: 100%">
+        <tr>
+            <th style="width: 70%">Quiz List</th>
+            <th style="width: 30%" colspan="3">
+                <form asp-controller="Test" asp-action="Create" method="post">
+                    <label>Create new Quiz</label>
+                    <input type="text" name="quizName" placeholder="Quiz Name"/>
+                    <input type="submit" value="Create"/>
+                </form>
+            </th>
+        </tr>
+        @foreach (var test in ViewBag.Tests)
+        {
+            <tr>
+                <td>
+                    @test.TestTitle
+                </td>
+                <td>
+                    <button type="submit" value="@test.Id" id="questionEditBtn" onclick="loadQuestionsPartial(this.value)">Edit</button>
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Test", FormMethod.Post,
+                        new {id = @test.Id}))
+                    {
+                        <button type="submit" value="@test.Id">Delete</button>
+                    }
 
+                </td>
+                <td>
+                    @using (Html.BeginForm("Start", "Test", FormMethod.Post,
+                        new {id = @test.Id}))
+                    {
+                        <button type="submit" value="@test.Id">Start</button>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div style="float: left; width: 40%" id="questionsDiv"></div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    function loadQuestionsPartial(id) {
+        $.ajax({
+            url: "Home/AddPartialToView",
+            data: { id: id },
+            type: 'GET',
+            dataType: 'html',
+            success: function(result) {
+                alert("loaded");
+                $("#questionsDiv").html(result);
+            }
+        });
+    }
+
+    function deleteQuestion(id) {
+        alert("called");
+        $.ajax({
+            url: "TestQuestion/Delete",
+            data: { id: id },
+            type: 'GET',
+            dataType: 'html',
+            success: function(result) {
+                $("#questionsDiv").html(result);
+            }
+        });
+    }
+
+    function editQuestion(id) {
+        alert("called");
+        $.ajax({
+            url: "TestQuestion/Edit",
+            data: { id: id },
+            type: 'GET',
+            dataType: 'html',
+            success: function(result) {
+                $("#questionsDiv").html(result);
+            }
+        });
+    }
+
+    function createQuestion(id) {
+        alert("called");
+        $.ajax({
+            url: "TestQuestion/Create",
+            data: { id: id },
+            type: 'GET',
+            dataType: 'html',
+            success: function(result) {
+                $("#questionsDiv").html(result);
+            }
+        });
+    }
+
+    function filterQuestions(testId, questionType) {
+        alert("called");
+        $.ajax({
+            url: "Home/Filter",
+            data: { testId: testId.toString(), questionType: questionType },
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $("#questionsDiv").html(result);
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

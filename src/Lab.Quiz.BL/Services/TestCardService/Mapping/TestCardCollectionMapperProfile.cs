@@ -13,10 +13,12 @@ namespace Lab.Quiz.BL.Services.TestCardService.Mapping
             return source.Select(s => new TestCardModel
             {
                 TestTitle = s.Title,
+                Id = s.Id.ToString(),
                 TestQuestions = s.TestQuestions?.Select(q => new TestQuestionModel
                 {
                     QuestionId = q.QuestionId,
-                    TestId = q.QuestionId
+                    TestId = q.QuestionId,
+                    Id = q.Id.ToString(),
                 }).ToList(),
             }).ToList();
         }

@@ -25,24 +25,24 @@ namespace Teams.Controllers
             _homeService = homeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             _logger.LogInformation();
-            ViewBag.Tests = _homeService.GetTests();
+            ViewBag.Tests = await _homeService.GetTests();
             return View();
         }
 
-        [HttpPost]
-        public PartialViewResult AddPartialToView(string id)
+        [HttpGet]
+        public IActionResult AddPartialToView(string id)
         {
-            var testQuestions = _homeService.GetQuestions(Guid.Parse(id));
+            var testQuestions = _homeService.GetQuestions(id);
             return PartialView("_DisplayQuestionsPartial", testQuestions);
         }
 
         [HttpGet]
-        public PartialViewResult Filter(string questionType, string testId)
+        public async Task<PartialViewResult> Filter(string testId, string questionType)
         {
-            var testQuestions = _homeService.FilterQuestions(Guid.Parse(testId), new QuestionType());
+            var testQuestions = await _homeService.FilterQuestions(testId, questionType);
             return PartialView("_DisplayQuestionsPartial", testQuestions);
         }
     }

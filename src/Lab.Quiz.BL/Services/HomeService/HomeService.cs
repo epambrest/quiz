@@ -7,31 +7,43 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using Lab.Quiz.BL.Services.HomeService.Model;
 using Lab.Quiz.BL.Services.TestCardService.Models;
-using Lab.Quiz.BL.Services.TestCardService;
 
 namespace Lab.Quiz.BL.Services.HomeService
 {
-    internal class HomeService : TestCardService.TestCardService, IHomeService, IFilterable
+    internal class HomeService : IHomeService, IFilterable
     {
+        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IMapper _mapper;
+
         public HomeService(IUnitOfWork unitOfWork, IMapper mapper)
-            : base(unitOfWork, mapper)
         {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<ICollection<Model.TestQuestionModel>> FilterQuestions(Guid testId, QuestionType questionType)
+        public async Task<ICollection<TestQuestionModel>> FilterQuestions(string testId, string questionType)
         {
-            return GetQuestions(testId).Result.Where(x => x.QuestionType == questionType).ToList();
+            var type = (QuestionType)Enum.Parse(typeof(QuestionType), questionType);
+            var testQuestions = GetQuestions(testId);
+            var filteredQuestions = testQuestions.Where(x => x.QuestionType.Equals(type)).ToList();
+            var result = testQuestions.Where(x => x.TestId.ToString() == testId).ToList();
+            return filteredQuestions;
         }
 
-        public async Task<ICollection<Model.TestQuestionModel>> GetQuestions(Guid testId)
+        public ICollection<TestQuestionModel> GetQuestions(string testId)
         {
-            var testQuestions = await _unitOfWork.TestQuestionsRepository.GetAll()
-                .Where(x=>x.TestId == testId)
+            var testQuestions = _unitOfWork.TestQuestionsRepository.GetAll().Where(t=>t.TestId == Guid.Parse(testId)).ToList();
+            return _mapper.Map<ICollection<TestQuestion>, ICollection<TestQuestionModel>>(testQuestions);
+        }
+
+        public async Task<ICollection<TestCardModel>> GetTests()
+        {
+            var tests = await _unitOfWork.TestsRepository.GetAll()
+                .Include(x => x.TestQuestions)
                 .ToListAsync();
 
-            return _mapper.Map<ICollection<TestQuestion>, ICollection<Model.TestQuestionModel>>(testQuestions);
+            return _mapper.Map<ICollection<Test>, ICollection<TestCardModel>>(tests);
         }
     }
 }

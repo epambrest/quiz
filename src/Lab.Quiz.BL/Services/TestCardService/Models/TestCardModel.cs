@@ -7,5 +7,7 @@ namespace Lab.Quiz.BL.Services.TestCardService.Models
         public string TestTitle { get; set; }
 
         public ICollection<TestQuestionModel> TestQuestions { get; set; }
+
+        public string Id { get; set; }
     }
 }

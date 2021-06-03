@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Lab.Quiz.BL.Services.HomeService.Model;
+using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.Common.Mapping;
 using Lab.Quiz.DAL.Entities;
 
@@ -14,7 +15,8 @@ namespace Lab.Quiz.BL.Services.HomeService.Mapping
             {
                 TestId = source.TestId,
                 QuestionId = source.QuestionId,
-                QuestionType = source.QuestionType,
+                QuestionType = source.QuestionType.ToString(),
+                Id = source.Id.ToString(),
             };
         }
     }

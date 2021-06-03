@@ -1,4 +1,5 @@
 ﻿using Lab.Quiz.BL.Services.HomeService;
+using Lab.Quiz.BL.Services.HomeService.Mapping;
 using Lab.Quiz.BL.Services.TestCardService;
 using Lab.Quiz.BL.Services.TestCardService.Mapping;
 using Lab.Quiz.Common.Mapping;
@@ -17,6 +18,8 @@ namespace Lab.Quiz.BL.DependencyInjection
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IManualMapperProfile, TestCardMapperProfile>();
             services.AddScoped<IManualMapperProfile, TestCardCollectionMapperProfile>();
+            services.AddScoped<IManualMapperProfile, TestQuestionMapperProfile>();
+            services.AddScoped<IManualMapperProfile, TestQuestionCollectionMapperProfile>();
 
             return services;
         }

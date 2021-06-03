@@ -1,4 +1,4 @@
-﻿using Lab.Quiz.BL.Services.HomeService.Model;
+﻿using Lab.Quiz.BL.Services.TestCardService.Models;
 using Lab.Quiz.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,6 @@ namespace Lab.Quiz.BL.Services.HomeService
 {
     public interface IFilterable
     {
-        Task<ICollection<TestQuestionModel>> FilterQuestions(Guid testId, QuestionType questionType);
+        Task<ICollection<TestQuestionModel>> FilterQuestions(string testId, string questionType);
     }
 }
