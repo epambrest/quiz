@@ -4,9 +4,9 @@ using Lab.Quiz.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Lab.Quiz.BL.Services.HomeService.Models;
 using Lab.Quiz.BL.Services.TestCardService.Models;
 
 namespace Lab.Quiz.BL.Services.HomeService
@@ -22,19 +22,25 @@ namespace Lab.Quiz.BL.Services.HomeService
             _mapper = mapper;
         }
 
-        public async Task<ICollection<TestQuestionModel>> FilterQuestions(string testId, string questionType)
+        public ICollection<TestQuestionModel> FilterQuestions(string testId, string questionType)
         {
             var type = (QuestionType)Enum.Parse(typeof(QuestionType), questionType);
-            var testQuestions = GetQuestions(testId);
-            var filteredQuestions = testQuestions.Where(x => x.QuestionType.Equals(type)).ToList();
-            var result = testQuestions.Where(x => x.TestId.ToString() == testId).ToList();
+            var filteredQuestions = GetTestQuestions(testId).Where(x => x.QuestionType.Equals(type)).ToList();
+            var questions = GetQuestions(filteredQuestions);
             return filteredQuestions;
         }
 
-        public ICollection<TestQuestionModel> GetQuestions(string testId)
+        public ICollection<TestQuestionModel> GetTestQuestions(string testId)
         {
-            var testQuestions = _unitOfWork.TestQuestionsRepository.GetAll().Where(t=>t.TestId == Guid.Parse(testId)).ToList();
+            var testQuestions = this._unitOfWork.TestQuestionsRepository.GetAll().Where(t=>t.TestId == Guid.Parse(testId)).ToList();
             return _mapper.Map<ICollection<TestQuestion>, ICollection<TestQuestionModel>>(testQuestions);
+        }
+
+        public ICollection<QuestionModel> GetQuestions(ICollection<TestQuestionModel> testQuestionModels)
+        {
+            var filteredQuestions = this._unitOfWork.QuestionsRepository.GetAll().Where(q => testQuestionModels.Any(t => t.QuestionId == q.Id)).ToList();
+
+            return _mapper.Map<ICollection<Question>, ICollection<QuestionModel>>(filteredQuestions);
         }
 
         public async Task<ICollection<TestCardModel>> GetTests()

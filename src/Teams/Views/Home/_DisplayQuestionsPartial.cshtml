@@ -1,41 +1,23 @@
-﻿@using Lab.Quiz.DAL.Entities
-@model ICollection<Lab.Quiz.BL.Services.TestCardService.Models.TestQuestionModel>
+﻿@model ICollection<Lab.Quiz.BL.Services.TestCardService.Models.TestQuestionModel>
 @{
-    string testId = @Model.FirstOrDefault()?.TestId.ToString();
+    var testId = Model.FirstOrDefault()?.TestId.ToString();
 }
 
 <table style="width: 100%" bor>
     <tr>
         <th style="width: 60%">Questions List</th>
         <th style="width: 20%">
-            @Html.DropDownList("QuestionType", new SelectListItem[]
-            {
-                new SelectListItem() {Text = "Single Selection Question", Value = "SingleSelectionQuestion"},
-                new SelectListItem() {Text = "Multiple Answers Question", Value = "MultipleAnswerQuestion"},
-                new SelectListItem() {Text = "Open Answer Question", Value = "OpenAnswerQuestion"},
-                new SelectListItem() {Text = "Program Code Question", Value = "ProgramCodeQuestion"}
-            },
-                new
-                {
-                    onchange = "filterQuestions(@testId, this.value)"
-                })
+            <select id="QuestionType" onchange="filterQuestions('@testId', this.value)">
+                <option>Filter questions by type</option>
+                <option value="SingleSelectionQuestion">Single Selection Question</option>
+                <option value="MultipleAnswerQuestion">Multiple Answer Question</option>
+                <option value="OpenAnswerQuestion">Open Answer Question</option>
+                <option value="ProgramCodeQuestion">Program Code Question</option>
+            </select>
         </th>
         <th style="width: 20%">
             <button type="submit" value="@testId" onclick="createQuestion(this.value)">Create question</button>
         </th>
     </tr>
-    @foreach (var question in Model)
-    {
-        <tr>
-            <th>
-                @question.QuestionId.ToString()
-            </th>
-            <th>
-                <button type="submit" value="@question.Id" onclick="deleteQuestion(this.value)">Delete</button>
-            </th>
-            <th>
-                <button type="submit" value="@question.Id" onclick="editQuestion(this.value)">Edit</button>
-            </th>
-        </tr>
-    }
+    <tr><div id ="questionTextDiv"></div></tr>
 </table>

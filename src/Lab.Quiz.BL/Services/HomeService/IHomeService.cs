@@ -1,17 +1,15 @@
 ﻿using Lab.Quiz.BL.Services.TestCardService.Models;
-using Lab.Quiz.BL.Services.TestCardService;
-using Lab.Quiz.DAL.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Lab.Quiz.BL.Services.HomeService.Models;
 
 namespace Lab.Quiz.BL.Services.HomeService
 {
     public interface IHomeService : IFilterable
     {
-        ICollection<TestQuestionModel> GetQuestions(string id);
+        ICollection<TestQuestionModel> GetTestQuestions(string id);
 
         Task<ICollection<TestCardModel>> GetTests();
-    }
+
+        ICollection<QuestionModel> GetQuestions(ICollection<TestQuestionModel> testQuestionModels); }
 }

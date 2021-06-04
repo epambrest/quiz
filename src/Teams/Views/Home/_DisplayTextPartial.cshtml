@@ -1,0 +1,21 @@
+﻿@model Tuple<ICollection<Lab.Quiz.BL.Services.HomeService.Models.QuestionModel>, ICollection<Lab.Quiz.BL.Services.TestCardService.Models.TestQuestionModel>>
+@{
+    var testId = Model.Item2.FirstOrDefault()?.TestId.ToString();
+    var testQuestions = @ViewData["TestQuestions"];
+    var questions = ViewData["Questions"];
+}
+
+@for (int i = 0; i < Model.Item2.Count; i++)
+{
+    <tr>
+        <th>
+            @Model.Item1.ElementAt(i).Text
+        </th>
+        <th>
+            <button type="submit" value="@Model.Item2.ElementAt(i).Id" onclick="deleteQuestion(this.value)">Delete</button>
+        </th>
+        <th>
+            <button type="submit" value="@Model.Item2.ElementAt(i).Id" onclick="editQuestion(this.value)">Edit</button>
+        </th>
+    </tr>
+}

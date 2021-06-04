@@ -20,6 +20,7 @@ namespace Lab.Quiz.BL.DependencyInjection
             services.AddScoped<IManualMapperProfile, TestCardCollectionMapperProfile>();
             services.AddScoped<IManualMapperProfile, TestQuestionMapperProfile>();
             services.AddScoped<IManualMapperProfile, TestQuestionCollectionMapperProfile>();
+            services.AddScoped<IManualMapperProfile, QuestionCollectionMapperProfile>();
 
             return services;
         }
