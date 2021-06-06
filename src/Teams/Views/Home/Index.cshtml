@@ -35,7 +35,7 @@
                     @test.TestTitle
                 </td>
                 <td>
-                    <button type="submit" value="qtest.Id" id="questionEditBtn" onclick="loadQuestionsPartial(this.value)">Edit</button>
+                    <button type="submit" value="@test.Id" id="questionEditBtn" onclick="loadQuestionsPartial(this.value)">Edit</button>
                 </td>
                 <td>
                     @using (Html.BeginForm("Delete", "Test", FormMethod.Post,
@@ -112,11 +112,11 @@
         });
     }
 
-    function filterQuestions(testId, questionType) {
+    function filterQuestions(id, questionType) {
         alert("called");
         $.ajax({
             url: "Home/Filter",
-            data: { questionType: questionType },
+            data: { testId: id, questionType: questionType },
             type: 'GET',
             dataType: 'html',
             success: function (result) {
