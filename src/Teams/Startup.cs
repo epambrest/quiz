@@ -23,6 +23,7 @@ using Teams.Data.TestRunRepos;
 using Teams.Domain;
 using Teams.Models;
 using Teams.Data.OpenAnswerQuestionRepos;
+using Teams.FolderExceptionHandler;
 
 namespace Teams
 {
@@ -69,18 +70,19 @@ namespace Teams
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error"); 
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseStatusCodePages("text/html", Responses.DefaultResponse);
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<CustomExceptionMiddleware>();
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -88,6 +90,7 @@ namespace Teams
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }
