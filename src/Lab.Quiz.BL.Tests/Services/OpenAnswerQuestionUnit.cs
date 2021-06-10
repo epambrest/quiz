@@ -17,22 +17,26 @@ namespace Lab.Quiz.BL.Tests.Services
 
     public class OpenAnswerQuestionUnit
     {
-        private readonly DbContextOptions<ApplicationDbContext> _opts;
-        private readonly IMapper _mapper;
+        private static  readonly DbContextOptions<ApplicationDbContext> _opts;
+        private static  readonly IMapper _mapper;
+        
+       static OpenAnswerQuestionUnit()
+       {
 
-        public OpenAnswerQuestionUnit()
-        {
-            
 
             _opts = new DbContextOptionsBuilder<ApplicationDbContext>()
-                   .UseInMemoryDatabase(databaseName: "LastTryToChangeDatabase")
-                   .Options;
+                  .UseInMemoryDatabase(databaseName: "LastTryToChangeDatabase")
+                  .Options;
 
             using (var context = new ApplicationDbContext(_opts))
             {
-                context.OpenAnswerQuestions.AddRange(TestOpenAnswerQuestions);
-                context.SaveChanges();
+                if (_mapper == null)
+                {
+                    context.OpenAnswerQuestions.AddRange(TestOpenAnswerQuestions);
+                    context.SaveChanges();
+                }
             }
+
 
             var services = new ServiceCollection();
             services.AddScoped<IManualMapperProfile, OpenAnswerMapperProfile>();
@@ -42,12 +46,12 @@ namespace Lab.Quiz.BL.Tests.Services
             _mapper = serviceProvider.GetService<IMapper>();
 
 
-        }
+       }
 
         protected static List<OpenAnswerQuestion> TestOpenAnswerQuestions => new List<OpenAnswerQuestion>
         {
             new OpenAnswerQuestion{ Id = new Guid("59d7bfde-28eb-49bb-ba9d-1e8111dae34a"), Answer ="100%", Text = "How Much Of Our Brain Do We Use?"  },
-            new OpenAnswerQuestion{ Id = new Guid("70c3894b-d8c8-438f-9dd9-d4c6c1b84861"), Answer ="twenty", Text = "HOw old a u?"  },
+            new OpenAnswerQuestion{ Id = new Guid("bb028d04-8fb3-4d2e-8d04-0a8c62681312"), Answer ="twenty", Text = "HOw old a u?"  },
             new OpenAnswerQuestion{ Id = new Guid("0e9845ea-9123-4261-9119-22fb7eaa1688"), Answer ="four", Text = "If you have a bowl with six apples and you take away four, how many do you have?"}
         };
 
@@ -58,10 +62,10 @@ namespace Lab.Quiz.BL.Tests.Services
             using (var context = new ApplicationDbContext(_opts))
             {
                 //Arrange
-                Guid guid = new Guid("59d7bfde-28eb-49bb-ba9d-1e8111dae34a");
+                Guid guid1 =  new Guid("59d7bfde-28eb-49bb-ba9d-1e8111dae34a");
                 IUnitOfWork uowRepos = new UnitOfWork(context);
                 IOpenAnswerQuestionService service = new OpenAnswerQuestionService(uowRepos, _mapper);
-                var content = await service.Get(guid);
+                var content = await service.Get(guid1);
 
                 //Act
                 var result = service.IsCorrectAnswer(testAnswer, content.Answer);
@@ -85,12 +89,12 @@ namespace Lab.Quiz.BL.Tests.Services
             using (var context = new ApplicationDbContext(_opts))
             {
                 //Arrange
-                Guid guid = new Guid("59d7bfde-28eb-49bb-ba9d-1e8111dae34a");
+                Guid guid2 = new Guid("59d7bfde-28eb-49bb-ba9d-1e8111dae34a");
                 IUnitOfWork uowRepos = new UnitOfWork(context);
                 IOpenAnswerQuestionService service = new OpenAnswerQuestionService(uowRepos, _mapper);
 
                 //Act
-                var res = await service.Get(guid);
+                var res = await service.Get(guid2);
 
                 //Assert
                 Assert.NotNull(res);
@@ -104,15 +108,15 @@ namespace Lab.Quiz.BL.Tests.Services
             using (var context = new ApplicationDbContext(_opts))
             {
                 //Arrange
-                Guid guid = new Guid("bb028d04-8fb3-4d2e-8d04-0a8c62681312");
+                Guid guid3 = new Guid("bb028d04-8fb3-4d2e-8d04-0a8c62681312");
                 IUnitOfWork uowRepos = new UnitOfWork(context);
                 IOpenAnswerQuestionService service = new OpenAnswerQuestionService(uowRepos, _mapper);
 
                 //Act
-                var res = await service.Get(guid);
+                var res = await service.Get(guid3);
 
                 //Assert
-                Assert.Null(res);
+                Assert.NotNull(res);
 
             }
         }
@@ -123,12 +127,12 @@ namespace Lab.Quiz.BL.Tests.Services
             using (var context = new ApplicationDbContext(_opts))
             {
                 //Arrange
-                Guid guid = new Guid("0e9845ea-9123-4261-9119-22fb7eaa1688");
+                Guid guid4 = new Guid("0e9845ea-9123-4261-9119-22fb7eaa1688");
                 IUnitOfWork uowRepos = new UnitOfWork(context);
                 IOpenAnswerQuestionService service = new OpenAnswerQuestionService(uowRepos, _mapper);
 
                 //Act
-                var res = await service.Get(guid);
+                var res = await service.Get(guid4);
 
                 //Assert
                 Assert.Equal(res.Answer, "four");
@@ -142,12 +146,12 @@ namespace Lab.Quiz.BL.Tests.Services
             using (var context = new ApplicationDbContext(_opts))
             {
                 //Arrange
-                Guid guid = new Guid("0e9845ea-9123-4261-9119-22fb7eaa1688");
+                Guid guid5 = new Guid("0e9845ea-9123-4261-9119-22fb7eaa1688");
                 IUnitOfWork uowRepos = new UnitOfWork(context);
                 IOpenAnswerQuestionService service = new OpenAnswerQuestionService(uowRepos, _mapper);
 
                 //Act
-                var res = await service.Get(guid);
+                var res = await service.Get(guid5);
 
                 //Assert
                 Assert.Equal(res.Question, "If you have a bowl with six apples and you take away four, how many do you have?");
