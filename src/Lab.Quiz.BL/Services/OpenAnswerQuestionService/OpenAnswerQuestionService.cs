@@ -16,10 +16,9 @@ namespace Lab.Quiz.BL.Services.OpenAnswerQuestionService
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-   
         public async Task<OpenAnswerQuestionModel> Get(Guid id)
         {
-            var answer = await _unitOfWork.OpenAnswerQuestionsRepository.GetByIdAsync(id);    
+            var answer = await _unitOfWork.OpenAnswerQuestionsRepository.GetByIdAsync(id);
             return _mapper.Map<OpenAnswerQuestion, OpenAnswerQuestionModel>(answer);
         }
 

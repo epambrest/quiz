@@ -13,5 +13,6 @@
         /// <param name="source">The source model to map from.</param>
         /// <returns>New object equivalent to the source model.</returns>
         TDestination Map<TSource, TDestination>(TSource source);
+      
     }
 }
