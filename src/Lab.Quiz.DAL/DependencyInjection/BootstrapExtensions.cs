@@ -11,7 +11,7 @@ namespace Lab.Quiz.DAL.DependencyInjection
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection")));
+                   configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IUnitOfWork, UnitOfWork>();

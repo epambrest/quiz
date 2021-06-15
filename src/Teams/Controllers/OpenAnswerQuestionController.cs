@@ -1,58 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Teams.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Lab.Quiz.BL.Services.OpenAnswerQuestionService;
 using Microsoft.Extensions.Logging;
-using Teams.Data;
-using Teams.Data.OpenAnswerQuestionRepos;
-using Teams.Models;
-
 namespace Teams.Controllers
 {
     public class OpenAnswerQuestionController : Controller
     {
         private readonly ILogger<OpenAnswerQuestionController> _logger;
-        public IOpenAnswerQuestionRepository context;
-       
-        public OpenAnswerQuestionController(IOpenAnswerQuestionRepository context, ILogger<OpenAnswerQuestionController> logger)
+        private IOpenAnswerQuestionService _openAnswerQuestionService;
+
+        public OpenAnswerQuestionController(IOpenAnswerQuestionService openAnswerQuestionService, ILogger<OpenAnswerQuestionController> logger)
         {
-            this.context = context;
+            _openAnswerQuestionService = openAnswerQuestionService;
             _logger = logger;
         }
 
-        public IActionResult Question(Guid id)
+        public async Task<IActionResult> QuestionAsync(Guid id)
         {
             _logger.LogInformation($"Recieved GUID {id}");
-            var question = context.Get(id);                                
-            
-            if(question == null) return NotFound();
+            var question = await _openAnswerQuestionService.Get(id);
 
-            OpenAnswerQuestionModel ivm = new OpenAnswerQuestionModel
-            { 
-                Id = id,
-                Question = question.Text
-            };
-
-            return View(ivm);
+            if (question == null) return NotFound();
+            return View(question);
         }
 
-
-        public IActionResult Answer(string answer, Guid id)
+        public async Task<IActionResult> Answer(string answer, Guid id)
         {
             _logger.LogInformation($"Recieved GUID: {id}|Answer: {answer}");
-            var question = context.Get(id);
-           
-            OpenAnswerQuestionModel ivm = new OpenAnswerQuestionModel
-            {
-                Id = id,
-                Question = question.Text,
-                Answer = question.Answer,
-                IsAnswer = question.IsCorrectAnswer(answer)                
-            };
-
-            return View(ivm);
+            var question = await _openAnswerQuestionService.Get(id);
+            question.IsAnswer = _openAnswerQuestionService.IsCorrectAnswer(question.Answer, answer);
+            return View(question);
         }
 
     }

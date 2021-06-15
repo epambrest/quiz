@@ -1,20 +1,21 @@
-﻿@model Teams.Models.OpenAnswerQuestionModel
+﻿@*@model Teams.Models.OpenAnswerQuestionModel*@
+@model Lab.Quiz.BL.Services.OpenAnswerQuestionService.Models.OpenAnswerQuestionModel
 @using Westwind.AspNetCore.Markdown
 @{
     ViewData["Title"] = "Answer";
 }
 
 <style>
-    .success{       
-        border: 3px solid green;      
+    .success {
+        border: 3px solid green;
     }
-    .fail{
+    .fail {
         border: 3px solid red;
     }
 </style>
 
 <div>
-    
+
     <div>@Markdown.ParseHtmlString(Model.Question)</div>
 
     <input type="text" readonly name="answer" class="@(Model.IsAnswer ? "success" : "fail")" value='@Model.Answer' />

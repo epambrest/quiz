@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\Teams"
   ],
-  "SelectedNode": "\\Teams.sln",
+  "SelectedNode": "\\src\\Teams.sln",
   "PreviewInSolutionExplorer": false
 }
